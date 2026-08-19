@@ -1,27 +1,26 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
     <title>خريطة الطب - الدليل الشامل</title>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: #f4f7f6; padding: 20px; }
-        .search-box { width: 100%; padding: 15px; margin-bottom: 20px; border: 1px solid #ddd; border-radius: 8px; }
-        .card { background: white; padding: 20px; margin-bottom: 15px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        .tag { background: #0284c7; color: white; padding: 3px 8px; border-radius: 5px; font-size: 0.8em; }
-        h3 { color: #0284c7; margin-top: 0; }
-        .meta { color: #555; font-size: 0.9em; }
+        body { font-family: 'Cairo', sans-serif; background: #f8fafc; padding: 20px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 15px; }
+        .card { background: white; padding: 20px; border-radius: 12px; border: 1px solid #e2e8f0; }
+        .search-box { width: 100%; padding: 12px; margin-bottom: 20px; border-radius: 8px; border: 1px solid #ccc; }
+        .tag { font-size: 0.75rem; padding: 2px 8px; border-radius: 4px; color: white; }
     </style>
 </head>
 <body>
 
-<h1>خريطة الطب في مصر</h1>
-<input type="text" id="search" class="search-box" placeholder="ابحث باسم الجامعة أو التخصص (مثلاً: طب بشري، جامعة القاهرة)...">
-<div id="results"></div>
+<h1>خريطة الجامعات والتخصصات الطبية</h1>
+<input type="text" id="search" class="search-box" placeholder="ابحث باسم الجامعة، المحافظة، أو التخصص...">
+<div class="grid" id="results"></div>
 
 <script>
 const data = [
-    // الجامعات الحكومية
-    { name: "جامعة القاهرة", type: "حكومية", loc: "الجيزة", specs: ["طب بشري (5 سنوات)", "طب أسنان (5 سنوات)", "صيدلة (5 سنوات)", "علاج طبيعي (5 سنوات)", "تمريض (4 سنوات)", "طب بيطري (5 سنوات)"] },
+    // الحكومية
+    { name: "جامعة القاهرة", type: "حكومية", loc: "الجيزة", specs: ["طب بشري", "طب أسنان", "صيدلة", "علاج طبيعي", "تمريض", "طب بيطري"] },
     { name: "جامعة عين شمس", type: "حكومية", loc: "القاهرة", specs: ["طب بشري", "طب أسنان", "صيدلة", "تمريض", "علاج طبيعي", "طب بيطري"] },
     { name: "جامعة الإسكندرية", type: "حكومية", loc: "الإسكندرية", specs: ["طب بشري", "طب أسنان", "صيدلة", "تمريض", "علاج طبيعي", "طب بيطري"] },
     { name: "جامعة المنصورة", type: "حكومية", loc: "الدقهلية", specs: ["طب بشري", "طب أسنان", "صيدلة", "تمريض", "علاج طبيعي", "طب بيطري"] },
@@ -37,38 +36,55 @@ const data = [
     { name: "جامعة أسوان", type: "حكومية", loc: "أسوان", specs: ["طب بشري", "تمريض", "طب بيطري"] },
     { name: "جامعة كفر الشيخ", type: "حكومية", loc: "كفر الشيخ", specs: ["طب بشري", "طب أسنان", "صيدلة", "تمريض", "علاج طبيعي", "طب بيطري"] },
     { name: "جامعة بنها", type: "حكومية", loc: "القليوبية", specs: ["طب بشري", "طب أسنان", "صيدلة", "تمريض", "علاج طبيعي", "طب بيطري"] },
-    
-    // الجامعات الأهلية
-    { name: "جامعة الملك سلمان الدولية", type: "أهلية", loc: "شرم الشيخ/الطور", specs: ["طب بشري", "طب أسنان", "صيدلة", "علاج طبيعي", "تمريض", "طب بيطري"] },
+    { name: "جامعة دمنهور", type: "حكومية", loc: "البحيرة", specs: ["صيدلة"] },
+    { name: "جامعة السويس", type: "حكومية", loc: "السويس", specs: ["طب بشري", "تمريض"] },
+    { name: "جامعة بورسعيد", type: "حكومية", loc: "بورسعيد", specs: ["طب بشري", "تمريض"] },
+    { name: "جامعة العريش", type: "حكومية", loc: "شمال سيناء", specs: ["تخصصات صحية"] },
+    // الأهلية
+    { name: "جامعة الملك سلمان الدولية", type: "أهلية", loc: "شرم الشيخ", specs: ["طب بشري", "طب أسنان", "صيدلة", "علاج طبيعي", "تمريض", "طب بيطري"] },
     { name: "جامعة الجلالة", type: "أهلية", loc: "السويس", specs: ["طب بشري", "طب أسنان", "صيدلة", "علاج طبيعي", "تمريض", "علوم صحية"] },
     { name: "جامعة العلمين الدولية", type: "أهلية", loc: "العلمين", specs: ["طب بشري", "طب أسنان", "صيدلة", "علاج طبيعي", "تمريض"] },
-    { name: "جامعة المنصورة الجديدة", type: "أهلية", loc: "المنصورة", specs: ["طب بشري", "طب أسنان", "صيدلة", "علاج طبيعي", "تمريض"] },
+    { name: "جامعة المنصورة الجديدة", type: "أهلية", loc: "الدقهلية", specs: ["طب بشري", "طب أسنان", "صيدلة", "علاج طبيعي", "تمريض"] },
     { name: "جامعة المنوفية الأهلية", type: "أهلية", loc: "المنوفية", specs: ["طب بشري", "طب أسنان", "صيدلة", "علاج طبيعي", "تمريض", "طب بيطري"] },
-    
-    // الجامعات الخاصة (أهمها)
+    { name: "جامعة بنها الأهلية", type: "أهلية", loc: "القليوبية", specs: ["طب بشري", "طب أسنان", "صيدلة", "علاج طبيعي", "تمريض"] },
+    { name: "جامعة الفيوم الأهلية", type: "أهلية", loc: "الفيوم", specs: ["طب بشري", "طب أسنان", "تمريض"] },
+    // الخاصة
     { name: "جامعة 6 أكتوبر", type: "خاصة", loc: "الجيزة", specs: ["طب بشري", "طب أسنان", "صيدلة", "تمريض", "علاج طبيعي"] },
     { name: "جامعة مصر للعلوم والتكنولوجيا", type: "خاصة", loc: "الجيزة", specs: ["طب بشري", "طب أسنان", "صيدلة", "تمريض", "علاج طبيعي"] },
+    { name: "جامعة MSA", type: "خاصة", loc: "الجيزة", specs: ["طب أسنان", "صيدلة", "علاج طبيعي"] },
+    { name: "جامعة مصر الدولية", type: "خاصة", loc: "القاهرة", specs: ["طب أسنان", "صيدلة"] },
+    { name: "جامعة MTI", type: "خاصة", loc: "القاهرة", specs: ["طب أسنان", "صيدلة", "تمريض", "علاج طبيعي"] },
+    { name: "جامعة الأهرام الكندية", type: "خاصة", loc: "الجيزة", specs: ["طب أسنان", "صيدلة", "علاج طبيعي"] },
+    { name: "الجامعة البريطانية", type: "خاصة", loc: "القاهرة", specs: ["طب أسنان", "صيدلة"] },
     { name: "جامعة المستقبل", type: "خاصة", loc: "القاهرة", specs: ["طب أسنان", "صيدلة", "تمريض"] },
     { name: "جامعة سيناء", type: "خاصة", loc: "شمال سيناء", specs: ["طب بشري", "طب أسنان", "صيدلة", "علاج طبيعي"] },
-    { name: "جامعة بدر", type: "خاصة", loc: "القاهرة", specs: ["طب بشري", "طب أسنان", "صيدلة", "تمريض", "علاج طبيعي"] }
+    { name: "جامعة فاروس", type: "خاصة", loc: "الإسكندرية", specs: ["طب أسنان", "صيدلة", "تمريض", "علاج طبيعي"] },
+    { name: "جامعة النهضة", type: "خاصة", loc: "بني سويف", specs: ["طب بشري", "طب أسنان", "صيدلة", "علاج طبيعي"] },
+    { name: "الجامعة المصرية الروسية", type: "خاصة", loc: "القاهرة", specs: ["طب أسنان", "صيدلة"] },
+    { name: "جامعة الدلتا", type: "خاصة", loc: "الدقهلية", specs: ["طب بشري", "طب أسنان", "صيدلة", "علاج طبيعي"] },
+    { name: "جامعة بدر", type: "خاصة", loc: "القاهرة/أسيوط", specs: ["طب بشري", "طب أسنان", "صيدلة", "علاج طبيعي", "تمريض"] },
+    { name: "جامعة الجيزة الجديدة", type: "خاصة", loc: "الجيزة", specs: ["طب بشري", "طب أسنان", "صيدلة"] },
+    { name: "جامعة حورس", type: "خاصة", loc: "دمياط", specs: ["طب بشري", "طب أسنان", "صيدلة", "علاج طبيعي"] },
+    { name: "جامعة السلام", type: "خاصة", loc: "الغربية", specs: ["طب أسنان", "صيدلة", "علاج طبيعي"] },
+    { name: "جامعة ميريت", type: "خاصة", loc: "سوهاج", specs: ["طب بشري", "طب أسنان", "صيدلة"] },
+    { name: "جامعة الريادة", type: "خاصة", loc: "السادات", specs: ["طب بشري", "طب أسنان", "صيدلة", "علاج طبيعي"] }
 ];
 
-const results = document.getElementById('results');
-const search = document.getElementById('search');
-
-function display(filter = "") {
-    results.innerHTML = "";
-    data.filter(u => u.name.includes(filter) || u.specs.join().includes(filter)).forEach(u => {
-        results.innerHTML += `<div class="card">
-            <h3>${u.name} <span class="tag">${u.type}</span></h3>
-            <p class="meta">الموقع: ${u.loc}</p>
-            <p>التخصصات: ${u.specs.join(', ')}</p>
-        </div>`;
-    });
+function render(filter = "") {
+    const results = document.getElementById('results');
+    results.innerHTML = data.filter(u => 
+        u.name.includes(filter) || u.loc.includes(filter) || u.specs.join().includes(filter)
+    ).map(u => `
+        <div class="card">
+            <h3>${u.name}</h3>
+            <span class="tag" style="background:${u.type=='حكومية'?'#0284c7':u.type=='أهلية'?'#eab308':'#8b5cf6'}">${u.type}</span>
+            <p><strong>الموقع:</strong> ${u.loc}</p>
+            <p><strong>التخصصات:</strong> ${u.specs.join(', ')}</p>
+        </div>
+    `).join('');
 }
-
-search.oninput = (e) => display(e.target.value);
-display();
+document.getElementById('search').oninput = (e) => render(e.target.value);
+render();
 </script>
 </body>
 </html>
