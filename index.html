@@ -19,23 +19,27 @@
         .navBtn{background:var(--blue);color:white;border:none;padding:8px 16px;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit}
         .navBtn.sec{background:#edf5ff;color:var(--blue)}
 
-        .hero{padding:40px 6% 20px;text-align:center;background:radial-gradient(circle at 50% 30%,#e4f1ff 0,transparent 50%)}
-        .hero h1{font-size:clamp(28px,4vw,42px);margin:10px 0}
-        .hero p{font-size:14px;color:var(--muted);max-width:650px;margin:0 auto}
+        .hero{padding:40px 6% 25px;text-align:center;background:radial-gradient(circle at 50% 30%,#e4f1ff 0,transparent 50%)}
+        .hero h1{font-size:clamp(26px,4vw,38px);margin:10px 0}
+        .hero p{font-size:14px;color:var(--muted);max-width:650px;margin:0 auto 20px}
 
-        .tabs{display:flex;justify-content:center;gap:10px;margin:25px 0 10px;flex-wrap:wrap}
-        .tabBtn{padding:9px 20px;border-radius:99px;border:1px solid var(--line);background:#fff;font-family:inherit;font-weight:700;font-size:13px;cursor:pointer;color:var(--navy)}
+        .searchBox{max-width:500px;margin:0 auto 15px;position:relative}
+        .searchBox input{width:100%;padding:12px 20px;border:1px solid var(--line);border-radius:99px;font-family:inherit;font-size:13px;outline:none;box-shadow:0 2px 10px #00000008}
+        .searchBox input:focus{border-color:var(--blue)}
+
+        .tabs{display:flex;justify-content:center;gap:8px;margin:15px 0 5px;flex-wrap:wrap}
+        .tabBtn{padding:8px 18px;border-radius:99px;border:1px solid var(--line);background:#fff;font-family:inherit;font-weight:700;font-size:12px;cursor:pointer;color:var(--navy)}
         .tabBtn.active{background:var(--blue);color:#fff;border-color:var(--blue)}
 
-        .container{padding:20px 6% 60px;max-width:1200px;margin:0 auto}
+        .container{padding:20px 6% 60px;max-width:1250px;margin:0 auto}
         .breadcrumb{display:flex;gap:8px;font-size:12px;color:var(--muted);margin-bottom:20px;align-items:center;flex-wrap:wrap}
         .breadcrumb span{cursor:pointer;color:var(--blue);font-weight:700}
 
-        .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:20px}
-        .card{border:1px solid var(--line);border-radius:16px;padding:22px;background:#fff;box-shadow:0 4px 15px #00000003;cursor:pointer;transition:0.2s}
-        .card:hover{transform:translateY(-3px);border-color:var(--blue)}
-        .cardTag{font-size:11px;font-weight:700;color:var(--blue);background:#eef6ff;padding:3px 10px;border-radius:6px;display:inline-block;margin-bottom:10px}
-        .card h3{margin:0 0 8px 0;font-size:17px}
+        .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px}
+        .card{border:1px solid var(--line);border-radius:16px;padding:22px;background:#fff;box-shadow:0 4px 15px #00000003;cursor:pointer;transition:0.2s;display:flex;flex-direction:column;justify-content:space-between}
+        .card:hover{transform:translateY(-3px);border-color:var(--blue);box-shadow:0 8px 25px #00000008}
+        .cardTag{font-size:11px;font-weight:700;color:var(--blue);background:#eef6ff;padding:3px 10px;border-radius:6px;display:inline-block;margin-bottom:10px;align-self:flex-start}
+        .card h3{margin:0 0 8px 0;font-size:16px;line-height:1.4}
         .card p{font-size:12px;color:var(--muted);line-height:1.6;margin:0}
 
         .adminBox{background:#fff;border:1px solid var(--line);border-radius:16px;padding:25px;margin-bottom:30px}
@@ -60,12 +64,16 @@
     <!-- USER VIEW -->
     <div id="userView">
         <section class="hero">
-            <h1 id="heroTitle">التعليم الطبي في مصر</h1>
-            <p id="heroSub">دليلك الشامل للكليات الطبية، السنوات الدراسية، والمصادر العلمية لكل جامعة.</p>
+            <h1 id="heroTitle">دليل الكليات والجامعات الطبية في مصر</h1>
+            <p id="heroSub">تصفح كافة الجامعات الحكومية والأهلية والخاصة، السنوات الدراسية، والمصادر المعتمدة.</p>
             
+            <div class="searchBox">
+                <input type="text" id="searchInput" oninput="searchUni()" placeholder="ابحث عن اسم الجامعة (مثال: القاهرة، الفيوم، الجلالة...)...">
+            </div>
+
             <div class="tabs">
                 <button class="tabBtn active" id="tabAll" onclick="filterSector('الكل')">الكل</button>
-                <button class="tabBtn" id="tabGov" onclick="filterSector('حكومية')">جامعات حكومية</button>
+                <button class="tabBtn" id="tabGov" onclick="filterSector('حكومية')">جامعات حكومية (28)</button>
                 <button class="tabBtn" id="tabNat" onclick="filterSector('أهلية')">جامعات أهلية</button>
                 <button class="tabBtn" id="tabPvt" onclick="filterSector('خاصة')">جامعات خاصة</button>
             </div>
@@ -80,13 +88,11 @@
     <!-- ADMIN VIEW -->
     <div id="adminView" style="display:none;" class="container">
         <h2 style="margin-top:20px;">لوحة تحكم الأدمن (خاصة بكِ فقط)</h2>
-
-        <!-- Form 1: Add University -->
         <div class="adminBox">
-            <h3>إضافة جامعة جديدة (عربي وإنجليزي)</h3>
+            <h3>إضافة جامعة جديدة</h3>
             <form id="fUni" class="formGrid">
-                <label>اسم الجامعة بالعربي<input id="uNameAr" required placeholder="مثال: جامعة الفيوم"></label>
-                <label>University Name (EN)<input id="uNameEn" required placeholder="Ex: Fayoum University"></label>
+                <label>اسم الجامعة بالعربي<input id="uNameAr" required placeholder="مثال: جامعة جديدة"></label>
+                <label>University Name (EN)<input id="uNameEn" required placeholder="Ex: New University"></label>
                 <label>نوع الجامعة
                     <select id="uType">
                         <option value="حكومية">حكومية (Public)</option>
@@ -94,8 +100,8 @@
                         <option value="خاصة">خاصة (Private)</option>
                     </select>
                 </label>
-                <label>وصف بالعربي<textarea id="uDescAr" placeholder="نبذة عن الجامعة..."></textarea></label>
-                <label class="full">Description (EN)<textarea id="uDescEn" placeholder="Short description..."></textarea></label>
+                <label>وصف بالعربي<textarea id="uDescAr" placeholder="نبذة..."></textarea></label>
+                <label class="full">Description (EN)<textarea id="uDescEn" placeholder="Description..."></textarea></label>
                 <button class="submitBtn full">+ إضافة الجامعة</button>
             </form>
         </div>
@@ -103,41 +109,59 @@
 
     <script>
         const ADMIN_PASS = "1234";
-        let lang = 'ar'; // Default language
+        let lang = 'ar';
         let currentSector = 'الكل';
 
-        // Pre-loaded Comprehensive Database for Egyptian Universities
-        let db = JSON.parse(localStorage.getItem('med_db_v2')) || [
-            // --- حكومية (Public) ---
-            { id: 1, type: "حكومية", nameAr: "جامعة القاهرة", nameEn: "Cairo University", descAr: "إحدى أعرق الجامعات المصرية وتضم كلية طب القصر العيني.", descEn: "One of the oldest Egyptian universities featuring Kasr Alainy Medical School.", faculties: [] },
-            { id: 2, type: "حكومية", nameAr: "جامعة عين شمس", nameEn: "Ain Shams University", descAr: "صرح طبي عريق يضم أفضل المستشفيات التخصصية والتعليمية.", descEn: "A prestigious medical institute with renowned specialized teaching hospitals.", faculties: [] },
-            { id: 3, type: "حكومية", nameAr: "جامعة الإسكندرية", nameEn: "Alexandria University", descAr: "من المدارس الطبية الرائدة في شمال مصر والدلتا.", descEn: "A leading medical school in northern Egypt and Alexandria.", faculties: [] },
-            { id: 4, type: "حكومية", nameAr: "جامعة المنصورة", nameEn: "Mansoura University", descAr: "عاصمة الطب في مصر والمشهورة بالمراكز الطبية المتقدمة.", descEn: "Known as the medical capital of Egypt with advanced specialized centers.", faculties: [] },
-            { id: 5, type: "حكومية", nameAr: "جامعة الفيوم", nameEn: "Fayoum University", descAr: "كلية طب بتميز أكاديمي ونظام تعليمي حديث بفرع الفيوم.", descEn: "Academic excellence with modern medical educational programs in Fayoum.", faculties: [] },
-            { id: 6, type: "حكومية", nameAr: "جامعة أسيوط", nameEn: "Assiut University", descAr: "أكبر مركز طبي وتعليمي لخدمة محافظة أسيوط وصعيد مصر.", descEn: "The largest medical and educational hub serving Upper Egypt.", faculties: [] },
-            { id: 7, type: "حكومية", nameAr: "جامعة طنطا", nameEn: "Tanta University", descAr: "مركز طبي وتدريبي رئيسي يقدم خدماته لمنطقة الدلتا.", descEn: "A major medical training hub serving the Delta region.", faculties: [] },
-            { id: 8, type: "حكومية", nameAr: "جامعة الزقازيق", nameEn: "Zagazig University", descAr: "تضم صروحاً طبية ومستشفيات جامعية متطورة.", descEn: "Features advanced university hospitals and medical faculties.", faculties: [] },
-            { id: 9, type: "حكومية", nameAr: "جامعة بنها", nameEn: "Benha University", descAr: "تعتمد مناهج حديثة وتدريب ميداني مكثف للطلاب.", descEn: "Adopts modern curricula and practical training for medical students.", faculties: [] },
-            { id: 10, type: "حكومية", nameAr: "جامعة قناة السويس", nameEn: "Suez Canal University", descAr: "رواد التعليم الطبي الموجه للمجتمع في مصر.", descEn: "Pioneers of community-oriented medical education in Egypt.", faculties: [] },
+        // COMPREHENSIVE EGYPTIAN UNIVERSITIES DATABASE
+        let db = JSON.parse(localStorage.getItem('med_db_v3')) || [
+            // --- 28 UNIVERSITIES (حكومية) ---
+            { id: 1, type: "حكومية", nameAr: "جامعة القاهرة (القصر العيني)", nameEn: "Cairo University (Kasr Alainy)", descAr: "أعرق وأكبر مدرسة طبية في مصر والشرق الأوسط، تأسست عام 1827 وتضم أشهر المستشفيات الجامعية.", descEn: "The oldest and largest medical school in Egypt and the Middle East, founded in 1827.", faculties: [] },
+            { id: 2, type: "حكومية", nameAr: "جامعة عين شمس", nameEn: "Ain Shams University", descAr: "صرح طبي عالمي يتميز بالمستشفيات التخصصية والمراكز التعليمية والبحثية المتقدمة.", descEn: "A prestigious medical institute featuring world-class specialized teaching hospitals.", faculties: [] },
+            { id: 3, type: "حكومية", nameAr: "جامعة الإسكندرية", nameEn: "Alexandria University", descAr: "قلعة الطب في شمال مصر والدلتا، وتضم مجمعاً طبياً مستشفى جامعياً ضخماً.", descEn: "The medical hub of northern Egypt and the Mediterranean region.", faculties: [] },
+            { id: 4, type: "حكومية", nameAr: "جامعة المنصورة", nameEn: "Mansoura University", descAr: "عاصمة الطب في مصر والمشهورة بمراكزها المتخصصة مثل مركز غنيم لزراعة الكلى.", descEn: "Known as Egypt's medical capital, famous for world-class specialized centers.", faculties: [] },
+            { id: 5, type: "حكومية", nameAr: "جامعة أسيوط", nameEn: "Assiut University", descAr: "أكبر وأعرق مركز طبي وتعليمي يخدم محافظة أسيوط وصعيد مصر بالكامل.", descEn: "The largest and oldest medical education and healthcare hub serving Upper Egypt.", faculties: [] },
+            { id: 6, type: "حكومية", nameAr: "جامعة طنطا", nameEn: "Tanta University", descAr: "مركز تعليمي وتدريبي رئيسي يقدم خدمات طبية متكاملة لإقليم وسط الدلتا.", descEn: "A major medical training and health center serving the Central Delta region.", faculties: [] },
+            { id: 7, type: "حكومية", nameAr: "جامعة الزقازيق", nameEn: "Zagazig University", descAr: "تضم صروحاً طبية ومستشفيات جامعية متطورة تخدم محافظة الشرقية والدلتا.", descEn: "Features comprehensive university hospitals and advanced research units.", faculties: [] },
+            { id: 8, type: "حكومية", nameAr: "جامعة حلوان", nameEn: "Helwan University", descAr: "تضم كلية طب حديثة ومستشفى بدر الجامعي المجهز بأحدث التقنيات الطبية.", descEn: "Modern faculty of medicine with state-of-the-art technology at Badr Hospital.", faculties: [] },
+            { id: 9, type: "حكومية", nameAr: "جامعة المنوفية", nameEn: "Menoufia University", descAr: "تتميز بمعهد الكبد القومي وكلية الطب التي تقدم خدمات طبية وبحثية رفيعة المستوى.", descEn: "Renowned for the National Liver Institute and advanced medical education.", faculties: [] },
+            { id: 10, type: "حكومية", nameAr: "جامعة قناة السويس", nameEn: "Suez Canal University", descAr: "رائدة التعليم الطبي الموجه للمجتمع (PBL) والنظم التعليمية الحديثة في مصر.", descEn: "Pioneers of problem-based learning (PBL) and community-oriented medical study.", faculties: [] },
+            { id: 11, type: "حكومية", nameAr: "جامعة المنيا", nameEn: "Minia University", descAr: "منارة التعليم الطبي في شمال الصعيد مع مستشفيات تخصصية ومراكز تدريبية حديثة.", descEn: "A key medical education hub in North Upper Egypt with modern clinical facilities.", faculties: [] },
+            { id: 12, type: "حكومية", nameAr: "جامعة جنوب الوادي", nameEn: "South Valley University", descAr: "تخدم قطاع جنوب الصعيد في قنا وتضم مستشفيات جامعية مجهزة بأحدث الأجهزة.", descEn: "Serves southern Upper Egypt in Qena with modern clinical learning facilities.", faculties: [] },
+            { id: 13, type: "حكومية", nameAr: "جامعة بني سويف", nameEn: "Beni Suef University", descAr: "صرح تعليمي طبي يقع على نيل بني سويف ويضم مجمع مستشفيات جامعي متطور.", descEn: "Prominent medical institute featuring a large university hospital complex.", faculties: [] },
+            { id: 14, type: "حكومية", nameAr: "جامعة الفيوم", nameEn: "Fayoum University", descAr: "تميز أكاديمي ونظام تعليمي حديث يوفر تدريباً إكلينيكياً متكاملاً بفرع الفيوم.", descEn: "Academic excellence providing modern medical education in Fayoum.", faculties: [] },
+            { id: 15, type: "حكومية", nameAr: "جامعة بنها", nameEn: "Benha University", descAr: "تعتمد مناهج حديثة وتدريب ميداني مكثف في مستشفيات بنها الجامعية.", descEn: "Emphasizes modern medical curricula and practical clinical training.", faculties: [] },
+            { id: 16, type: "حكومية", nameAr: "جامعة كفر الشيخ", nameEn: "Kafr El-Sheikh University", descAr: "تضم إحدى أحدث وأرقى الكليات والمستشفيات الجامعية المصممة بأعلى المعايير العالمية.", descEn: "Features one of the most modern and sophisticated university medical complexes.", faculties: [] },
+            { id: 17, type: "حكومية", nameAr: "جامعة سوهاج", nameEn: "Sohag University", descAr: "مركز طبي وتدريبي ضخم يضم المستشفى الجامعي القديم والمقر الجديد بمدينة سوهاج الجديدة.", descEn: "Major medical center with modern facilities in Sohag New City.", faculties: [] },
+            { id: 18, type: "حكومية", nameAr: "جامعة بورسعيد", nameEn: "Port Said University", descAr: "تخدم منطقة القناة وتوفر تعليم طبي حديث وشراكات تدريبية متميزة.", descEn: "Serves the Canal zone with innovative medical training programs.", faculties: [] },
+            { id: 19, type: "حكومية", nameAr: "جامعة دمنهور", nameEn: "Damanhour University", descAr: "منشأة تعليمية حديثة تهدف لتطوير المنظومة الطبية بمحافظة البحيرة.", descEn: "Modern educational entity developing medical practice in Beheira.", faculties: [] },
+            { id: 20, type: "حكومية", nameAr: "جامعة أسوان", nameEn: "Aswan University", descAr: "أقصى جنوب مصر، وتتميز بتقديم خدمات طبية متكاملة لخدمة أهالي أسوان وإفريقيا.", descEn: "Located in southern Egypt, providing medical education and care for Africa gateway.", faculties: [] },
+            { id: 21, type: "حكومية", nameAr: "جامعة دمياط", nameEn: "Damietta University", descAr: "كلية طب حديثة تم إنشاؤها لخدمة أبناء محافظة دمياط والمناطق المجاورة.", descEn: "Modern medical faculty built to serve Damietta governorate.", faculties: [] },
+            { id: 22, type: "حكومية", nameAr: "جامعة السويس", nameEn: "Suez University", descAr: "تضم كلية الطب البشري ومستشفى جامعي مجهز لخدمة منطقة مدن القناة والسويس.", descEn: "Features medicine programs and university hospital in Suez City.", faculties: [] },
+            { id: 23, type: "حكومية", nameAr: "جامعة العريش", nameEn: "Arish University", descAr: "صرح تعليمي طبي بمدينة العريش يهدف لتوفير الكوادر الطبية لمحافظة شمال سيناء.", descEn: "Pioneering medical institution empowering North Sinai region.", faculties: [] },
+            { id: 24, type: "حكومية", nameAr: "جامعة الأقصر", nameEn: "Luxor University", descAr: "صرح أكاديمي واعد لخدمة أبناء مدينة الأقصر والدعم الطبي والميداني بالصعيد.", descEn: "Promising academic institution serving Luxor governorate.", faculties: [] },
+            { id: 25, type: "حكومية", nameAr: "جامعة الوادي الجديد", nameEn: "New Valley University", descAr: "تغطي قطاع الوادي الجديد وتوفر تعليم طبي إقليمي متميز بالخارجة.", descEn: "Providing regional medical study and services in New Valley.", faculties: [] },
+            { id: 26, type: "حكومية", nameAr: "جامعة مطروح", nameEn: "Matrouh University", descAr: "تخدم المحافظات الحدودية والساحل الشمالي بالكوادر والبرامج الطبية.", descEn: "Serves border governorates and north coast region.", faculties: [] },
+            { id: 27, type: "حكومية", nameAr: "جامعة مدينة السادات", nameEn: "Sadat City University", descAr: "مؤسسة جامعية متطورة بالمنوفية تتوسع في المجالات الطبية والصحية.", descEn: "Developing academic institution advancing health sciences in Sadat City.", faculties: [] },
+            { id: 28, type: "حكومية", nameAr: "جامعة الأزهر", nameEn: "Al-Azhar University", descAr: "تضم كليات طب للبنين والبنات بالقاهرة، أسيوط، ودمياط وتجمع بين علوم الطب والشرع.", descEn: "Includes faculties of medicine for male & female students across Cairo, Assiut & Damietta.", faculties: [] },
 
-            // --- أهلية (National) ---
-            { id: 20, type: "أهلية", nameAr: "جامعة الجلالة الأهلية", nameEn: "Galala University", descAr: "جامعة أهلية جيل رابع بتجهيزات وبرامج دولية حديثة.", descEn: "A 4th-generation national university with modern international programs.", faculties: [] },
-            { id: 21, type: "أهلية", nameAr: "جامعة العلمين الدولية", nameEn: "Alamein International University", descAr: "برامج تعليمية حديثة وشراكات دولية في مدينة العلمين.", descEn: "Modern education and international partnerships in Alamein City.", faculties: [] },
-            { id: 22, type: "أهلية", nameAr: "جامعة الملك سلمان الدولية", nameEn: "King Salman International University", descAr: "فروع متطورة في سيناء توفر تعليم طبي عالي الجودة.", descEn: "Advanced campuses in Sinai providing high-quality medical education.", faculties: [] },
-            { id: 23, type: "أهلية", nameAr: "جامعة المنصورة الأهلية", nameEn: "Mansoura National University", descAr: "امتداد متطور لجامعة المنصورة الحكومية بتقنيات حديثة.", descEn: "A modern national extension of Mansoura University.", faculties: [] },
-            { id: 24, type: "أهلية", nameAr: "جامعة الزقازيق الأهلية", nameEn: "Zagazig National University", descAr: "برامج طبية أهلية حديثة بمواصفات عالمية.", descEn: "Modern national medical programs with international standards.", faculties: [] },
+            // --- UNIVERSITIES (أهلية) ---
+            { id: 30, type: "أهلية", nameAr: "جامعة الجلالة الأهلية", nameEn: "Galala University", descAr: "جامعة أهلية جيل رابع بمدينة الجلالة مع برامج وطبية وشراكات دولية.", descEn: "A 4th-generation national university with top international medical standards.", faculties: [] },
+            { id: 31, type: "أهلية", nameAr: "جامعة العلمين الدولية", nameEn: "Alamein International University", descAr: "برامج تعليمية حديثة ومعامل محاكاة ذكية بمدينة العلمين الجديدة.", descEn: "Smart educational programs and simulation labs in New Alamein.", faculties: [] },
+            { id: 32, type: "أهلية", nameAr: "جامعة الملك سلمان الدولية", nameEn: "King Salman International University", descAr: "فروع متطورة بسيناء (طور سيناء، رأس سدر، شرم الشيخ) برعاية دولية.", descEn: "Modern campuses in Sinai providing high-quality medical education.", faculties: [] },
+            { id: 33, type: "أهلية", nameAr: "جامعة المنصورة الأهلية", nameEn: "Mansoura National University", descAr: "امتداد ذكي وتكنولوجي لجامعة المنصورة الحكومية بمدينة جمصة.", descEn: "Smart national extension of Mansoura University in Jamsa.", faculties: [] },
+            { id: 34, type: "أهلية", nameAr: "جامعة الإسكندرية الأهلية", nameEn: "Alexandria National University", descAr: "فرع إسكندرية الأهلية المتطور بمنطقة أبي قير لتقديم برامج طبية حديثة.", descEn: "Modern national campus in Abu Qir offering innovative medical programs.", faculties: [] },
+            { id: 35, type: "أهلية", nameAr: "جامعة أسيوط الأهلية", nameEn: "Assiut National University", descAr: "جامعة أهلية حديثة بمدينة أسيوط الجديدة بخبرات أعضاء تدريس جامعة أسيوط.", descEn: "National university in New Assiut leveraging top academic expertise.", faculties: [] },
 
-            // --- خاصة (Private) ---
-            { id: 40, type: "خاصة", nameAr: "جامعة 6 أكتوبر (O6U)", nameEn: "6th of October University", descAr: "أقدم وأكبر الجامعات الخاصة في مصر وتضم كلية طب وبيمارستان.", descEn: "The oldest and largest private university in Egypt.", faculties: [] },
-            { id: 41, type: "خاصة", nameAr: "جامعة مصر للعلوم والتكنولوجيا (MUST)", nameEn: "Misr University for Science & Tech", descAr: "تضم مستشفى سعاد كفافي الجامعي وبرامج طبية متميزة.", descEn: "Features Souad Kafafi University Hospital and top medical programs.", faculties: [] },
-            { id: 42, type: "خاصة", nameAr: "جامعة بدر بالقاهرة (BUC)", nameEn: "Badr University in Cairo", descAr: "منشآت طبية متطورة ومعامل محاكاة حديثة.", descEn: "Advanced medical facilities and modern simulation labs.", faculties: [] },
-            { id: 43, type: "خاصة", nameAr: "جامعة النهضة ببني سويف (NUB)", nameEn: "Nahda University in Beni Suef", descAr: "أول جامعة خاصة في صعيد مصر توفر تعليم طبي متكامل.", descEn: "First private university in Upper Egypt offering comprehensive medical studies.", faculties: [] },
-            { id: 44, type: "خاصة", nameAr: "جامعة المستقبل (FUE)", nameEn: "Future University in Egypt", descAr: "تعليم طبي متميز ومعامل تدريب مجهزة بأحدث التقنيات.", descEn: "Distinguished medical education and modern clinical labs.", faculties: [] }
+            // --- UNIVERSITIES (خاصة) ---
+            { id: 50, type: "خاصة", nameAr: "جامعة 6 أكتوبر (O6U)", nameEn: "6th of October University", descAr: "أقدم وأكبر الجامعات الخاصة في مصر وتضم كلية طب وبيمارستان جامعي ضخم.", descEn: "The oldest and largest private university in Egypt with a university hospital.", faculties: [] },
+            { id: 51, type: "خاصة", nameAr: "جامعة مصر للعلوم والتكنولوجيا (MUST)", nameEn: "Misr University for Science & Tech", descAr: "تضم مستشفى سعاد كفافي الجامعي وبرامج تعليمية معتمدة على أعلى مستوى.", descEn: "Features Souad Kafafi University Hospital and top accredited medical study.", faculties: [] },
+            { id: 52, type: "خاصة", nameAr: "جامعة نيو جيزة (NGU)", nameEn: "Newgiza University", descAr: "تتميز بشراكة أكاديمية وتدريبية مع كلية كينجز كوليدج لندن (Kings College London).", descEn: "Features academic partnership with King's College London.", faculties: [] },
+            { id: 53, type: "خاصة", nameAr: "جامعة بدر بالقاهرة (BUC)", nameEn: "Badr University in Cairo", descAr: "منشآت طبية متطورة بمدينة بدر ومعامل تدريب محاكاة اكلينيكية متقدمة.", descEn: "Advanced medical facilities and simulation labs in Badr City.", faculties: [] },
+            { id: 54, type: "خاصة", nameAr: "جامعة النهضة ببني سويف (NUB)", nameEn: "Nahda University in Beni Suef", descAr: "أول جامعة خاصة في صعيد مصر توفر تعليم طبي متكامل بمستشفيات جامعية.", descEn: "First private university in Upper Egypt with full medical school programs.", faculties: [] }
         ];
 
-        function saveDB() { localStorage.setItem('med_db_v2', JSON.stringify(db)); }
+        function saveDB() { localStorage.setItem('med_db_v3', JSON.stringify(db)); }
 
-        // Language Switcher Function
         function toggleLanguage() {
             lang = (lang === 'ar') ? 'en' : 'ar';
             document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
@@ -145,18 +169,23 @@
 
             document.getElementById('langBtn').textContent = (lang === 'ar') ? 'EN' : 'عربي';
             document.getElementById('countryBadge').textContent = (lang === 'ar') ? '🇪🇬 مصر' : '🇪🇬 Egypt';
-            document.getElementById('heroTitle').textContent = (lang === 'ar') ? 'التعليم الطبي في مصر' : 'Medical Education in Egypt';
-            document.getElementById('heroSub').textContent = (lang === 'ar') ? 'دليلك الشامل للكليات الطبية، السنوات الدراسية، والمصادر العلمية لكل جامعة.' : 'Your comprehensive guide to medical faculties, academic years, and study resources.';
+            document.getElementById('heroTitle').textContent = (lang === 'ar') ? 'دليل الكليات والجامعات الطبية في مصر' : 'Medical Universities Guide in Egypt';
+            document.getElementById('heroSub').textContent = (lang === 'ar') ? 'تصفح كافة الجامعات الحكومية والأهلية والخاصة، السنوات الدراسية، والمصادر المعتمدة.' : 'Explore all public, national, and private universities, study years, and resources.';
+
+            document.getElementById('searchInput').placeholder = (lang === 'ar') ? 'ابحث عن اسم الجامعة (مثال: القاهرة، الفيوم، الجلالة...)...' : 'Search university (e.g. Cairo, Fayoum, Galala...)...';
 
             document.getElementById('tabAll').textContent = (lang === 'ar') ? 'الكل' : 'All';
-            document.getElementById('tabGov').textContent = (lang === 'ar') ? 'جامعات حكومية' : 'Public Universities';
+            document.getElementById('tabGov').textContent = (lang === 'ar') ? 'جامعات حكومية (28)' : 'Public Universities (28)';
             document.getElementById('tabNat').textContent = (lang === 'ar') ? 'جامعات أهلية' : 'National Universities';
             document.getElementById('tabPvt').textContent = (lang === 'ar') ? 'جامعات خاصة' : 'Private Universities';
 
             renderUniversities();
         }
 
-        function goHome() { renderUniversities(); }
+        function goHome() { 
+            document.getElementById('searchInput').value = '';
+            renderUniversities(); 
+        }
 
         function filterSector(sec) {
             currentSector = sec;
@@ -165,6 +194,10 @@
             if(sec === 'حكومية') document.getElementById('tabGov').classList.add('active');
             if(sec === 'أهلية') document.getElementById('tabNat').classList.add('active');
             if(sec === 'خاصة') document.getElementById('tabPvt').classList.add('active');
+            renderUniversities();
+        }
+
+        function searchUni() {
             renderUniversities();
         }
 
@@ -178,19 +211,31 @@
         }
 
         function renderUniversities() {
+            let query = document.getElementById('searchInput').value.toLowerCase().trim();
             let list = (currentSector === 'الكل') ? db : db.filter(u => u.type === currentSector);
+
+            if(query) {
+                list = list.filter(u => 
+                    u.nameAr.toLowerCase().includes(query) || 
+                    u.nameEn.toLowerCase().includes(query) ||
+                    u.descAr.toLowerCase().includes(query) ||
+                    u.descEn.toLowerCase().includes(query)
+                );
+            }
             
             document.getElementById('bc').innerHTML = `<span onclick="goHome()">${lang === 'ar' ? 'الرئيسية (الجامعات)' : 'Home (Universities)'}</span>`;
             
             let html = list.map(u => `
                 <div class="card" onclick="openUni(${u.id})">
-                    <span class="cardTag">${getSectorLabel(u.type)}</span>
-                    <h3>${lang === 'ar' ? u.nameAr : u.nameEn}</h3>
-                    <p>${lang === 'ar' ? u.descAr : u.descEn}</p>
+                    <div>
+                        <span class="cardTag">${getSectorLabel(u.type)}</span>
+                        <h3>${lang === 'ar' ? u.nameAr : u.nameEn}</h3>
+                        <p>${lang === 'ar' ? u.descAr : u.descEn}</p>
+                    </div>
                 </div>
             `).join('');
 
-            document.getElementById('contentArea').innerHTML = `<div class="grid">${html || '<p>No universities found.</p>'}</div>`;
+            document.getElementById('contentArea').innerHTML = `<div class="grid">${html || '<p style="text-align:center;grid-column:1/-1;color:var(--muted);padding:40px;">لا توجد نتائج تطابق بحثك.</p>'}</div>`;
         }
 
         function openUni(uniId) {
@@ -207,16 +252,18 @@
             let facDesc = lang === 'ar' ? 'برنامج الطب البشري والجراحة (5 سنوات + سنتين امتياز)' : 'Bachelor of Medicine and Surgery (5 Years + 2 Internship Years)';
 
             document.getElementById('contentArea').innerHTML = `
-                <div style="margin-bottom:20px; background:#eaf4ff; padding:18px; border-radius:12px;">
-                    <h2 style="margin:0 0 5px 0;">${name}</h2>
-                    <p style="margin:0; font-size:13px; color:var(--muted);">${desc}</p>
+                <div style="margin-bottom:20px; background:#eaf4ff; padding:20px; border-radius:12px;">
+                    <h2 style="margin:0 0 8px 0;">${name}</h2>
+                    <p style="margin:0; font-size:13px; color:var(--muted); line-height:1.6;">${desc}</p>
                 </div>
                 <h3>${lang === 'ar' ? 'الكليات المتاحة:' : 'Available Faculties:'}</h3>
                 <div class="grid">
                     <div class="card" onclick="openFaculty(${uni.id})">
-                        <span class="cardTag">${lang === 'ar' ? 'كلية' : 'Faculty'}</span>
-                        <h3>${facName}</h3>
-                        <p>${facDesc}</p>
+                        <div>
+                            <span class="cardTag">${lang === 'ar' ? 'كلية' : 'Faculty'}</span>
+                            <h3>${facName}</h3>
+                            <p>${facDesc}</p>
+                        </div>
                     </div>
                 </div>
             `;
@@ -237,9 +284,11 @@
 
             let html = years.map(y => `
                 <div class="card">
-                    <span class="cardTag">${lang === 'ar' ? 'سنة دراسية' : 'Academic Year'}</span>
-                    <h3>${y}</h3>
-                    <p>${lang === 'ar' ? 'عرض المواد والمصادر العلمية المتاحة' : 'Browse subjects & study resources'}</p>
+                    <div>
+                        <span class="cardTag">${lang === 'ar' ? 'سنة دراسية' : 'Academic Year'}</span>
+                        <h3>${y}</h3>
+                        <p>${lang === 'ar' ? 'عرض المواد والمصادر العلمية المتاحة' : 'Browse subjects & study resources'}</p>
+                    </div>
                 </div>
             `).join('');
 
