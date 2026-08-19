@@ -2,67 +2,698 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="utf-8">
-    <title>خريطة الطب الحكومي</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>MedAtlas | المنصة الطبية والجامعية الشاملة</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
     <style>
-        :root { --primary: #0ea5e9; --dark: #0f172a; }
-        body { font-family: 'Cairo', sans-serif; background: #f8fafc; padding: 20px; }
-        .container { max-width: 1000px; margin: auto; }
-        .search-input { width: 100%; padding: 15px; border-radius: 12px; border: 1px solid #ddd; margin-bottom: 20px; font-size: 1rem; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 15px; }
-        .card { background: white; padding: 20px; border-radius: 15px; border: 1px solid #e2e8f0; cursor: pointer; transition: 0.3s; }
-        .card:hover { transform: translateY(-5px); box-shadow: 0 10px 15px rgba(0,0,0,0.1); }
-        h3 { color: var(--dark); margin-top: 0; }
-        .tag { background: #dcfce7; color: #166534; padding: 4px 10px; border-radius: 6px; font-size: 0.8rem; font-weight: bold; }
+        :root {
+            --primary: #0ea5e9;
+            --primary-dark: #0284c7;
+            --secondary: #6366f1;
+            --dark-bg: #0f172a;
+            --card-bg: #ffffff;
+            --body-bg: #f8fafc;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --accent-green: #10b981;
+            --radius-lg: 20px;
+            --radius-md: 12px;
+            --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            --shadow-hover: 0 20px 25px -5px rgba(14, 165, 233, 0.12);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Cairo', sans-serif; }
+        body { background-color: var(--body-bg); color: var(--text-main); line-height: 1.6; padding-bottom: 80px; }
+
+        /* Header / Navbar */
+        header {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 6%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .logo { font-size: 1.6rem; font-weight: 900; color: var(--dark-bg); display: flex; align-items: center; gap: 8px; cursor: pointer; }
+        .logo span { color: var(--primary); }
+        .nav-links { display: flex; gap: 1.8rem; align-items: center; }
+        .nav-link { text-decoration: none; color: var(--text-muted); font-weight: 700; font-size: 0.95rem; transition: 0.2s; cursor: pointer; }
+        .nav-link:hover, .nav-link.active { color: var(--primary-dark); }
+        .nav-btns { display: flex; gap: 0.75rem; align-items: center; }
+        .btn { padding: 0.6rem 1.3rem; border-radius: 99px; font-weight: 700; font-size: 0.9rem; cursor: pointer; border: none; transition: 0.25s; font-family: inherit; }
+        .btn-primary { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: #fff; box-shadow: 0 4px 12px rgba(14, 165, 233, 0.3); }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(14, 165, 233, 0.45); }
+        .btn-outline { background: transparent; border: 1.5px solid var(--border); color: var(--text-main); }
+        .btn-outline:hover { border-color: var(--primary); color: var(--primary-dark); background: #f0f9ff; }
+
+        /* Hero */
+        .hero {
+            padding: 3.5rem 6% 2.5rem;
+            text-align: center;
+            background: radial-gradient(circle at 50% 0%, rgba(14, 165, 233, 0.12) 0%, rgba(248, 250, 252, 0) 70%);
+        }
+        .hero-badge { display: inline-flex; align-items: center; gap: 6px; background: #e0f2fe; color: var(--primary-dark); padding: 6px 18px; border-radius: 99px; font-size: 0.88rem; font-weight: 800; margin-bottom: 1rem; }
+        .hero h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 900; color: var(--dark-bg); margin-bottom: 0.8rem; }
+        .hero p { color: var(--text-muted); max-width: 720px; margin: 0 auto 2rem; font-size: 1.05rem; }
+
+        .search-container { max-width: 650px; margin: 0 auto 1.5rem; position: relative; }
+        .search-input { width: 100%; padding: 1.1rem 1.5rem 1.1rem 3.5rem; border: 1px solid var(--border); border-radius: 99px; font-size: 0.98rem; background: #fff; box-shadow: var(--shadow-sm); outline: none; transition: 0.3s; }
+        .search-input:focus { border-color: var(--primary); box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.15); }
+
+        .sector-tabs { display: flex; justify-content: center; gap: 0.6rem; flex-wrap: wrap; margin-bottom: 2.5rem; }
+        .sector-btn { padding: 0.55rem 1.3rem; border-radius: 99px; border: 1px solid var(--border); background: #fff; font-size: 0.88rem; font-weight: 700; color: var(--text-muted); cursor: pointer; transition: 0.2s; }
+        .sector-btn.active, .sector-btn:hover { background: var(--dark-bg); color: #fff; border-color: var(--dark-bg); }
+
+        /* Container & Cards Grid */
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; }
+        .section-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 1.5rem; }
+        .section-title { font-size: 1.4rem; font-weight: 800; color: var(--dark-bg); }
+        .section-sub { font-size: 0.9rem; color: var(--text-muted); }
+
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(330px, 1fr)); gap: 1.5rem; }
+        .uni-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 1.6rem; transition: 0.3s ease; cursor: pointer; display: flex; flex-direction: column; justify-content: space-between; position: relative; overflow: hidden; }
+        .uni-card::before { content: ''; position: absolute; top: 0; right: 0; width: 100%; height: 4px; background: linear-gradient(90deg, var(--primary), var(--secondary)); opacity: 0; transition: 0.3s; }
+        .uni-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-hover); border-color: rgba(14, 165, 233, 0.3); }
+        .uni-card:hover::before { opacity: 1; }
+
+        .uni-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.8rem; }
+        .uni-tag { font-size: 0.75rem; font-weight: 800; padding: 4px 12px; border-radius: 6px; }
+        .tag-gov { background: #dcfce7; color: #166534; }
+        .tag-nat { background: #fef3c7; color: #92400e; }
+        .tag-pvt { background: #e0e7ff; color: #3730a3; }
+
+        .uni-name { font-size: 1.25rem; font-weight: 800; color: var(--dark-bg); margin-bottom: 0.4rem; }
+        .uni-desc { font-size: 0.88rem; color: var(--text-muted); margin-bottom: 1.2rem; }
+
+        .faculties-pills { display: flex; flex-wrap: wrap; gap: 6px; margin-top: auto; }
+        .fac-pill { font-size: 0.78rem; background: #f1f5f9; color: #334155; padding: 5px 11px; border-radius: 8px; font-weight: 700; display: flex; align-items: center; gap: 4px; }
+
+        /* Modal Overlay & Detailed View */
+        .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(15, 23, 42, 0.65); backdrop-filter: blur(8px); display: none; justify-content: center; align-items: center; z-index: 1000; padding: 1rem; }
+        .modal-content { background: #fff; width: 100%; max-width: 920px; max-height: 90vh; border-radius: 24px; overflow-y: auto; padding: 2rem; position: relative; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); }
+        .close-btn { position: absolute; top: 1.5rem; left: 1.5rem; background: #f1f5f9; border: none; width: 38px; height: 38px; border-radius: 50%; font-size: 1.2rem; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.2s; }
+        .close-btn:hover { background: #e2e8f0; }
+
+        /* Tabs inside Modal */
+        .fac-tabs { display: flex; gap: 0.5rem; overflow-x: auto; padding-bottom: 0.5rem; margin: 1.5rem 0; border-bottom: 1px solid var(--border); }
+        .fac-tab-btn { padding: 0.65rem 1.3rem; border-radius: 12px; border: 1px solid var(--border); background: #f8fafc; font-size: 0.9rem; font-weight: 700; cursor: pointer; white-space: nowrap; transition: 0.2s; }
+        .fac-tab-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+
+        .fac-info-card { background: #f0f9ff; border: 1px solid #bae6fd; border-radius: var(--radius-md); padding: 1.3rem; margin-bottom: 1.5rem; }
+        .fac-info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin-top: 1rem; }
+        .info-item { background: #fff; padding: 0.85rem 1.1rem; border-radius: 10px; border: 1px solid #e0f2fe; }
+        .info-item small { color: var(--text-muted); font-size: 0.78rem; display: block; font-weight: 700; }
+        .info-item strong { color: var(--dark-bg); font-size: 0.95rem; }
+
+        /* Years Accordion */
+        .year-card { border: 1px solid var(--border); border-radius: var(--radius-md); margin-bottom: 1rem; overflow: hidden; background: #fff; }
+        .year-header { padding: 1rem 1.25rem; background: #fafafa; font-weight: 800; font-size: 1rem; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
+        .year-body { padding: 1.25rem; border-top: 1px solid var(--border); display: none; }
+        .year-body.open { display: block; }
+
+        /* Modules Boxes */
+        .module-box { background: #f8fafc; border-right: 4px solid var(--primary); border-radius: 8px; padding: 1.1rem; margin-bottom: 1rem; }
+        .module-title { font-weight: 800; font-size: 0.98rem; color: var(--dark-bg); margin-bottom: 0.3rem; }
+        .module-desc { font-size: 0.88rem; color: var(--text-muted); margin-bottom: 0.8rem; }
+        .subject-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+        .sub-tag { background: #fff; border: 1px solid var(--border); padding: 4px 11px; border-radius: 6px; font-size: 0.8rem; font-weight: 700; color: var(--primary-dark); }
+
+        /* Forms */
+        .auth-form { display: grid; gap: 1rem; }
+        .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+        .form-group label { font-size: 0.85rem; font-weight: 700; color: var(--dark-bg); }
+        .form-group input, .form-group select { padding: 0.75rem 1rem; border: 1px solid var(--border); border-radius: 10px; font-size: 0.9rem; outline: none; }
+        .form-group input:focus, .form-group select:focus { border-color: var(--primary); }
+
+        /* Premium Section */
+        .premium-card { background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%); color: #fff; border-radius: 24px; padding: 2.5rem 2rem; margin: 3rem 0; text-align: center; position: relative; overflow: hidden; }
+        .premium-card h2 { font-size: 1.8rem; font-weight: 900; margin-bottom: 0.8rem; color: #38bdf8; }
+        .premium-card p { color: #94a3b8; max-width: 620px; margin: 0 auto 1.5rem; font-size: 0.95rem; }
+        .features-list { display: flex; justify-content: center; gap: 1.2rem; flex-wrap: wrap; margin-bottom: 2rem; text-align: right; }
+        .feat-item { display: flex; align-items: center; gap: 8px; font-size: 0.88rem; background: rgba(255,255,255,0.08); padding: 8px 16px; border-radius: 99px; }
+
+        @media (max-width: 768px) {
+            header { padding: 1rem 4%; }
+            .nav-links { display: none; }
+            .hero { padding: 2rem 4% 1.5rem; }
+            .grid { grid-template-columns: 1fr; }
+        }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h1>دليل الجامعات الحكومية المصرية</h1>
-    <input type="text" id="search" class="search-input" placeholder="ابحث باسم الجامعة أو التخصص (مثلاً: طب بشري، المنصورة)...">
-    <div class="grid" id="results"></div>
-</div>
-
-<script>
-const govUnis = [
-    { name: "جامعة القاهرة", loc: "الجيزة", specs: ["طب بشري", "طب أسنان", "صيدلة", "علاج طبيعي", "تمريض", "طب بيطري"] },
-    { name: "جامعة عين شمس", loc: "القاهرة", specs: ["طب بشري", "طب أسنان", "صيدلة", "تمريض", "علاج طبيعي", "طب بيطري"] },
-    { name: "جامعة الإسكندرية", loc: "الإسكندرية", specs: ["طب بشري", "طب أسنان", "صيدلة", "تمريض", "علاج طبيعي", "طب بيطري"] },
-    { name: "جامعة المنصورة", loc: "الدقهلية", specs: ["طب بشري", "طب أسنان", "صيدلة", "تمريض", "علاج طبيعي", "طب بيطري"] },
-    { name: "جامعة أسيوط", loc: "أسيوط", specs: ["طب بشري", "طب أسنان", "صيدلة", "تمريض", "علاج طبيعي", "طب بيطري"] },
-    { name: "جامعة الزقازيق", loc: "الشرقية", specs: ["طب بشري", "طب أسنان", "صيدلة", "تمريض", "علاج طبيعي", "طب بيطري"] },
-    { name: "جامعة طنطا", loc: "الغربية", specs: ["طب بشري", "طب أسنان", "صيدلة", "تمريض", "علاج طبيعي", "طب بيطري"] },
-    { name: "جامعة قناة السويس", loc: "الإسماعيلية", specs: ["طب بشري", "طب أسنان", "صيدلة", "تمريض", "علاج طبيعي", "طب بيطري"] },
-    { name: "جامعة بني سويف", loc: "بني سويف", specs: ["طب بشري", "طب أسنان", "صيدلة", "تمريض", "علاج طبيعي", "طب بيطري"] },
-    { name: "جامعة الفيوم", loc: "الفيوم", specs: ["طب بشري", "طب أسنان", "صيدلة", "تمريض", "علاج طبيعي", "طب بيطري"] },
-    { name: "جامعة المنيا", loc: "المنيا", specs: ["طب بشري", "طب أسنان", "صيدلة", "تمريض", "علاج طبيعي", "طب بيطري"] },
-    { name: "جامعة سوهاج", loc: "سوهاج", specs: ["طب بشري", "طب أسنان", "صيدلة", "تمريض", "علاج طبيعي", "طب بيطري"] },
-    { name: "جامعة جنوب الوادي", loc: "قنا", specs: ["طب بشري", "طب أسنان", "صيدلة", "تمريض", "علاج طبيعي", "طب بيطري"] },
-    { name: "جامعة أسوان", loc: "أسوان", specs: ["طب بشري", "تمريض", "طب بيطري"] },
-    { name: "جامعة كفر الشيخ", loc: "كفر الشيخ", specs: ["طب بشري", "طب أسنان", "صيدلة", "تمريض", "علاج طبيعي", "طب بيطري"] },
-    { name: "جامعة بنها", loc: "القليوبية", specs: ["طب بشري", "طب أسنان", "صيدلة", "تمريض", "علاج طبيعي", "طب بيطري"] },
-    { name: "جامعة دمنهور", loc: "البحيرة", specs: ["صيدلة"] },
-    { name: "جامعة السويس", loc: "السويس", specs: ["طب بشري", "تمريض"] },
-    { name: "جامعة بورسعيد", loc: "بورسعيد", specs: ["طب بشري", "تمريض"] },
-    { name: "جامعة العريش", loc: "شمال سيناء", specs: ["تمريض"] }
-];
-
-function render(filter = "") {
-    const container = document.getElementById('results');
-    container.innerHTML = govUnis.filter(u => 
-        u.name.includes(filter) || u.specs.join().includes(filter) || u.loc.includes(filter)
-    ).map(u => `
-        <div class="card">
-            <span class="tag">حكومية</span>
-            <h3>${u.name}</h3>
-            <p><strong>📍 الموقع:</strong> ${u.loc}</p>
-            <p><strong>🩺 التخصصات:</strong> ${u.specs.join('، ')}</p>
+    <!-- NAVBAR -->
+    <header>
+        <div class="logo" onclick="location.reload()">
+            <span>✦</span> MedAtlas
         </div>
-    `).join('');
-}
+        <nav class="nav-links">
+            <a class="nav-link active" onclick="scrollToSection('unis')">الجامعات الكليات</a>
+            <a class="nav-link" onclick="scrollToSection('courses')">الكورسات والدورات</a>
+            <a class="nav-link" onclick="scrollToSection('premium')">الباقات المميزة Premium</a>
+        </nav>
+        <div class="nav-btns" id="navAuthBtns">
+            <button class="btn btn-outline" onclick="openAuthModal('login')">تسجيل الدخول</button>
+            <button class="btn btn-primary" onclick="openAuthModal('signup')">إنشاء حساب جديد</button>
+        </div>
+    </header>
 
-document.getElementById('search').oninput = (e) => render(e.target.value);
-render();
-</script>
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <div class="hero-badge">🩺 الدليل الأكاديمي الطبي الشامل في مصر</div>
+        <h1>كل ما تحتاجه في رحلتك الطبية والجامعية</h1>
+        <p>استكشف جميع الجامعات المصرية التي تتضمن كليات طبية، واعرف تفاصيل سنوات الدراسة، المديولات، والمواد المقررة والداتا الخاصة بكل سنة.</p>
+        
+        <div class="search-container">
+            <input type="text" class="search-input" id="searchInput" oninput="renderUniversities()" placeholder="🔍 ابحث عن اسم الجامعة أو الكلية (مثال: جامعة الفيوم، طب بشري)...">
+        </div>
+
+        <div class="sector-tabs">
+            <button class="sector-btn active" onclick="filterSector('الكل', this)">جميع القطاعات</button>
+            <button class="sector-btn" onclick="filterSector('حكومية', this)">جامعات حكومية</button>
+            <button class="sector-btn" onclick="filterSector('أهلية', this)">جامعات أهلية</button>
+            <button class="sector-btn" onclick="filterSector('خاصة', this)">جامعات خاصة ودولية</button>
+        </div>
+    </section>
+
+    <!-- UNIVERSITIES GRID SECTION -->
+    <main class="container" id="unis">
+        <div class="section-header">
+            <div>
+                <h2 class="section-title">الجامعات الكليات الطبية</h2>
+                <p class="section-sub">اختر الجامعة لمشاهدة الكليات الطبية المتاحة وسنوات الدراسة والمديولات والداتا</p>
+            </div>
+            <span id="uniCountBadge" style="font-weight:800; color:var(--primary-dark); font-size:0.9rem;"></span>
+        </div>
+
+        <div class="grid" id="universityGrid"></div>
+
+        <!-- PREMIUM PROMO SECTION -->
+        <section class="premium-card" id="premium">
+            <h2>💎 عضوية MedAtlas Premium المميزة</h2>
+            <p>احصل على وصول كامل وحصري لجميع الداتا الطبية، الملخصات المنسقة المعتمدة، بنوك الأسئلة، وجروبات التيليجرام المغلقة الخاصة بكل دفعة.</p>
+            <div class="features-list">
+                <div class="feat-item">✓ ملخصات مديولات منسقة جاهزة للطباعة</div>
+                <div class="feat-item">✓ بنوك أسئلة ومراجعات نهائية متوقعة</div>
+                <div class="feat-item">✓ مجتمع تيليجرام تفاعلي خاص بكل دفعة</div>
+                <div class="feat-item">✓ خصومات حصريّة على الدورات الكلينيكية</div>
+            </div>
+            <button class="btn btn-primary" style="padding:0.85rem 2.5rem; font-size:1rem;" onclick="openAuthModal('signup')">اشترك الآن واستمتع بالخدمات المميزة</button>
+        </section>
+
+        <!-- COURSES SECTION -->
+        <section id="courses" style="margin-top:3rem;">
+            <div class="section-header">
+                <div>
+                    <h2 class="section-title">🎓 الكورسات والدورات الأكاديمية الطبية</h2>
+                    <p class="section-sub">دورات تدريبية وكورسات دعم أكاديمي مبسطة لأهم المواد والمديولات الطبية</p>
+                </div>
+            </div>
+            <div class="grid">
+                <div class="uni-card" style="cursor:default;">
+                    <div>
+                        <span class="uni-tag tag-gov" style="margin-bottom:10px; display:inline-block;">تشريح - Anatomy</span>
+                        <h3 class="uni-name">كورس التشريح الطبي المصور (Anatomy Course)</h3>
+                        <p class="uni-desc">شرح عملي ونظري ميسر لجميع أجهزة الجسم والمديولات باستخدام مجسمات ثلاثية الأبعاد وصور حقيقية.</p>
+                    </div>
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-top:12px;">
+                        <span style="font-weight:800; color:var(--primary-dark);">قريباً 🚀</span>
+                        <button class="btn btn-outline" style="font-size:0.8rem;">التفاصيل</button>
+                    </div>
+                </div>
+
+                <div class="uni-card" style="cursor:default;">
+                    <div>
+                        <span class="uni-tag tag-pvt" style="margin-bottom:10px; display:inline-block;">كيمياء حيوية - Biochemistry</span>
+                        <h3 class="uni-name">أساسيات الكيمياء الحيوية والأيض الخلوي</h3>
+                        <p class="uni-desc">شرح مبسط لدورات الأيض والإنزيمات والتطبيقات الكلينيكية الخاصة بطلاب السنة الأولى والتنسيق المديولي.</p>
+                    </div>
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-top:12px;">
+                        <span style="font-weight:800; color:var(--primary-dark);">قريباً 🚀</span>
+                        <button class="btn btn-outline" style="font-size:0.8rem;">التفاصيل</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- MODAL: UNIVERSITY & FACULTY DETAILS -->
+    <div class="modal-overlay" id="uniModal">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeModal('uniModal')">✕</button>
+            <div id="modalUniHeader"></div>
+
+            <h4 style="margin-top:1.2rem; color:var(--dark-bg); font-weight:800;">اختر الكلية لمشاهدة التفاصيل والمديولات:</h4>
+            <div class="fac-tabs" id="modalFacTabs"></div>
+
+            <div id="modalFacContent"></div>
+        </div>
+    </div>
+
+    <!-- MODAL: AUTHENTICATION (SIGN UP / LOGIN) -->
+    <div class="modal-overlay" id="authModal">
+        <div class="modal-content" style="max-width:480px;">
+            <button class="close-btn" onclick="closeModal('authModal')">✕</button>
+            <h2 id="authTitle" style="font-weight:900; color:var(--dark-bg); margin-bottom:0.4rem; text-align:center;">إنشاء حساب جديد</h2>
+            <p id="authSub" style="color:var(--text-muted); font-size:0.88rem; text-align:center; margin-bottom:1.5rem;">سجل بياناتك للوصول الكامل للداتا والمميزات الطبية</p>
+
+            <form class="auth-form" onsubmit="handleAuth(event)">
+                <div class="form-group" id="fullNameGroup">
+                    <label>الاسم بالكامل</label>
+                    <input type="text" id="regName" placeholder="د. أحمد محمد" required>
+                </div>
+                <div class="form-group">
+                    <label>البريد الإلكتروني (Email)</label>
+                    <input type="email" id="regEmail" placeholder="example@mail.com" required>
+                </div>
+                <div class="form-group">
+                    <label>رقم الهاتف / الواتساب</label>
+                    <input type="tel" id="regPhone" placeholder="01012345678" required>
+                </div>
+                <div class="form-group" id="telegramGroup">
+                    <label>حساب التيليجرام (Telegram Username)</label>
+                    <input type="text" id="regTelegram" placeholder="@username" required>
+                </div>
+                <div class="form-group" id="uniGroup">
+                    <label>الجامعة والكلية</label>
+                    <select id="regUni">
+                        <option value="جامعة الفيوم - طب بشري">جامعة الفيوم - كلية الطب البشري</option>
+                        <option value="جامعة القاهرة - طب بشري">جامعة القاهرة - كلية الطب البشري</option>
+                        <option value="جامعة عين شمس - طب بشري">جامعة عين شمس - كلية الطب البشري</option>
+                        <option value="جامعة المنصورة - طب بشري">جامعة المنصورة - كلية الطب البشري</option>
+                        <option value="جامعة الفيوم - أسنان">جامعة الفيوم - كلية طب الأسنان</option>
+                        <option value="جامعة الفيوم - صيدلة">جامعة الفيوم - كلية الصيدلة</option>
+                        <option value="جامعة أخرى">جامعة أخرى / كلية أخرى</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>كلمة السر</label>
+                    <input type="password" id="regPass" placeholder="••••••••" required>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width:100%; padding:0.8rem; margin-top:0.5rem;">تأكيد وحفظ الحساب</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Data Structure for Universities, Faculties, Years, Modules, and Subjects
+        const database = [
+            {
+                id: "fayoum",
+                name: "جامعة الفيوم",
+                type: "حكومية",
+                desc: "تضم صرحاً كاملاً من الكليات الطبية المتميزة مع مستشفيات جامعية متطورة ونظام مديولات مدمج حديث.",
+                faculties: [
+                    {
+                        id: "med",
+                        name: "كلية الطب البشري",
+                        icon: "🩺",
+                        duration: "5 سنوات دراسية + 2 سنة امتياز (نظام 5+2)",
+                        system: "نظام المديولات المدمجة (Integrated Modules System)",
+                        overview: "تعتمد الدراسة على المديولات التكاملية التي تجمع بين العلوم الأساسية (Anatomy, Histology, Physiology, Biochemistry) والعلوم الإكلينيكية بشكل مدمج بداية من السنة الأولى.",
+                        years: [
+                            {
+                                name: "السنة الأولى (First Year)",
+                                desc: "التعرف على بناء جسم الإنسان والأساسيات الجزيئية والخلوية مع المديولات التأسيسية والجهازية الأولى.",
+                                modules: [
+                                    { title: "مديول أساسيات الطب (Foundation Module)", desc: "مدخل للعلوم الطبية ومبادئ الخلية والأنسجة والتركيب الجزيئي للبشر.", subjects: ["تشريح Anatomy", "أنسجة Histology", "كيمياء حيوية Biochemistry"] },
+                                    { title: "مديول الجهاز الهيكلي والشهاري (Musculoskeletal System)", desc: "دراسة العظام والعضلات والأعصاب والأوعية الدموية المغذية للأطراف والظهر.", subjects: ["تشريح Anatomy", "وظائف أعضاء Physiology", "علم الأنسجة Histology"] },
+                                    { title: "مديول جهاز الدوران والقلب (Cardiovascular System)", desc: "تركيب ووظائف القلب والأوعية الدموية وضغط الدم والتطبيقات الدوائية الأولى.", subjects: ["Physiology", "Anatomy", "Pathology", "Pharmacology"] }
+                                ]
+                            },
+                            {
+                                name: "السنة الثانية (Second Year)",
+                                desc: "تكملة المديولات الجهازية والتعمق في الأمراض والأدوية وطبيعة الميكروبات والأنظمة الحيوية.",
+                                modules: [
+                                    { title: "مديول الجهاز التنفسي (Respiratory System)", desc: "دراسة الرئتين والمجاري التنفسية والأمراض الميكروبية والأدوية.", subjects: ["Anatomy", "Pathology", "Microbiology", "Pharmacology"] },
+                                    { title: "مديول الجهاز الهضمي (Gastrointestinal System)", desc: "التركيب الهيكلي والكيميائي للجهاز الهضمي والكبد والإنزيمات الأيضية.", subjects: ["Biochemistry", "Physiology", "Pathology", "Anatomy"] }
+                                ]
+                            },
+                            {
+                                name: "السنة الثالثة والرابعة والخامسة",
+                                desc: "المرحلة الكلينيكية والتطبيقات الميدانية والمستشفيات (الباطنة، الجراحة، الأطفال، النساء والتوليد).",
+                                modules: [
+                                    { title: "المديولات الكلينيكية الجراحية والباطنية", desc: "التدريب المباشر على الحالات الميدانية بالفحوصات والتصوير الإكلينيكي.", subjects: ["General Surgery", "Internal Medicine", "Pediatrics", "Gynecology"] }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        id: "dent",
+                        name: "كلية طب الأسنان",
+                        icon: "🦷",
+                        duration: "5 سنوات دراسية + 1 سنة امتياز (نظام 5+1)",
+                        system: "نظام الساعات المعتمدة والدروس المعملية",
+                        overview: "تهتم بتخريج أطباء أسنان ملمين بكافة تقنيات جراحة الفم والأسنان والاستعاضات والتقويم.",
+                        years: [
+                            {
+                                name: "السنة الأولى والثانية",
+                                desc: "دراسة البيولوجيا ورسم ونحت الأسنان والتشريح العام والمواد الطبية.",
+                                modules: [
+                                    { title: "تشريح وشكل الأسنان (Dental Anatomy & Morphology)", desc: "دراسة التضاريس التشريحية لجميع الأسنان والضروس ونحتها معملياً.", subjects: ["Dental Anatomy", "General Anatomy", "Histology"] }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        id: "pharm",
+                        name: "كلية الصيدلة",
+                        icon: "💊",
+                        duration: "5 سنوات (برنامج فارم دي PharmD) + 1 سنة تدريب",
+                        system: "برنامج PharmD الكلينيكي والحديث",
+                        overview: "تركيز كامل على علم الأدوية، التصنيع الدوائي، والصيدلة الكلينيكية والتفاعل مع المرضى.",
+                        years: [
+                            {
+                                name: "السنة الأولى والثانية",
+                                desc: "الكيمياء العضوية والصيدلانية وعلم النباتات الطبية وعلم وظائف الأعضاء.",
+                                modules: [
+                                    { title: "الكيمياء العضوية والطبية", desc: "التراكيب الكيميائية للمركبات الدوائية وآلية التفاعل الحيوية.", subjects: ["Organic Chemistry", "Pharmacognosy", "Physiology"] }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        id: "nurs",
+                        name: "كلية التمريض",
+                        icon: "🩺",
+                        duration: "4 سنوات دراسية + 1 سنة امتياز",
+                        system: "نظام الفصلين الدراسيين مع التدريب العملي بالمستشفيات",
+                        overview: "تأهيل كوادر تمريضية عالية الكفاءة في الرعاية المركزة والعمليات ورعاية الطوارئ.",
+                        years: [
+                            {
+                                name: "أساسيات التمريض والعلوم الطبية",
+                                desc: "دراسة تشريح ووظائف الأعضاء وأساسيات الرعاية والتمريض الباطني والجراحي.",
+                                modules: [
+                                    { title: "أساسيات التمريض الرعائي", desc: "التدريب على العلامات الحيوية والإسعافات الأولية والرعاية التمريضية.", subjects: ["Nursing Fundamentals", "Anatomy", "Physiology"] }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                id: "cairo",
+                name: "جامعة القاهرة (قصر العيني)",
+                type: "حكومية",
+                desc: "من أعرق كليات الطب في الشرق الأوسط، وتضم الطب البشري، الأسنان، الصيدلة، العلاج الطبيعي، والتمريض.",
+                faculties: [
+                    {
+                        id: "med",
+                        name: "كلية الطب البشري (قصر العيني)",
+                        icon: "🩺",
+                        duration: "5 سنوات + 2 سنة امتياز",
+                        system: "نظام المديولات القائم على الجدارات (Competency-Based Integrated)",
+                        overview: "أكبر مستشفى جامعي في مصر ويوفر تدريباً إكلينيكياً مكثفاً لجميع الطلاب.",
+                        years: [
+                            {
+                                name: "المرحلة الأولى (السنة الأولى والثانية)",
+                                desc: "المديولات التكاملية الأساسية للخلية وأجهزة الجسم.",
+                                modules: [
+                                    { title: "الجهاز العصبي والحواس (CNS & Special Senses)", desc: "تشريح ووظائف المخ والأعصاب والعين والأذن.", subjects: ["Neuro-Anatomy", "Physiology", "Pharmacology"] }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        id: "pt",
+                        name: "كلية العلاج الطبيعي",
+                        icon: "🦴",
+                        duration: "5 سنوات + 1 سنة امتياز",
+                        system: "نظام الساعات المعتمدة والتدريب الإكلينيكي",
+                        overview: "كلية رائدة في مجال التأهيل العضلي والعصبي والإصابات الرياضية.",
+                        years: [
+                            {
+                                name: "السنوات الأساسية والتطبيقية",
+                                desc: "دراسة البيوميكانيك والميكانيكا الحيوية وأمراض العظام والأعصاب.",
+                                modules: [
+                                    { title: "الميكانيكا الحيوية والتقييم الحركي (Biomechanics)", desc: "تحليل حركة الجسم والعضلات والتحليل الحركي.", subjects: ["Biomechanics", "Anatomy", "Physiology"] }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                id: "ainshams",
+                name: "جامعة عين شمس",
+                type: "حكومية",
+                desc: "مباني ومستشفيات متطورة وتضم كافة التخصصات الطبية والصحية معتمدة دولياً.",
+                faculties: [
+                    {
+                        id: "med",
+                        name: "كلية الطب البشري",
+                        icon: "🩺",
+                        duration: "5 سنوات + 2 سنة امتياز",
+                        system: "نظام المديولات المتكامل مع الساعات المعتمدة",
+                        overview: "توفر بيئة تعليمية وأكاديمية متطورة معتمدة من الهيئة القومية لضمان جودة التعليم.",
+                        years: [
+                            {
+                                name: "السنة الأولى والثانية",
+                                desc: "مديولات العلوم الأساسية الطبية.",
+                                modules: [
+                                    { title: "مديول الدم والدمويات (Hematology Module)", desc: "تركيب ووظائف كرات الدم والأنيميا وتجلط الدم والأدوية.", subjects: ["Pathology", "Physiology", "Biochemistry"] }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                id: "galala",
+                name: "جامعة الجلالة الأهلية",
+                type: "أهلية",
+                desc: "جامعة أهلية دولية حديثة بشراكات عالمية وتجهيزات طبية ومعامل محاكاة متطورة.",
+                faculties: [
+                    {
+                        id: "med",
+                        name: "مجال الطب البشري",
+                        icon: "🩺",
+                        duration: "5 سنوات + 2 سنة امتياز",
+                        system: "نظام الساعات المعتمدة التكاملي مع معامل المحاكاة Simulation Labs",
+                        overview: "دراسة حديثة تعتمد على المحاكاة الرقمية والتدريب على الدمى الذكية.",
+                        years: [
+                            {
+                                name: "السنة الأولى",
+                                desc: "العلوم الطبية التأسيسية الرقمية.",
+                                modules: [
+                                    { title: "مديول الخلية والجزييات الطبية", desc: "دراسة علم الجينات والبيولوجيا الجزيئية والخلوية.", subjects: ["Molecular Biology", "Histology", "Genetics"] }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        ];
+
+        let currentSectorFilter = 'الكل';
+        let currentUni = null;
+        let currentFacIndex = 0;
+
+        // Render Universities Grid
+        function renderUniversities() {
+            const query = document.getElementById('searchInput').value.trim().toLowerCase();
+            const grid = document.getElementById('universityGrid');
+
+            const filtered = database.filter(u => {
+                const matchSector = (currentSectorFilter === 'الكل') || (u.type === currentSectorFilter);
+                const matchQuery = u.name.toLowerCase().includes(query) || 
+                                   u.desc.toLowerCase().includes(query) ||
+                                   u.faculties.some(f => f.name.toLowerCase().includes(query));
+                return matchSector && matchQuery;
+            });
+
+            document.getElementById('uniCountBadge').innerText = `عدد الجامعات المعروضة: (${filtered.length})`;
+
+            grid.innerHTML = filtered.map(u => {
+                let tagClass = 'tag-gov';
+                if(u.type === 'أهلية') tagClass = 'tag-nat';
+                if(u.type === 'خاصة') tagClass = 'tag-pvt';
+
+                const facultiesPills = u.faculties.map(f => `<span class="fac-pill">${f.icon} ${f.name}</span>`).join('');
+
+                return `
+                    <div class="uni-card" onclick="openUniModal('${u.id}')">
+                        <div>
+                            <div class="uni-header">
+                                <span class="uni-tag ${tagClass}">${u.type}</span>
+                                <span style="font-size:0.8rem; color:var(--text-muted); font-weight:700;">${u.faculties.length} كليات طبية</span>
+                            </div>
+                            <h3 class="uni-name">${u.name}</h3>
+                            <p class="uni-desc">${u.desc}</p>
+                        </div>
+                        <div>
+                            <div style="font-size:0.78rem; font-weight:800; color:var(--primary-dark); margin-bottom:6px;">الكليات المتاحة:</div>
+                            <div class="faculties-pills">${facultiesPills}</div>
+                        </div>
+                    </div>
+                `;
+            }).join('') || `<p style="grid-column:1/-1; text-align:center; padding:3rem; color:var(--text-muted);">لا توجد جامعة تطابق بحثك حالياً.</p>`;
+        }
+
+        function filterSector(sector, btnElement) {
+            currentSectorFilter = sector;
+            document.querySelectorAll('.sector-btn').forEach(b => b.classList.remove('active'));
+            btnElement.classList.add('active');
+            renderUniversities();
+        }
+
+        // Open Modal for University Details
+        function openUniModal(uniId) {
+            currentUni = database.find(u => u.id === uniId);
+            if(!currentUni) return;
+
+            currentFacIndex = 0;
+
+            // Render Header
+            document.getElementById('modalUniHeader').innerHTML = `
+                <span class="uni-tag tag-gov" style="margin-bottom:8px; display:inline-block;">${currentUni.type}</span>
+                <h2 style="font-size:1.6rem; font-weight:900; color:var(--dark-bg);">${currentUni.name}</h2>
+                <p style="color:var(--text-muted); font-size:0.9rem; margin-top:4px;">${currentUni.desc}</p>
+            `;
+
+            renderFacultyTabs();
+            renderFacultyContent();
+
+            document.getElementById('uniModal').style.display = 'flex';
+        }
+
+        function renderFacultyTabs() {
+            const tabsContainer = document.getElementById('modalFacTabs');
+            tabsContainer.innerHTML = currentUni.faculties.map((f, index) => `
+                <button class="fac-tab-btn ${index === currentFacIndex ? 'active' : ''}" onclick="switchFaculty(${index})">
+                    ${f.icon} ${f.name}
+                </button>
+            `).join('');
+        }
+
+        function switchFaculty(index) {
+            currentFacIndex = index;
+            renderFacultyTabs();
+            renderFacultyContent();
+        }
+
+        function renderFacultyContent() {
+            const fac = currentUni.faculties[currentFacIndex];
+            const contentArea = document.getElementById('modalFacContent');
+
+            if(!fac) {
+                contentArea.innerHTML = `<p style="padding:1rem; color:var(--text-muted);">التفاصيل سيتم إضافتها قريباً.</p>`;
+                return;
+            }
+
+            const yearsHtml = fac.years ? fac.years.map((y, yIdx) => `
+                <div class="year-card">
+                    <div class="year-header" onclick="toggleAccordion('yearBody_${yIdx}')">
+                        <span>📚 ${y.name}</span>
+                        <span style="font-size:0.8rem; color:var(--primary-dark);">اظهار المديولات والداتا ▾</span>
+                    </div>
+                    <div class="year-body ${yIdx === 0 ? 'open' : ''}" id="yearBody_${yIdx}">
+                        <p style="font-size:0.88rem; color:var(--text-muted); margin-bottom:1rem;">${y.desc}</p>
+                        ${y.modules.map(m => `
+                            <div class="module-box">
+                                <div class="module-title">📌 ${m.title}</div>
+                                <div class="module-desc">${m.desc}</div>
+                                <div style="font-size:0.78rem; font-weight:800; color:var(--dark-bg); margin-bottom:4px;">المواد المقررة والمدمجة داخل المديول:</div>
+                                <div class="subject-tags">
+                                    ${m.subjects.map(s => `<span class="sub-tag">${s}</span>`).join('')}
+                                </div>
+                            </div>
+                        `).join('')}
+                        <button class="btn btn-primary" style="font-size:0.8rem; width:100%; margin-top:0.5rem;" onclick="openAuthModal('signup')">🔒 فتح وتحميل الداتا والملخصات لـ ${y.name}</button>
+                    </div>
+                </div>
+            `).join('') : '<p style="color:var(--text-muted);">جاري تجهيز المناهج والمديولات لهذه الكلية.</p>';
+
+            contentArea.innerHTML = `
+                <div class="fac-info-card">
+                    <h3 style="color:var(--dark-bg); font-weight:800;">${fac.icon} ${fac.name}</h3>
+                    <p style="font-size:0.88rem; color:var(--text-muted); margin-top:4px;">${fac.overview}</p>
+
+                    <div class="fac-info-grid">
+                        <div class="info-item">
+                            <small>⏱️ عدد سنوات الدراسة والامتياز</small>
+                            <strong>${fac.duration}</strong>
+                        </div>
+                        <div class="info-item">
+                            <small>📑 نظام التعليم</small>
+                            <strong>${fac.system}</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <h4 style="font-weight:800; color:var(--dark-bg); margin-bottom:0.8rem;">السنوات الدراسية والمديولات المتاحة:</h4>
+                ${yearsHtml}
+            `;
+        }
+
+        function toggleAccordion(id) {
+            const body = document.getElementById(id);
+            if(body) {
+                body.classList.toggle('open');
+            }
+        }
+
+        // Auth Modal Handlers
+        function openAuthModal(type) {
+            document.getElementById('authModal').style.display = 'flex';
+            if(type === 'login') {
+                document.getElementById('authTitle').innerText = "تسجيل الدخول";
+                document.getElementById('authSub').innerText = "أهلاً بك مجدداً في منصتك الطبية";
+                document.getElementById('fullNameGroup').style.display = 'none';
+                document.getElementById('telegramGroup').style.display = 'none';
+                document.getElementById('uniGroup').style.display = 'none';
+            } else {
+                document.getElementById('authTitle').innerText = "إنشاء حساب جديد";
+                document.getElementById('authSub').innerText = "سجل بياناتك للوصول الكامل للداتا والمميزات الطبية";
+                document.getElementById('fullNameGroup').style.display = 'flex';
+                document.getElementById('telegramGroup').style.display = 'flex';
+                document.getElementById('uniGroup').style.display = 'flex';
+            }
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).style.display = 'none';
+        }
+
+        function handleAuth(e) {
+            e.preventDefault();
+            const name = document.getElementById('regName').value || "دكتور";
+            const email = document.getElementById('regEmail').value;
+            const tele = document.getElementById('regTelegram').value || "@telegram";
+
+            localStorage.setItem('med_user', JSON.stringify({ name, email, tele }));
+
+            alert(`تم حفظ الحساب بنجاح! أهلاً بك يا ${name} 🩺`);
+            closeModal('authModal');
+            checkUserLoggedIn();
+        }
+
+        function checkUserLoggedIn() {
+            const user = JSON.parse(localStorage.getItem('med_user'));
+            if(user) {
+                document.getElementById('navAuthBtns').innerHTML = `
+                    <div style="font-weight:800; font-size:0.9rem; color:var(--primary-dark); background:#e0f2fe; padding:6px 16px; border-radius:99px;">
+                        👨‍⚕️ أهلاً ${user.name}
+                    </div>
+                `;
+            }
+        }
+
+        function scrollToSection(id) {
+            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Init
+        renderUniversities();
+        checkUserLoggedIn();
+    </script>
 </body>
 </html>
