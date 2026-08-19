@@ -280,74 +280,130 @@
 
     <script>
         const database = [
-            {
-                id: "fayoum", name: "جامعة الفيوم", type: "حكومية",
-                desc: "تضم صرحاً كاملاً من الكليات الطبية المتميزة مع مستشفيات جامعية متطورة.",
-                faculties: [
-                    { id: "med", name: "طب بشري", icon: "🩺", duration: "5 سنوات + 2 امتياز", system: "نظام المديولات المدمجة", overview: "دراسة تكاملية تجمع بين العلوم الأساسية والإكلينيكية.", years: [{ name: "السنة الأولى", desc: "تأسيس العلوم الطبية.", modules: [{ title: "Foundation", desc: "مدخل للعلوم الطبية", subjects: ["Anatomy", "Histology", "Biochemistry"] }] }] },
-                    { id: "dent", name: "طب أسنان", icon: "🦷", duration: "5 سنوات + 1 امتياز", system: "الساعات المعتمدة", overview: "جراحة الفم والأسنان الاستعاضية.", years: [{ name: "السنة الأولى", desc: "تشريح الأسنان الأساسي.", modules: [{ title: "Dental Anatomy", desc: "تشريح الأسنان", subjects: ["Anatomy", "Histology"] }] }] },
-                    { id: "pharm", name: "صيدلة", icon: "💊", duration: "5 سنوات (PharmD)", system: "فارم دي كلينيكي", overview: "علم الأدوية والصيدلة الكلينيكية.", years: [{ name: "السنة الأولى", desc: "الكيمياء الدوائية.", modules: [{ title: "Organic Chemistry", desc: "كيمياء عضوية", subjects: ["Chemistry", "Physiology"] }] }] },
-                    { id: "nurs", name: "تمريض", icon: "🩺", duration: "4 سنوات + 1 امتياز", system: "عملي ونظري", overview: "الرعاية التمريضية والطوارئ.", years: [{ name: "السنة الأولى", desc: "أساسيات التمريض.", modules: [{ title: "Fundamentals", desc: "أساسيات", subjects: ["Nursing", "Anatomy"] }] }] }
-                ]
-            },
+            // --- الجامعات الحكومية ---
             {
                 id: "cairo", name: "جامعة القاهرة", type: "حكومية",
-                desc: "أعرق الجامعات المصرية وتضم كافة التخصصات الطبية (قصر العيني).",
+                desc: "أعرق الجامعات المصرية وتضم صرح قصر العيني الطبي المتكامل.",
                 faculties: [
-                    { id: "med", name: "طب بشري", icon: "🩺", duration: "5 سنوات + 2 امتياز", system: "نظام الجدارات", overview: "أكبر مستشفى جامعي تعليمي.", years: [{ name: "السنة الأولى", desc: "علوم أساسية.", modules: [{ title: "General", desc: "أساسيات", subjects: ["Anatomy", "Physiology"] }] }] },
-                    { id: "dent", name: "طب أسنان", icon: "🦷", duration: "5 سنوات + 1 امتياز", system: "نظام الساعات", overview: "تخصصات الأسنان المختلفة.", years: [{ name: "السنة الأولى", desc: "تشريح", modules: [{ title: "Oral Anatomy", desc: "أسنان", subjects: ["Anatomy"] }] }] },
-                    { id: "pharm", name: "صيدلة", icon: "💊", duration: "5 سنوات", system: "فارم دي", overview: "الصيدلة والتصنيع الدوائي.", years: [{ name: "السنة الأولى", desc: "صيدلانيات", modules: [{ title: "Pharmaceutics", desc: "أدوية", subjects: ["Chemistry"] }] }] },
-                    { id: "nurs", name: "تمريض", icon: "🩺", duration: "4 سنوات + 1 امتياز", system: "عملي", overview: "خدمات التمريض المتقدمة.", years: [{ name: "السنة الأولى", desc: "أساسيات", modules: [{ title: "Care", desc: "رعاية", subjects: ["Nursing"] }] }] },
-                    { id: "pt", name: "علاج طبيعي", icon: "🦴", duration: "5 سنوات + 1 امتياز", system: "ساعات معتمدة", overview: "التأهيل الحركي والإصابات.", years: [{ name: "السنة الأولى", desc: "ميكانيكا حيوية", modules: [{ title: "Biomechanics", desc: "حركة", subjects: ["Anatomy", "Physics"] }] }] }
+                    { id: "med", name: "طب بشري", icon: "🩺", duration: "5 سنوات + 2 امتياز", system: "نظام المديولات والجدارات", overview: "أكبر مستشفى جامعي تعليمي في الشرق الأوسط.", years: [{ name: "السنة الأولى", desc: "علوم أساسية وإكلينيكية أولية", modules: [{ title: "Foundation & Musculoskeletal", desc: "مدخل العلوم الطبية والجهاز الهيكلي", subjects: ["Anatomy", "Physiology", "Histology", "Biochemistry"] }] }] },
+                    { id: "dent", name: "طب أسنان", icon: "🦷", duration: "5 سنوات + 1 امتياز", system: "الساعات المعتمدة", overview: "جراحة الفم والأسنان الاستعاضية.", years: [{ name: "السنة الأولى", desc: "تشريح الأسنان الأساسي", modules: [{ title: "Oral Anatomy", desc: "تشريح وعلوم أسنان", subjects: ["Oral Anatomy", "Dental Materials"] }] }] },
+                    { id: "pharm", name: "صيدلة", icon: "💊", duration: "5 سنوات", system: "فارم دي (PharmD)", overview: "الصيدلة الكلينيكية والتصنيع الدوائي.", years: [{ name: "السنة الأولى", desc: "الكيمياء الصيدلية الأساسية", modules: [{ title: "Basic Pharmacy", desc: "كيمياء وعقاقير", subjects: ["Organic Chemistry", "Pharmaceutics"] }] }] },
+                    { id: "nurs", name: "تمريض", icon: "🩺", duration: "4 سنوات + 1 امتياز", system: "عملي ونظري", overview: "الرعاية التمريضية المتقدمة والطوارئ.", years: [{ name: "السنة الأولى", desc: "أساسيات التمريض", modules: [{ title: "Fundamentals", desc: "أساسيات التمريض", subjects: ["Nursing Foundations", "Anatomy"] }] }] },
+                    { id: "pt", name: "علاج طبيعي", icon: "🦴", duration: "5 سنوات + 1 امتياز", system: "ساعات معتمدة", overview: "التأهيل الحركي والعلاج الفيزيائي.", years: [{ name: "السنة الأولى", desc: "علوم الحركة والتشريح", modules: [{ title: "Biomechanics", desc: "ميكانيكا حيوية", subjects: ["Anatomy", "Physics"] }] }] }
                 ]
             },
             {
                 id: "ainshams", name: "جامعة عين شمس", type: "حكومية",
-                desc: "مستشفيات جامعية متطورة وتخصصات طبية شاملة ومعتمدة.",
+                desc: "مستشفيات جامعية متطورة وبرامج طبية حديثة ومعتمدة.",
                 faculties: [
-                    { id: "med", name: "طب بشري", icon: "🩺", duration: "5 سنوات + 2 امتياز", system: "مدمج", overview: "تعليم طبي حديث.", years: [{ name: "السنة الأولى", desc: "أساسيات", modules: [{ title: "Foundation", desc: "أساس", subjects: ["Anatomy"] }] }] },
-                    { id: "dent", name: "طب أسنان", icon: "🦷", duration: "5 سنوات + 1 امتياز", system: "معتمد", overview: "جراحة الفم.", years: [{ name: "السنة الأولى", desc: "أسنان", modules: [{ title: "Dental", desc: "أسنان", subjects: ["Anatomy"] }] }] },
-                    { id: "pharm", name: "صيدلة", icon: "💊", duration: "5 سنوات", system: "PharmD", overview: "صيدلة كلينيكية.", years: [{ name: "السنة الأولى", desc: "كيمياء", modules: [{ title: "Chemistry", desc: "كيمياء", subjects: ["Chemistry"] }] }] },
-                    { id: "nurs", name: "تمريض", icon: "🩺", duration: "4 سنوات + 1 امتياز", system: "عملي", overview: "رعاية صحية.", years: [{ name: "السنة الأولى", desc: "تمريض", modules: [{ title: "Nursing", desc: "تمريض", subjects: ["Nursing"] }] }] }
+                    { id: "med", name: "طب بشري", icon: "🩺", duration: "5 سنوات + 2 امتياز", system: "نظام المديولات", overview: "تعليم طبي متطور ومحاكاة ذكية.", years: [{ name: "السنة الأولى", desc: "تأسيس العلوم الطبية", modules: [{ title: "Foundation", desc: "أساسيات", subjects: ["Anatomy", "Physiology", "Biochemistry"] }] }] },
+                    { id: "dent", name: "طب أسنان", icon: "🦷", duration: "5 سنوات + 1 امتياز", system: "ساعات معتمدة", overview: "تخصصات دقيقة في جراحة الفم.", years: [{ name: "السنة الأولى", desc: "أسنان", modules: [{ title: "Dental Basics", desc: "مقررات الأسنان", subjects: ["Anatomy", "Histology"] }] }] },
+                    { id: "pharm", name: "صيدلة", icon: "💊", duration: "5 سنوات", system: "PharmD", overview: "صيدلة كلينيكية.", years: [{ name: "السنة الأولى", desc: "كيمياء صيدلية", modules: [{ title: "Chemistry", desc: "كيمياء", subjects: ["Organic Chemistry"] }] }] },
+                    { id: "nurs", name: "تمريض", icon: "🩺", duration: "4 سنوات + 1 امتياز", system: "عملي", overview: "رعاية صحية متكاملة.", years: [{ name: "السنة الأولى", desc: "تمريض أساسي", modules: [{ title: "Nursing Care", desc: "رعاية", subjects: ["Nursing"] }] }] }
+                ]
+            },
+            {
+                id: "fayoum", name: "جامعة الفيوم", type: "حكومية",
+                desc: "كلية الطب البشري والكليات الطبية المتميزة بجامعة الفيوم.",
+                faculties: [
+                    { id: "med", name: "طب بشري", icon: "🩺", duration: "5 سنوات + 2 امتياز", system: "نظام المديولات المدمجة", overview: "دراسة تكاملية تجمع بين العلوم الأساسية والإكلينيكية.", years: [{ name: "السنة الأولى", desc: "تأسيس العلوم الطبية والمديولات الأولى.", modules: [{ title: "Foundation Module", desc: "مدخل العلوم الطبية", subjects: ["Anatomy", "Histology", "Biochemistry", "Physiology"] }] }] },
+                    { id: "dent", name: "طب أسنان", icon: "🦷", duration: "5 سنوات + 1 امتياز", system: "الساعات المعتمدة", overview: "جراحة الفم والأسنان.", years: [{ name: "السنة الأولى", desc: "تشريح الأسنان الأساسي", modules: [{ title: "Dental Anatomy", desc: "تشريح", subjects: ["Anatomy", "Histology"] }] }] },
+                    { id: "pharm", name: "صيدلة", icon: "💊", duration: "5 سنوات", system: "فارم دي", overview: "علوم الدواء والصيدلة الكلينيكية.", years: [{ name: "السنة الأولى", desc: "كيمياء عضوية وصيدلانيات", modules: [{ title: "Basic Pharma", desc: "مقررات أساسية", subjects: ["Chemistry", "Pharmaceutics"] }] }] },
+                    { id: "nurs", name: "تمريض", icon: "🩺", duration: "4 سنوات + 1 امتياز", system: "عملي ونظري", overview: "رعاية تمريضية متطورة.", years: [{ name: "السنة الأولى", desc: "أساسيات التمريض", modules: [{ title: "Nursing Basics", desc: "أساسيات", subjects: ["Nursing", "Anatomy"] }] }] }
                 ]
             },
             {
                 id: "alex", name: "جامعة الإسكندرية", type: "حكومية",
-                desc: "صرح عريق يضم كليات قطاع الطوارئ والطب والصيدلة.",
+                desc: "تاريخ عريق في الطب والبحث العلمي ومستشفيات جامعية كبرى.",
                 faculties: [
-                    { id: "med", name: "طب بشري", icon: "🩺", duration: "5 سنوات + 2 امتياز", system: "مدمج", overview: "طب بشري متقدم.", years: [{ name: "السنة الأولى", desc: "أساسيات", modules: [{ title: "Foundation", desc: "أساس", subjects: ["Anatomy"] }] }] },
-                    { id: "dent", name: "طب أسنان", icon: "🦷", duration: "5 سنوات + 1 امتياز", system: "معتمد", overview: "أسنان.", years: [{ name: "السنة الأولى", desc: "أسنان", modules: [{ title: "Dental", desc: "أسنان", subjects: ["Anatomy"] }] }] },
-                    { id: "pharm", name: "صيدلة", icon: "💊", duration: "5 سنوات", system: "PharmD", overview: "صيدلة.", years: [{ name: "السنة الأولى", desc: "كيمياء", modules: [{ title: "Chemistry", desc: "كيمياء", subjects: ["Chemistry"] }] }] },
-                    { id: "nurs", name: "تمريض", icon: "🩺", duration: "4 سنوات + 1 امتياز", system: "عملي", overview: "تمريض.", years: [{ name: "السنة الأولى", desc: "تمريض", modules: [{ title: "Nursing", desc: "تمريض", subjects: ["Nursing"] }] }] }
+                    { id: "med", name: "طب بشري", icon: "🩺", duration: "5 سنوات + 2 امتياز", system: "نظام المديولات", overview: "صرح طبي رائد.", years: [{ name: "السنة الأولى", desc: "علوم أساسية", modules: [{ title: "Foundation", desc: "أساسيات", subjects: ["Anatomy", "Physiology"] }] }] },
+                    { id: "dent", name: "طب أسنان", icon: "🦷", duration: "5 سنوات + 1 امتياز", system: "ساعات معتمدة", overview: "جراحة الفم.", years: [{ name: "السنة الأولى", desc: "تشريح الأسنان", modules: [{ title: "Oral", desc: "أسنان", subjects: ["Anatomy"] }] }] },
+                    { id: "pharm", name: "صيدلة", icon: "💊", duration: "5 سنوات", system: "PharmD", overview: "الصيدلة الكلينيكية.", years: [{ name: "السنة الأولى", desc: "كيمياء", modules: [{ title: "Chemistry", desc: "كيمياء", subjects: ["Chemistry"] }] }] },
+                    { id: "nurs", name: "تمريض", icon: "🩺", duration: "4 سنوات + 1 امتياز", system: "عملي", overview: "خدمات التمريض.", years: [{ name: "السنة الأولى", desc: "تمريض", modules: [{ title: "Nursing", desc: "تمريض", subjects: ["Nursing"] }] }] }
                 ]
             },
             {
                 id: "mansoura", name: "جامعة المنصورة", type: "حكومية",
-                desc: "رائدة في الجراحات الدقيقة ومراكز الكلى والمسالك.",
+                desc: "رائدة في الجراحات الدقيقة ومراكز الكلى والمسالك البولية.",
                 faculties: [
-                    { id: "med", name: "طب بشري", icon: "🩺", duration: "5 سنوات + 2 امتياز", system: "مدمج", overview: "طب بشري.", years: [{ name: "السنة الأولى", desc: "أساسيات", modules: [{ title: "Foundation", desc: "أساس", subjects: ["Anatomy"] }] }] },
-                    { id: "dent", name: "طب أسنان", icon: "🦷", duration: "5 سنوات + 1 امتياز", system: "معتمد", overview: "أسنان.", years: [{ name: "السنة الأولى", desc: "أسنان", modules: [{ title: "Dental", desc: "أسنان", subjects: ["Anatomy"] }] }] },
+                    { id: "med", name: "طب بشري", icon: "🩺", duration: "5 سنوات + 2 امتياز", system: "نظام المدمج", overview: "مركز طبى عالمي متميز.", years: [{ name: "السنة الأولى", desc: "تأسيسي", modules: [{ title: "Foundation", desc: "أساسيات", subjects: ["Anatomy", "Histology"] }] }] },
+                    { id: "dent", name: "طب أسنان", icon: "🦷", duration: "5 سنوات + 1 امتياز", system: "ساعات", overview: "طب الأسنان الحديث.", years: [{ name: "السنة الأولى", desc: "أسنان", modules: [{ title: "Dental", desc: "أسنان", subjects: ["Anatomy"] }] }] },
                     { id: "pharm", name: "صيدلة", icon: "💊", duration: "5 سنوات", system: "PharmD", overview: "صيدلة.", years: [{ name: "السنة الأولى", desc: "كيمياء", modules: [{ title: "Chemistry", desc: "كيمياء", subjects: ["Chemistry"] }] }] },
                     { id: "nurs", name: "تمريض", icon: "🩺", duration: "4 سنوات + 1 امتياز", system: "عملي", overview: "تمريض.", years: [{ name: "السنة الأولى", desc: "تمريض", modules: [{ title: "Nursing", desc: "تمريض", subjects: ["Nursing"] }] }] }
                 ]
             },
             {
+                id: "assiut", name: "جامعة أسيوط", type: "حكومية",
+                desc: "القلب النابض للخدمات الطبية في صعيد مصر.",
+                faculties: [
+                    { id: "med", name: "طب بشري", icon: "🩺", duration: "5 سنوات + 2 امتياز", system: "نظام المديولات", overview: "مستشفيات جامعة أسيوط الكبرى.", years: [{ name: "السنة الأولى", desc: "تأسيس", modules: [{ title: "Foundation", desc: "أساسيات", subjects: ["Anatomy", "Physiology"] }] }] },
+                    { id: "dent", name: "طب أسنان", icon: "🦷", duration: "5 سنوات + 1 امتياز", system: "ساعات", overview: "أسنان.", years: [{ name: "السنة الأولى", desc: "أسنان", modules: [{ title: "Dental", desc: "أسنان", subjects: ["Anatomy"] }] }] },
+                    { id: "pharm", name: "صيدلة", icon: "💊", duration: "5 سنوات", system: "PharmD", overview: "صيدلة.", years: [{ name: "السنة الأولى", desc: "كيمياء", modules: [{ title: "Chemistry", desc: "كيمياء", subjects: ["Chemistry"] }] }] }
+                ]
+            },
+            {
+                id: "zagazig", name: "جامعة الزقازيق", type: "حكومية",
+                desc: "واحدة من أكبر الجامعات المصرية في قطاع العلوم الطبية.",
+                faculties: [
+                    { id: "med", name: "طب بشري", icon: "🩺", duration: "5 سنوات + 2 امتياز", system: "نظام مدمج", overview: "طب بشري.", years: [{ name: "السنة الأولى", desc: "تأسيسي", modules: [{ title: "Foundation", desc: "أساسيات", subjects: ["Anatomy", "Biochemistry"] }] }] },
+                    { id: "dent", name: "طب أسنان", icon: "🦷", duration: "5 سنوات + 1 امتياز", system: "ساعات", overview: "أسنان.", years: [{ name: "السنة الأولى", desc: "أسنان", modules: [{ title: "Dental", desc: "أسنان", subjects: ["Anatomy"] }] }] },
+                    { id: "pharm", name: "صيدلة", icon: "💊", duration: "5 سنوات", system: "PharmD", overview: "صيدلة.", years: [{ name: "السنة الأولى", desc: "كيمياء", modules: [{ title: "Chemistry", desc: "كيمياء", subjects: ["Chemistry"] }] }] }
+                ]
+            },
+
+            // --- الجامعات الأهلية ---
+            {
                 id: "galala", name: "جامعة الجلالة", type: "أهلية",
                 desc: "جامعة أهلية دولية بمعامل محاكاة ذكية وبنية تحتية متطورة.",
                 faculties: [
-                    { id: "med", name: "طب بشري", icon: "🩺", duration: "5 سنوات + 2 امتياز", system: "ساعات معتمدة", overview: "طب بشري ذكي.", years: [{ name: "السنة الأولى", desc: "تأسيسي", modules: [{ title: "Digital Med", desc: "علوم", subjects: ["Biology"] }] }] },
-                    { id: "dent", name: "طب أسنان", icon: "🦷", duration: "5 سنوات + 1 امتياز", system: "ساعات", overview: "أسنان رقمي.", years: [{ name: "السنة الأولى", desc: "أسنان", modules: [{ title: "Digital Dental", desc: "أسنان", subjects: ["Anatomy"] }] }] },
+                    { id: "med", name: "طب بشري", icon: "🩺", duration: "5 سنوات + 2 امتياز", system: "ساعات معتمدة", overview: "طب بشري ذكي ونظم تعليم دولية.", years: [{ name: "السنة الأولى", desc: "تأسيسي ذكي", modules: [{ title: "Digital Med", desc: "علوم أساسية", subjects: ["Anatomy", "Biology"] }] }] },
+                    { id: "dent", name: "طب أسنان", icon: "🦷", duration: "5 سنوات + 1 امتياز", system: "ساعات معتمدة", overview: "أسنان رقمي.", years: [{ name: "السنة الأولى", desc: "أسنان", modules: [{ title: "Digital Dental", desc: "أسنان", subjects: ["Anatomy"] }] }] },
                     { id: "pharm", name: "صيدلة", icon: "💊", duration: "5 سنوات", system: "PharmD", overview: "صيدلة حديثة.", years: [{ name: "السنة الأولى", desc: "صيدلة", modules: [{ title: "Pharm", desc: "صيدلة", subjects: ["Chemistry"] }] }] }
                 ]
             },
             {
+                id: "king_salman", name: "جامعة الملك سلمان الدولية", type: "أهلية",
+                desc: "تتميز ببرامج أكاديمية حديثة في سيناء عبر فروعها الثلاثة.",
+                faculties: [
+                    { id: "med", name: "طب بشري", icon: "🩺", duration: "5 سنوات + 2 امتياز", system: "ساعات معتمدة", overview: "برامج طبية متطورة.", years: [{ name: "السنة الأولى", desc: "تأسيس", modules: [{ title: "Foundation", desc: "أساس", subjects: ["Anatomy"] }] }] },
+                    { id: "dent", name: "طب أسنان", icon: "🦷", duration: "5 سنوات + 1 امتياز", system: "ساعات معتمدة", overview: "جراحة الفم.", years: [{ name: "السنة الأولى", desc: "أسنان", modules: [{ title: "Dental", desc: "أسنان", subjects: ["Anatomy"] }] }] }
+                ]
+            },
+            {
+                id: "Alamein", name: "جامعة العلمين الدولية", type: "أهلية",
+                desc: "صرح تعليمي ذكي بمعايير عالمية في مدينة العلمين الجديدة.",
+                faculties: [
+                    { id: "med", name: "طب بشري", icon: "🩺", duration: "5 سنوات + 2 امتياز", system: "ساعات معتمدة", overview: "طب بشري دولي.", years: [{ name: "السنة الأولى", desc: "تأسيسي", modules: [{ title: "Foundation", desc: "أساس", subjects: ["Anatomy"] }] }] },
+                    { id: "pharm", name: "صيدلة", icon: "💊", duration: "5 سنوات", system: "PharmD", overview: "صيدلة كلينيكية.", years: [{ name: "السنة الأولى", desc: "كيمياء", modules: [{ title: "Chemistry", desc: "كيمياء", subjects: ["Chemistry"] }] }] }
+                ]
+            },
+
+            // --- الجامعات الخاصة ---
+            {
                 id: "MUST", name: "جامعة مصر للعلوم والتكنولوجيا (MUST)", type: "خاصة",
-                desc: "جامعة خاصة رائدة تضم مستشفى جامعي وكليات طبية متكاملة.",
+                desc: "من أوائل الجامعات الخاصة في مصر وتضم مستشفى جامعي متكامل.",
                 faculties: [
                     { id: "med", name: "طب بشري", icon: "🩺", duration: "5 سنوات + 2 امتياز", system: "ساعات معتمدة", overview: "طب بشري.", years: [{ name: "السنة الأولى", desc: "أساسيات", modules: [{ title: "Foundation", desc: "أساس", subjects: ["Anatomy"] }] }] },
                     { id: "dent", name: "طب أسنان", icon: "🦷", duration: "5 سنوات + 1 امتياز", system: "معتمد", overview: "أسنان.", years: [{ name: "السنة الأولى", desc: "أسنان", modules: [{ title: "Dental", desc: "أسنان", subjects: ["Anatomy"] }] }] },
                     { id: "pharm", name: "صيدلة", icon: "💊", duration: "5 سنوات", system: "PharmD", overview: "صيدلة.", years: [{ name: "السنة الأولى", desc: "كيمياء", modules: [{ title: "Chemistry", desc: "كيمياء", subjects: ["Chemistry"] }] }] },
                     { id: "nurs", name: "تمريض", icon: "🩺", duration: "4 سنوات + 1 امتياز", system: "عملي", overview: "تمريض.", years: [{ name: "السنة الأولى", desc: "تمريض", modules: [{ title: "Nursing", desc: "تمريض", subjects: ["Nursing"] }] }] }
+                ]
+            },
+            {
+                id: "october6", name: "جامعة 6 أكتوبر", type: "خاصة",
+                desc: "أحد أكبر صروح التعليم الخاص وتضم مستشفى جامعي ضخم.",
+                faculties: [
+                    { id: "med", name: "طب بشري", icon: "🩺", duration: "5 سنوات + 2 امتياز", system: "ساعات معتمدة", overview: "طب بشري متطور.", years: [{ name: "السنة الأولى", desc: "تأسيس", modules: [{ title: "Foundation", desc: "أساس", subjects: ["Anatomy"] }] }] },
+                    { id: "dent", name: "طب أسنان", icon: "🦷", duration: "5 سنوات + 1 امتياز", system: "ساعات", overview: "أسنان.", years: [{ name: "السنة الأولى", desc: "أسنان", modules: [{ title: "Dental", desc: "أسنان", subjects: ["Anatomy"] }] }] },
+                    { id: "pharm", name: "صيدلة", icon: "💊", duration: "5 سنوات", system: "PharmD", overview: "صيدلة.", years: [{ name: "السنة الأولى", desc: "كيمياء", modules: [{ title: "Chemistry", desc: "كيمياء", subjects: ["Chemistry"] }] }] }
+                ]
+            },
+            {
+                id: "BUE", name: "الجامعة البريطانية في مصر (BUE)", type: "خاصة",
+                desc: "تعاون أكاديمي بريطاني وبرامج طبية وصيدلية معتمدة دولياً.",
+                faculties: [
+                    { id: "dent", name: "طب أسنان", icon: "🦷", duration: "5 سنوات + 1 امتياز", system: "بريطاني معتمد", overview: "أسنان بمعايير بريطانية.", years: [{ name: "السنة الأولى", desc: "تأسيس", modules: [{ title: "Dental Foundation", desc: "أسنان", subjects: ["Anatomy"] }] }] },
+                    { id: "pharm", name: "صيدلة", icon: "💊", duration: "5 سنوات", system: "PharmD", overview: "صيدلة.", years: [{ name: "السنة الأولى", desc: "كيمياء", modules: [{ title: "Chemistry", desc: "كيمياء", subjects: ["Chemistry"] }] }] }
                 ]
             }
         ];
