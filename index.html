@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>MedAtlas | خريطتك للتعليم الطبي</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        *{box-sizing:border-box}
+        :root{--navy:#082b50;--blue:#1677ff;--pale:#f5f9ff;--line:#e0eaf5;--muted:#6f8297}
+        body{margin:0;color:var(--navy);background:#fcfdfe;font-family:'Cairo',sans-serif}
+        
+        nav{height:70px;padding:0 6%;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);background:#ffffffed;backdrop-filter:blur(12px);position:sticky;top:0;z-index:100}
+        .logo{color:var(--navy);font-weight:800;font-size:22px;text-decoration:none;display:flex;align-items:center;gap:6px;cursor:pointer}
+        .logo span{color:var(--blue)}
+        .navBtn{background:var(--blue);color:white;border:none;padding:8px 16px;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit}
+        .navBtn.sec{background:#edf5ff;color:var(--blue)}
+
+        .hero{padding:40px 6% 20px;text-align:center;background:radial-gradient(circle at 50% 30%,#e4f1ff 0,transparent 50%)}
+        .hero h1{font-size:clamp(28px,4vw,42px);margin:10px 0}
+        .hero p{font-size:14px;color:var(--muted);max-width:600px;margin:0 auto}
+
+        .tabs{display:flex;justify-content:center;gap:10px;margin:25px 0 10px;flex-wrap:wrap}
+        .tabBtn{padding:9px 20px;border-radius:99px;border:1px solid var(--line);background:#fff;font-family:inherit;font-weight:700;font-size:13px;cursor:pointer;color:var(--navy)}
+        .tabBtn.active{background:var(--blue);color:#fff;border-color:var(--blue)}
+
+        .container{padding:20px 6% 60px;max-width:1200px;margin:0 auto}
+        .breadcrumb{display:flex;gap:8px;font-size:12px;color:var(--muted);margin-bottom:20px;align-items:center;flex-wrap:wrap}
+        .breadcrumb span{cursor:pointer;color:var(--blue);font-weight:700}
+
+        .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:20px}
+        .card{border:1px solid var(--line);border-radius:16px;padding:20px;background:#fff;box-shadow:0 4px 15px #00000003;cursor:pointer;transition:0.2s}
+        .card:hover{transform:translateY(-3px);border-color:var(--blue)}
+        .cardTag{font-size:11px;font-weight:700;color:var(--blue);background:#eef6ff;padding:3px 8px;border-radius:6px;display:inline-block;margin-bottom:10px}
+        .card h3{margin:0 0 6px 0;font-size:17px}
+        .card p{font-size:12px;color:var(--muted);line-height:1.6;margin:0}
+
+        /* Admin */
+        .adminBox{background:#fff;border:1px solid var(--line);border-radius:16px;padding:25px;margin-bottom:30px}
+        .formGrid{display:grid;grid-template-columns:1fr 1fr;gap:15px}
+        @media(max-width:768px){.formGrid{grid-template-columns:1fr}}
+        .formGrid label{display:grid;gap:5px;font-size:12px;font-weight:700}
+        .formGrid input, .formGrid select, .formGrid textarea{width:100%;font:inherit;padding:9px;border:1px solid var(--line);border-radius:8px;font-size:12px}
+        .full{grid-column:1/-1}
+        .submitBtn{background:var(--blue);color:#fff;border:none;padding:10px;border-radius:8px;font-weight:700;cursor:pointer;font-family:inherit}
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo" onclick="goHome()"><span>✦</span> MedAtlas <small style="font-size:11px;color:var(--muted);margin-right:8px;">🇪🇬 مصر</small></div>
+        <div>
+            <button class="navBtn sec" id="adminToggle" onclick="toggleAdmin()">لوحة الإدارة 🔒</button>
+        </div>
+    </nav>
+
+    <!-- ZOWAR VIEW -->
+    <div id="userView">
+        <section class="hero">
+            <h1>التعليم الطبي في مصر</h1>
+            <p>دليلك الشامل للكليات الطبية، السنوات الدراسية، والمصادر العلمية المتاحة.</p>
+            
+            <div class="tabs">
+                <button class="tabBtn active" onclick="filterSector('الكل')">الكل</button>
+                <button class="tabBtn" onclick="filterSector('حكومية')">جامعات حكومية</button>
+                <button class="tabBtn" onclick="filterSector('أهلية')">جامعات أهلية</button>
+                <button class="tabBtn" onclick="filterSector('خاصة')">جامعات خاصة</button>
+            </div>
+        </section>
+
+        <div class="container">
+            <div class="breadcrumb" id="bc"><span>الرئيسية</span></div>
+            <div id="contentArea"></div>
+        </div>
+    </div>
+
+    <!-- ADMIN VIEW -->
+    <div id="adminView" style="display:none;" class="container">
+        <h2 style="margin-top:20px;">لوحة تحكم الأدمن (خاصة بكِ فقط)</h2>
+        <p style="color:var(--muted);font-size:13px;">أضيفي بيانات الجامعات، الكليات والمواد من هنا وتظهر فوراً للجميع.</p>
+
+        <!-- Form 1: Add University -->
+        <div class="adminBox">
+            <h3>1. إضافة جامعة</h3>
+            <form id="fUni" class="formGrid">
+                <label>اسم الجامعة<input id="uName" required placeholder="مثال: جامعة الفيوم"></label>
+                <label>نوع الجامعة
+                    <select id="uType">
+                        <option>حكومية</option>
+                        <option>أهلية</option>
+                        <option>خاصة</option>
+                    </select>
+                </label>
+                <label class="full">وصف الجامعة<textarea id="uDesc" placeholder="نبذة عن الجامعة وموقعها..."></textarea></label>
+                <button class="submitBtn full">+ إضافة الجامعة</button>
+            </form>
+        </div>
+
+        <!-- Form 2: Add Faculty -->
+        <div class="adminBox">
+            <h3>2. إضافة كلية لجامعة</h3>
+            <form id="fFac" class="formGrid">
+                <label>الجامعة<select id="fUniSel"></select></label>
+                <label>اسم الكلية<input id="fName" required placeholder="مثال: كلية الطب البشري"></label>
+                <label class="full">وصف الكلية وعدد سنوات الدراسة<textarea id="fDesc" placeholder="وصف الكلية نظام الدراسة..."></textarea></label>
+                <button class="submitBtn full">+ إضافة الكلية</button>
+            </form>
+        </div>
+
+        <!-- Form 3: Add Resource -->
+        <div class="adminBox">
+            <h3>3. إضافة مصدر / Data لمادة</h3>
+            <form id="fRes" class="formGrid">
+                <label>الجامعة<select id="rUniSel" onchange="updateFacOptions()"></select></label>
+                <label>الكلية<select id="rFacSel"></select></label>
+                <label>السنة الدراسية
+                    <select id="rYear">
+                        <option>السنة الأولى</option>
+                        <option>السنة الثانية</option>
+                        <option>السنة الثالثة</option>
+                        <option>السنة الرابعة</option>
+                        <option>السنة الخامسة</option>
+                    </select>
+                </label>
+                <label>اسم المادة<input id="rSub" required placeholder="مثال: Biochemistry"></label>
+                <label>عنوان المحتوى<input id="rTitle" required placeholder="مثال: المحاضره الأولى - PDF"></label>
+                <label>رابط الملف/الفيديو<input id="rUrl" required placeholder="https://..."></label>
+                <button class="submitBtn full">+ إضافة المصدر</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const ADMIN_PASS = "1234"; // كلمة السر الخاصة بكِ
+        let currentSector = 'الكل';
+        let navStack = []; // Navigation history
+
+        // Data Structure Initial Sample
+        let db = JSON.parse(localStorage.getItem('med_db')) || [
+            {
+                id: 1,
+                name: "جامعة الفيوم",
+                type: "حكومية",
+                desc: "جامعة حكومية مصرية تقع في مدينة الفيوم.",
+                faculties: [
+                    {
+                        id: 101,
+                        name: "كلية الطب البشري",
+                        desc: "مدة الدراسة 5 سنوات نظام نقاط معتمدة + سنتين امتياز.",
+                        years: {
+                            "السنة الأولى": [
+                                { subject: "Biochemistry", title: "مقدمة البايوكيميستري - PDF", url: "https://drive.google.com" }
+                            ]
+                        }
+                    }
+                ]
+            }
+        ];
+
+        function saveDB() { localStorage.setItem('med_db', JSON.stringify(db)); }
+
+        // Navigation Renderers
+        function goHome() {
+            navStack = [];
+            renderUniversities();
+        }
+
+        function filterSector(sec) {
+            currentSector = sec;
+            document.querySelectorAll('.tabBtn').forEach(b => b.classList.toggle('active', b.textContent.includes(sec)));
+            renderUniversities();
+        }
+
+        function renderUniversities() {
+            let list = currentSector === 'الكل' ? db : db.filter(u => u.type === currentSector);
+            document.getElementById('bc').innerHTML = `<span onclick="goHome()">الرئيسية (الجامعات)</span>`;
+            
+            let html = list.map((u, i) => `
+                <div class="card" onclick="openUni(${u.id})">
+                    <span class="cardTag">${u.type}</span>
+                    <h3>${u.name}</h3>
+                    <p>${u.desc || 'اضغطي لعرض كليات الجامعة'}</p>
+                </div>
+            `).join('');
+
+            document.getElementById('contentArea').innerHTML = `<div class="grid">${html || '<p>لا توجد جامعات مضافة لهذا القطاع.</p>'}</div>`;
+        }
+
+        function openUni(uniId) {
+            let uni = db.find(u => u.id === uniId);
+            document.getElementById('bc').innerHTML = `
+                <span onclick="goHome()">الرئيسية</span> / 
+                <b>${uni.name}</b>
+            `;
+
+            let html = uni.faculties.map(f => `
+                <div class="card" onclick="openFaculty(${uni.id}, ${f.id})">
+                    <span class="cardTag">كلية</span>
+                    <h3>${f.name}</h3>
+                    <p>${f.desc || 'عرض السنوات الدراسية والداتا'}</p>
+                </div>
+            `).join('');
+
+            document.getElementById('contentArea').innerHTML = `
+                <div style="margin-bottom:20px; background:#eaf4ff; padding:15px; border-radius:12px;">
+                    <h2 style="margin:0 0 5px 0;">${uni.name}</h2>
+                    <p style="margin:0; font-size:13px; color:var(--muted);">${uni.desc}</p>
+                </div>
+                <h3>الكليات المتاحة:</h3>
+                <div class="grid">${html || '<p>لا توجد كليات مضافة بعد.</p>'}</div>
+            `;
+        }
+
+        function openFaculty(uniId, facId) {
+            let uni = db.find(u => u.id === uniId);
+            let fac = uni.faculties.find(f => f.id === facId);
+
+            document.getElementById('bc').innerHTML = `
+                <span onclick="goHome()">الرئيسية</span> / 
+                <span onclick="openUni(${uni.id})">${uni.name}</span> / 
+                <b>${fac.name}</b>
+            `;
+
+            let years = ["السنة الأولى", "السنة الثانية", "السنة الثالثة", "السنة الرابعة", "السنة الخامسة"];
+            let html = years.map(y => `
+                <div class="card" onclick="openYear(${uni.id}, ${fac.id}, '${y}')">
+                    <span class="cardTag">سنة دراسية</span>
+                    <h3>${y}</h3>
+                    <p>عرض المواد والمصادر العلمية المتاحة</p>
+                </div>
+            `).join('');
+
+            document.getElementById('contentArea').innerHTML = `
+                <div style="margin-bottom:20px; background:#eaf4ff; padding:15px; border-radius:12px;">
+                    <h2 style="margin:0 0 5px 0;">${fac.name} - ${uni.name}</h2>
+                    <p style="margin:0; font-size:13px; color:var(--muted);">${fac.desc}</p>
+                </div>
+                <h3>اختر السنة الدراسية:</h3>
+                <div class="grid">${html}</div>
+            `;
+        }
+
+        function openYear(uniId, facId, yearName) {
+            let uni = db.find(u => u.id === uniId);
+            let fac = uni.faculties.find(f => f.id === facId);
+            let resources = (fac.years && fac.years[yearName]) ? fac.years[yearName] : [];
+
+            document.getElementById('bc').innerHTML = `
+                <span onclick="goHome()">الرئيسية</span> / 
+                <span onclick="openUni(${uni.id})">${uni.name}</span> / 
+                <span onclick="openFaculty(${uni.id}, ${fac.id})">${fac.name}</span> / 
+                <b>${yearName}</b>
+            `;
+
+            let html = resources.map(r => `
+                <div class="card" style="cursor:default;">
+                    <span class="cardTag">${r.subject}</span>
+                    <h3>${r.title}</h3>
+                    <a href="${r.url}" target="_blank" style="color:var(--blue); font-weight:bold; text-decoration:none; display:inline-block; margin-top:10px;">فتح المصدر ↗</a>
+                </div>
+            `).join('');
+
+            document.getElementById('contentArea').innerHTML = `
+                <h3>المواد والمصادر المتاحة لـ (${yearName}):</h3>
+                <div class="grid">${html || '<p>لا توجد مصادر مضافة لهذه السنة حتى الآن.</p>'}</div>
+            `;
+        }
+
+        // Admin Security & Forms
+        let isAdmin = false;
+        function toggleAdmin() {
+            if(!isAdmin) {
+                let p = prompt("أدخلي كلمة السر للوصول للوحة الإدارة:");
+                if(p === ADMIN_PASS) {
+                    isAdmin = true;
+                    document.getElementById('userView').style.display = 'none';
+                    document.getElementById('adminView').style.display = 'block';
+                    document.getElementById('adminToggle').textContent = 'العودة للموقع ↗';
+                    populateAdminOptions();
+                } else if(p) alert("كلمة السر خاطئة!");
+            } else {
+                isAdmin = false;
+                document.getElementById('userView').style.display = 'block';
+                document.getElementById('adminView').style.display = 'none';
+                document.getElementById('adminToggle').textContent = 'لوحة الإدارة 🔒';
+                renderUniversities();
+            }
+        }
+
+        function populateAdminOptions() {
+            let uSel = document.getElementById('fUniSel');
+            let rUSel = document.getElementById('rUniSel');
+            uSel.innerHTML = db.map(u => `<option value="${u.id}">${u.name}</option>`).join('');
+            rUSel.innerHTML = db.map(u => `<option value="${u.id}">${u.name}</option>`).join('');
+            updateFacOptions();
+        }
+
+        function updateFacOptions() {
+            let uId = parseInt(document.getElementById('rUniSel').value);
+            let uni = db.find(u => u.id === uId);
+            let rFSel = document.getElementById('rFacSel');
+            if(uni && uni.faculties) {
+                rFSel.innerHTML = uni.faculties.map(f => `<option value="${f.id}">${f.name}</option>`).join('');
+            } else {
+                rFSel.innerHTML = '<option>لا توجد كليات</option>';
+            }
+        }
+
+        // Admin Submit Handlers
+        document.getElementById('fUni').onsubmit = e => {
+            e.preventDefault();
+            db.push({
+                id: Date.now(),
+                name: document.getElementById('uName').value,
+                type: document.getElementById('uType').value,
+                desc: document.getElementById('uDesc').value,
+                faculties: []
+            });
+            saveDB(); alert("تمت إضافة الجامعة بنجاح!"); e.target.reset(); populateAdminOptions();
+        };
+
+        document.getElementById('fFac').onsubmit = e => {
+            e.preventDefault();
+            let uId = parseInt(document.getElementById('fUniSel').value);
+            let uni = db.find(u => u.id === uId);
+            uni.faculties.push({
+                id: Date.now(),
+                name: document.getElementById('fName').value,
+                desc: document.getElementById('fDesc').value,
+                years: {}
+            });
+            saveDB(); alert("تمت إضافة الكلية بنجاح!"); e.target.reset(); populateAdminOptions();
+        };
+
+        document.getElementById('fRes').onsubmit = e => {
+            e.preventDefault();
+            let uId = parseInt(document.getElementById('rUniSel').value);
+            let fId = parseInt(document.getElementById('rFacSel').value);
+            let yr = document.getElementById('rYear').value;
+            
+            let uni = db.find(u => u.id === uId);
+            let fac = uni.faculties.find(f => f.id === fId);
+
+            if(!fac.years) fac.years = {};
+            if(!fac.years[yr]) fac.years[yr] = [];
+
+            fac.years[yr].push({
+                subject: document.getElementById('rSub').value,
+                title: document.getElementById('rTitle').value,
+                url: document.getElementById('rUrl').value
+            });
+
+            saveDB(); alert("تمت إضافة المصدر بنجاح!"); e.target.reset();
+        };
+
+        // Init
+        renderUniversities();
+    </script>
+</body>
+</html><!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>MedAtlas | خريطتك للتعليم الطبي</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        *{box-sizing:border-box}
+        :root{--navy:#082b50;--blue:#1677ff;--pale:#f5f9ff;--line:#e0eaf5;--muted:#6f8297}
+        body{margin:0;color:var(--navy);background:#fcfdfe;font-family:'Cairo',sans-serif}
+        
+        nav{height:70px;padding:0 6%;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);background:#ffffffed;backdrop-filter:blur(12px);position:sticky;top:0;z-index:100}
+        .logo{color:var(--navy);font-weight:800;font-size:22px;text-decoration:none;display:flex;align-items:center;gap:6px;cursor:pointer}
+        .logo span{color:var(--blue)}
+        .navBtn{background:var(--blue);color:white;border:none;padding:8px 16px;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit}
+        .navBtn.sec{background:#edf5ff;color:var(--blue)}
+
+        .hero{padding:40px 6% 20px;text-align:center;background:radial-gradient(circle at 50% 30%,#e4f1ff 0,transparent 50%)}
+        .hero h1{font-size:clamp(28px,4vw,42px);margin:10px 0}
+        .hero p{font-size:14px;color:var(--muted);max-width:600px;margin:0 auto}
+
+        .tabs{display:flex;justify-content:center;gap:10px;margin:25px 0 10px;flex-wrap:wrap}
+        .tabBtn{padding:9px 20px;border-radius:99px;border:1px solid var(--line);background:#fff;font-family:inherit;font-weight:700;font-size:13px;cursor:pointer;color:var(--navy)}
+        .tabBtn.active{background:var(--blue);color:#fff;border-color:var(--blue)}
+
+        .container{padding:20px 6% 60px;max-width:1200px;margin:0 auto}
+        .breadcrumb{display:flex;gap:8px;font-size:12px;color:var(--muted);margin-bottom:20px;align-items:center;flex-wrap:wrap}
+        .breadcrumb span{cursor:pointer;color:var(--blue);font-weight:700}
+
+        .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:20px}
+        .card{border:1px solid var(--line);border-radius:16px;padding:20px;background:#fff;box-shadow:0 4px 15px #00000003;cursor:pointer;transition:0.2s}
+        .card:hover{transform:translateY(-3px);border-color:var(--blue)}
+        .cardTag{font-size:11px;font-weight:700;color:var(--blue);background:#eef6ff;padding:3px 8px;border-radius:6px;display:inline-block;margin-bottom:10px}
+        .card h3{margin:0 0 6px 0;font-size:17px}
+        .card p{font-size:12px;color:var(--muted);line-height:1.6;margin:0}
+
+        /* Admin */
+        .adminBox{background:#fff;border:1px solid var(--line);border-radius:16px;padding:25px;margin-bottom:30px}
+        .formGrid{display:grid;grid-template-columns:1fr 1fr;gap:15px}
+        @media(max-width:768px){.formGrid{grid-template-columns:1fr}}
+        .formGrid label{display:grid;gap:5px;font-size:12px;font-weight:700}
+        .formGrid input, .formGrid select, .formGrid textarea{width:100%;font:inherit;padding:9px;border:1px solid var(--line);border-radius:8px;font-size:12px}
+        .full{grid-column:1/-1}
+        .submitBtn{background:var(--blue);color:#fff;border:none;padding:10px;border-radius:8px;font-weight:700;cursor:pointer;font-family:inherit}
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo" onclick="goHome()"><span>✦</span> MedAtlas <small style="font-size:11px;color:var(--muted);margin-right:8px;">🇪🇬 مصر</small></div>
+        <div>
+            <button class="navBtn sec" id="adminToggle" onclick="toggleAdmin()">لوحة الإدارة 🔒</button>
+        </div>
+    </nav>
+
+    <!-- ZOWAR VIEW -->
+    <div id="userView">
+        <section class="hero">
+            <h1>التعليم الطبي في مصر</h1>
+            <p>دليلك الشامل للكليات الطبية، السنوات الدراسية، والمصادر العلمية المتاحة.</p>
+            
+            <div class="tabs">
+                <button class="tabBtn active" onclick="filterSector('الكل')">الكل</button>
+                <button class="tabBtn" onclick="filterSector('حكومية')">جامعات حكومية</button>
+                <button class="tabBtn" onclick="filterSector('أهلية')">جامعات أهلية</button>
+                <button class="tabBtn" onclick="filterSector('خاصة')">جامعات خاصة</button>
+            </div>
+        </section>
+
+        <div class="container">
+            <div class="breadcrumb" id="bc"><span>الرئيسية</span></div>
+            <div id="contentArea"></div>
+        </div>
+    </div>
+
+    <!-- ADMIN VIEW -->
+    <div id="adminView" style="display:none;" class="container">
+        <h2 style="margin-top:20px;">لوحة تحكم الأدمن (خاصة بكِ فقط)</h2>
+        <p style="color:var(--muted);font-size:13px;">أضيفي بيانات الجامعات، الكليات والمواد من هنا وتظهر فوراً للجميع.</p>
+
+        <!-- Form 1: Add University -->
+        <div class="adminBox">
+            <h3>1. إضافة جامعة</h3>
+            <form id="fUni" class="formGrid">
+                <label>اسم الجامعة<input id="uName" required placeholder="مثال: جامعة الفيوم"></label>
+                <label>نوع الجامعة
+                    <select id="uType">
+                        <option>حكومية</option>
+                        <option>أهلية</option>
+                        <option>خاصة</option>
+                    </select>
+                </label>
+                <label class="full">وصف الجامعة<textarea id="uDesc" placeholder="نبذة عن الجامعة وموقعها..."></textarea></label>
+                <button class="submitBtn full">+ إضافة الجامعة</button>
+            </form>
+        </div>
+
+        <!-- Form 2: Add Faculty -->
+        <div class="adminBox">
+            <h3>2. إضافة كلية لجامعة</h3>
+            <form id="fFac" class="formGrid">
+                <label>الجامعة<select id="fUniSel"></select></label>
+                <label>اسم الكلية<input id="fName" required placeholder="مثال: كلية الطب البشري"></label>
+                <label class="full">وصف الكلية وعدد سنوات الدراسة<textarea id="fDesc" placeholder="وصف الكلية نظام الدراسة..."></textarea></label>
+                <button class="submitBtn full">+ إضافة الكلية</button>
+            </form>
+        </div>
+
+        <!-- Form 3: Add Resource -->
+        <div class="adminBox">
+            <h3>3. إضافة مصدر / Data لمادة</h3>
+            <form id="fRes" class="formGrid">
+                <label>الجامعة<select id="rUniSel" onchange="updateFacOptions()"></select></label>
+                <label>الكلية<select id="rFacSel"></select></label>
+                <label>السنة الدراسية
+                    <select id="rYear">
+                        <option>السنة الأولى</option>
+                        <option>السنة الثانية</option>
+                        <option>السنة الثالثة</option>
+                        <option>السنة الرابعة</option>
+                        <option>السنة الخامسة</option>
+                    </select>
+                </label>
+                <label>اسم المادة<input id="rSub" required placeholder="مثال: Biochemistry"></label>
+                <label>عنوان المحتوى<input id="rTitle" required placeholder="مثال: المحاضره الأولى - PDF"></label>
+                <label>رابط الملف/الفيديو<input id="rUrl" required placeholder="https://..."></label>
+                <button class="submitBtn full">+ إضافة المصدر</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const ADMIN_PASS = "1234"; // كلمة السر الخاصة بكِ
+        let currentSector = 'الكل';
+        let navStack = []; // Navigation history
+
+        // Data Structure Initial Sample
+        let db = JSON.parse(localStorage.getItem('med_db')) || [
+            {
+                id: 1,
+                name: "جامعة الفيوم",
+                type: "حكومية",
+                desc: "جامعة حكومية مصرية تقع في مدينة الفيوم.",
+                faculties: [
+                    {
+                        id: 101,
+                        name: "كلية الطب البشري",
+                        desc: "مدة الدراسة 5 سنوات نظام نقاط معتمدة + سنتين امتياز.",
+                        years: {
+                            "السنة الأولى": [
+                                { subject: "Biochemistry", title: "مقدمة البايوكيميستري - PDF", url: "https://drive.google.com" }
+                            ]
+                        }
+                    }
+                ]
+            }
+        ];
+
+        function saveDB() { localStorage.setItem('med_db', JSON.stringify(db)); }
+
+        // Navigation Renderers
+        function goHome() {
+            navStack = [];
+            renderUniversities();
+        }
+
+        function filterSector(sec) {
+            currentSector = sec;
+            document.querySelectorAll('.tabBtn').forEach(b => b.classList.toggle('active', b.textContent.includes(sec)));
+            renderUniversities();
+        }
+
+        function renderUniversities() {
+            let list = currentSector === 'الكل' ? db : db.filter(u => u.type === currentSector);
+            document.getElementById('bc').innerHTML = `<span onclick="goHome()">الرئيسية (الجامعات)</span>`;
+            
+            let html = list.map((u, i) => `
+                <div class="card" onclick="openUni(${u.id})">
+                    <span class="cardTag">${u.type}</span>
+                    <h3>${u.name}</h3>
+                    <p>${u.desc || 'اضغطي لعرض كليات الجامعة'}</p>
+                </div>
+            `).join('');
+
+            document.getElementById('contentArea').innerHTML = `<div class="grid">${html || '<p>لا توجد جامعات مضافة لهذا القطاع.</p>'}</div>`;
+        }
+
+        function openUni(uniId) {
+            let uni = db.find(u => u.id === uniId);
+            document.getElementById('bc').innerHTML = `
+                <span onclick="goHome()">الرئيسية</span> / 
+                <b>${uni.name}</b>
+            `;
+
+            let html = uni.faculties.map(f => `
+                <div class="card" onclick="openFaculty(${uni.id}, ${f.id})">
+                    <span class="cardTag">كلية</span>
+                    <h3>${f.name}</h3>
+                    <p>${f.desc || 'عرض السنوات الدراسية والداتا'}</p>
+                </div>
+            `).join('');
+
+            document.getElementById('contentArea').innerHTML = `
+                <div style="margin-bottom:20px; background:#eaf4ff; padding:15px; border-radius:12px;">
+                    <h2 style="margin:0 0 5px 0;">${uni.name}</h2>
+                    <p style="margin:0; font-size:13px; color:var(--muted);">${uni.desc}</p>
+                </div>
+                <h3>الكليات المتاحة:</h3>
+                <div class="grid">${html || '<p>لا توجد كليات مضافة بعد.</p>'}</div>
+            `;
+        }
+
+        function openFaculty(uniId, facId) {
+            let uni = db.find(u => u.id === uniId);
+            let fac = uni.faculties.find(f => f.id === facId);
+
+            document.getElementById('bc').innerHTML = `
+                <span onclick="goHome()">الرئيسية</span> / 
+                <span onclick="openUni(${uni.id})">${uni.name}</span> / 
+                <b>${fac.name}</b>
+            `;
+
+            let years = ["السنة الأولى", "السنة الثانية", "السنة الثالثة", "السنة الرابعة", "السنة الخامسة"];
+            let html = years.map(y => `
+                <div class="card" onclick="openYear(${uni.id}, ${fac.id}, '${y}')">
+                    <span class="cardTag">سنة دراسية</span>
+                    <h3>${y}</h3>
+                    <p>عرض المواد والمصادر العلمية المتاحة</p>
+                </div>
+            `).join('');
+
+            document.getElementById('contentArea').innerHTML = `
+                <div style="margin-bottom:20px; background:#eaf4ff; padding:15px; border-radius:12px;">
+                    <h2 style="margin:0 0 5px 0;">${fac.name} - ${uni.name}</h2>
+                    <p style="margin:0; font-size:13px; color:var(--muted);">${fac.desc}</p>
+                </div>
+                <h3>اختر السنة الدراسية:</h3>
+                <div class="grid">${html}</div>
+            `;
+        }
+
+        function openYear(uniId, facId, yearName) {
+            let uni = db.find(u => u.id === uniId);
+            let fac = uni.faculties.find(f => f.id === facId);
+            let resources = (fac.years && fac.years[yearName]) ? fac.years[yearName] : [];
+
+            document.getElementById('bc').innerHTML = `
+                <span onclick="goHome()">الرئيسية</span> / 
+                <span onclick="openUni(${uni.id})">${uni.name}</span> / 
+                <span onclick="openFaculty(${uni.id}, ${fac.id})">${fac.name}</span> / 
+                <b>${yearName}</b>
+            `;
+
+            let html = resources.map(r => `
+                <div class="card" style="cursor:default;">
+                    <span class="cardTag">${r.subject}</span>
+                    <h3>${r.title}</h3>
+                    <a href="${r.url}" target="_blank" style="color:var(--blue); font-weight:bold; text-decoration:none; display:inline-block; margin-top:10px;">فتح المصدر ↗</a>
+                </div>
+            `).join('');
+
+            document.getElementById('contentArea').innerHTML = `
+                <h3>المواد والمصادر المتاحة لـ (${yearName}):</h3>
+                <div class="grid">${html || '<p>لا توجد مصادر مضافة لهذه السنة حتى الآن.</p>'}</div>
+            `;
+        }
+
+        // Admin Security & Forms
+        let isAdmin = false;
+        function toggleAdmin() {
+            if(!isAdmin) {
+                let p = prompt("أدخلي كلمة السر للوصول للوحة الإدارة:");
+                if(p === ADMIN_PASS) {
+                    isAdmin = true;
+                    document.getElementById('userView').style.display = 'none';
+                    document.getElementById('adminView').style.display = 'block';
+                    document.getElementById('adminToggle').textContent = 'العودة للموقع ↗';
+                    populateAdminOptions();
+                } else if(p) alert("كلمة السر خاطئة!");
+            } else {
+                isAdmin = false;
+                document.getElementById('userView').style.display = 'block';
+                document.getElementById('adminView').style.display = 'none';
+                document.getElementById('adminToggle').textContent = 'لوحة الإدارة 🔒';
+                renderUniversities();
+            }
+        }
+
+        function populateAdminOptions() {
+            let uSel = document.getElementById('fUniSel');
+            let rUSel = document.getElementById('rUniSel');
+            uSel.innerHTML = db.map(u => `<option value="${u.id}">${u.name}</option>`).join('');
+            rUSel.innerHTML = db.map(u => `<option value="${u.id}">${u.name}</option>`).join('');
+            updateFacOptions();
+        }
+
+        function updateFacOptions() {
+            let uId = parseInt(document.getElementById('rUniSel').value);
+            let uni = db.find(u => u.id === uId);
+            let rFSel = document.getElementById('rFacSel');
+            if(uni && uni.faculties) {
+                rFSel.innerHTML = uni.faculties.map(f => `<option value="${f.id}">${f.name}</option>`).join('');
+            } else {
+                rFSel.innerHTML = '<option>لا توجد كليات</option>';
+            }
+        }
+
+        // Admin Submit Handlers
+        document.getElementById('fUni').onsubmit = e => {
+            e.preventDefault();
+            db.push({
+                id: Date.now(),
+                name: document.getElementById('uName').value,
+                type: document.getElementById('uType').value,
+                desc: document.getElementById('uDesc').value,
+                faculties: []
+            });
+            saveDB(); alert("تمت إضافة الجامعة بنجاح!"); e.target.reset(); populateAdminOptions();
+        };
+
+        document.getElementById('fFac').onsubmit = e => {
+            e.preventDefault();
+            let uId = parseInt(document.getElementById('fUniSel').value);
+            let uni = db.find(u => u.id === uId);
+            uni.faculties.push({
+                id: Date.now(),
+                name: document.getElementById('fName').value,
+                desc: document.getElementById('fDesc').value,
+                years: {}
+            });
+            saveDB(); alert("تمت إضافة الكلية بنجاح!"); e.target.reset(); populateAdminOptions();
+        };
+
+        document.getElementById('fRes').onsubmit = e => {
+            e.preventDefault();
+            let uId = parseInt(document.getElementById('rUniSel').value);
+            let fId = parseInt(document.getElementById('rFacSel').value);
+            let yr = document.getElementById('rYear').value;
+            
+            let uni = db.find(u => u.id === uId);
+            let fac = uni.faculties.find(f => f.id === fId);
+
+            if(!fac.years) fac.years = {};
+            if(!fac.years[yr]) fac.years[yr] = [];
+
+            fac.years[yr].push({
+                subject: document.getElementById('rSub').value,
+                title: document.getElementById('rTitle').value,
+                url: document.getElementById('rUrl').value
+            });
+
+            saveDB(); alert("تمت إضافة المصدر بنجاح!"); e.target.reset();
+        };
+
+        // Init
+        renderUniversities();
+    </script>
+</body>
+</html>
