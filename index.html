@@ -1,133 +1,429 @@
-<select id="university" name="university" required>
-  <option value="" disabled selected>اختر الجامعة</option>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>MedAtlas | خريطتك للتعليم الطبي والجامعي في مصر</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        *{box-sizing:border-box}
+        :root{--navy:#082b50;--blue:#1677ff;--pale:#f5f9ff;--line:#e0eaf5;--muted:#6f8297}
+        body{margin:0;color:var(--navy);background:#fcfdfe;font-family:'Cairo',sans-serif}
+        
+        nav{height:70px;padding:0 6%;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);background:#ffffffed;backdrop-filter:blur(12px);position:sticky;top:0;z-index:100}
+        .logo{color:var(--navy);font-weight:800;font-size:22px;text-decoration:none;display:flex;align-items:center;gap:6px;cursor:pointer}
+        .logo span{color:var(--blue)}
+        .navActions{display:flex;gap:10px;align-items:center}
+        .navBtn{background:var(--blue);color:white;border:none;padding:8px 16px;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit}
+        .navBtn.sec{background:#edf5ff;color:var(--blue)}
 
-  <!-- 1. الجامعات الحكومية -->
-  <optgroup label="الجامعات الحكومية">
-    <option value="جامعة القاهرة">جامعة القاهرة</option>
-    <option value="جامعة عين شمس">جامعة عين شمس</option>
-    <option value="جامعة الإسكندرية">جامعة الإسكندرية</option>
-    <option value="جامعة المنصورة">جامعة المنصورة</option>
-    <option value="جامعة أسيوط">جامعة أسيوط</option>
-    <option value="جامعة طنطا">جامعة طنطا</option>
-    <option value="جامعة الزقازيق">جامعة الزقازيق</option>
-    <option value="جامعة حلوان">جامعة حلوان</option>
-    <option value="جامعة المنوفية">جامعة المنوفية</option>
-    <option value="جامعة قناة السويس">جامعة قناة السويس</option>
-    <option value="جامعة المنيا">جامعة المنيا</option>
-    <option value="جامعة جنوب الوادي">جامعة جنوب الوادي</option>
-    <option value="جامعة بني سويف">جامعة بني سويف</option>
-    <option value="جامعة الفيوم">جامعة الفيوم</option>
-    <option value="جامعة بنها">جامعة بنها</option>
-    <option value="جامعة كفر الشيخ">جامعة كفر الشيخ</option>
-    <option value="جامعة سوهاج">جامعة سوهاج</option>
-    <option value="جامعة بورسعيد">جامعة بورسعيد</option>
-    <option value="جامعة دمنهور">جامعة دمنهور</option>
-    <option value="جامعة أسوان">جامعة أسوان</option>
-    <option value="جامعة دمياط">جامعة دمياط</option>
-    <option value="جامعة السويس">جامعة السويس</option>
-    <option value="جامعة العريش">جامعة العريش</option>
-    <option value="جامعة الأقصر">جامعة الأقصر</option>
-    <option value="جامعة الوادي الجديد">جامعة الوادي الجديد</option>
-    <option value="جامعة مطروح">جامعة مطروح</option>
-    <option value="جامعة مدينة السادات">جامعة مدينة السادات</option>
-    <option value="جامعة الأزهر">جامعة الأزهر</option>
-  </optgroup>
+        .hero{padding:40px 6% 25px;text-align:center;background:radial-gradient(circle at 50% 30%,#e4f1ff 0,transparent 50%)}
+        .hero h1{font-size:clamp(24px,4vw,36px);margin:10px 0}
+        .hero p{font-size:14px;color:var(--muted);max-width:750px;margin:0 auto 20px}
 
-  <!-- 2. الجامعات الأهلية -->
-  <optgroup label="الجامعات الأهلية">
-    <option value="جامعة الملك سلمان الدولية">جامعة الملك سلمان الدولية</option>
-    <option value="جامعة العلمين الدولية">جامعة العلمين الدولية</option>
-    <option value="جامعة الجلالة">جامعة الجلالة</option>
-    <option value="جامعة المنصورة الجديدة">جامعة المنصورة الجديدة</option>
-    <option value="الجامعة المصرية للتعلم الإلكتروني الأهلية">الجامعة المصرية للتعلم الإلكتروني الأهلية</option>
-    <option value="جامعة النيل الأهلية">جامعة النيل الأهلية</option>
-    <option value="الجامعة الأهلية الفرنسية في مصر">الجامعة الأهلية الفرنسية في مصر</option>
-    <option value="جامعة مصر للمعلوماتية">جامعة مصر للمعلوماتية</option>
-    <option value="جامعة القاهرة الأهلية">جامعة القاهرة الأهلية</option>
-    <option value="جامعة عين شمس الأهلية">جامعة عين شمس الأهلية</option>
-    <option value="جامعة حلوان الأهلية">جامعة حلوان الأهلية</option>
-    <option value="جامعة الإسكندرية الأهلية">جامعة الإسكندرية الأهلية</option>
-    <option value="جامعة المنصورة الأهلية">جامعة المنصورة الأهلية</option>
-    <option value="جامعة بنها الأهلية">جامعة بنها الأهلية</option>
-    <option value="جامعة المنوفية الأهلية">جامعة المنوفية الأهلية</option>
-    <option value="جامعة الزقازيق الأهلية">جامعة الزقازيق الأهلية</option>
-    <option value="جامعة بني سويف الأهلية">جامعة بني سويف الأهلية</option>
-    <option value="جامعة أسيوط الأهلية">جامعة أسيوط الأهلية</option>
-    <option value="جامعة جنوب الوادي الأهلية">جامعة جنوب الوادي الأهلية</option>
-    <option value="جامعة المنيا الأهلية">جامعة المنيا الأهلية</option>
-    <option value="جامعة شرق بورسعيد الأهلية">جامعة شرق بورسعيد الأهلية</option>
-    <option value="جامعة الإسماعيلية الجديدة الأهلية">جامعة الإسماعيلية الجديدة الأهلية</option>
-    <option value="جامعة السويس الأهلية">جامعة السويس الأهلية</option>
-    <option value="جامعة دمنهور الأهلية">جامعة دمنهور الأهلية</option>
-    <option value="جامعة سوهاج الأهلية">جامعة سوهاج الأهلية</option>
-    <option value="جامعة كفر الشيخ الأهلية">جامعة كفر الشيخ الأهلية</option>
-    <option value="جامعة الوادي الجديد الأهلية">جامعة الوادي الجديد الأهلية</option>
-    <option value="جامعة الفيوم الأهلية">جامعة الفيوم الأهلية</option>
-    <option value="جامعة طنطا الأهلية">جامعة طنطا الأهلية</option>
-    <option value="جامعة الأقصر الأهلية">جامعة الأقصر الأهلية</option>
-    <option value="جامعة دمياط الأهلية">جامعة دمياط الأهلية</option>
-    <option value="جامعة مدينة السادات الأهلية">جامعة مدينة السادات الأهلية</option>
-  </optgroup>
+        .searchBox{max-width:550px;margin:0 auto 15px;position:relative}
+        .searchBox input{width:100%;padding:12px 20px;border:1px solid var(--line);border-radius:99px;font-family:inherit;font-size:13px;outline:none;box-shadow:0 2px 10px #00000008}
+        .searchBox input:focus{border-color:var(--blue)}
 
-  <!-- 3. الجامعات الخاصة والدولية -->
-  <optgroup label="الجامعات الخاصة والدولية">
-    <option value="جامعة 6 أكتوبر">جامعة 6 أكتوبر</option>
-    <option value="جامعة أكتوبر للعلوم الحديثة والآداب (MSA)">جامعة أكتوبر للعلوم الحديثة والآداب (MSA)</option>
-    <option value="جامعة مصر للعلوم والتكنولوجيا (MUST)">جامعة مصر للعلوم والتكنولوجيا (MUST)</option>
-    <option value="جامعة مصر الدولية (MIU)">جامعة مصر الدولية (MIU)</option>
-    <option value="الجامعة الألمانية بالقاهرة (GUC)">الجامعة الألمانية بالقاهرة (GUC)</option>
-    <option value="جامعة الأهرام الكندية (ACU)">جامعة الأهرام الكندية (ACU)</option>
-    <option value="الجامعة البريطانية في مصر (BUE)">الجامعة البريطانية في مصر (BUE)</option>
-    <option value="الجامعة الحديثة للتكنولوجيا والمعلومات (MTI)">الجامعة الحديثة للتكنولوجيا والمعلومات (MTI)</option>
-    <option value="جامعة سيناء">جامعة سيناء</option>
-    <option value="جامعة فاروس بالإسكندرية">جامعة فاروس بالإسكندرية</option>
-    <option value="جامعة النهضة ببني سويف">جامعة النهضة ببني سويف</option>
-    <option value="جامعة المستقبل (FUE)">جامعة المستقبل (FUE)</option>
-    <option value="الجامعة المصرية الروسية (ERU)">الجامعة المصرية الروسية (ERU)</option>
-    <option value="جامعة الدلتا للعلوم والتكنولوجيا">جامعة الدلتا للعلوم والتكنولوجيا</option>
-    <option value="جامعة هليوبوليس">جامعة هليوبوليس</option>
-    <option value="جامعة الجيزة الجديدة (NGU)">جامعة الجيزة الجديدة (NGU)</option>
-    <option value="جامعة دراية بالمنيا">جامعة دراية بالمنيا</option>
-    <option value="جامعة بدر بالقاهرة (BUC)">جامعة بدر بالقاهرة (BUC)</option>
-    <option value="جامعة بدر بأسيوط">جامعة بدر بأسيوط</option>
-    <option value="جامعة حورس">جامعة حورس</option>
-    <option value="الجامعة المصرية الصينية (ECU)">الجامعة المصرية الصينية (ECU)</option>
-    <option value="جامعة ميريت">جامعة ميريت</option>
-    <option value="جامعة سفنكس">جامعة سفنكس</option>
-    <option value="جامعة السلام">جامعة السلام</option>
-    <option value="جامعة الصالحية الجديدة">جامعة الصالحية الجديدة</option>
-    <option value="جامعة الحياة">جامعة الحياة</option>
-    <option value="جامعة مايو">جامعة مايو</option>
-    <option value="جامعة الريادة للعلوم والتكنولوجيا">جامعة الريادة للعلوم والتكنولوجيا</option>
-    <option value="جامعة الابتكار">جامعة الابتكار</option>
-    <option value="جامعة المدينة بالقاهرة">جامعة المدينة بالقاهرة</option>
-    <option value="جامعة السويدي للتكنولوجيا">جامعة السويدي للتكنولوجيا</option>
-    <option value="جامعة رشيد">جامعة رشيد</option>
-    <option value="جامعة باديا">جامعة باديا</option>
-    <option value="جامعة وادي النيل بالفيوم">جامعة وادي النيل بالفيوم</option>
-    <option value="جامعة اللوتس بالمنيا">جامعة اللوتس بالمنيا</option>
-    <option value="جامعة العبور للعلوم والتكنولوجيا">جامعة العبور للعلوم والتكنولوجيا</option>
-    <option value="جامعة ممفيس">جامعة ممفيس</option>
-    <option value="جامعة شرق العاصمة">جامعة شرق العاصمة</option>
-    <option value="جامعة مصر الجديدة">جامعة مصر الجديدة</option>
-    <option value="الجامعة الأمريكية بالقاهرة (AUC)">الجامعة الأمريكية بالقاهرة (AUC)</option>
-    <option value="الجامعة المصرية اليابانية للعلوم والتكنولوجيا (E-JUST)">الجامعة المصرية اليابانية للعلوم والتكنولوجيا (E-JUST)</option>
-    <option value="الجامعة الألمانية الدولية بالعاصمة الإدارية (GIU)">الجامعة الألمانية الدولية بالعاصمة الإدارية (GIU)</option>
-    <option value="جامعة اسلسكا (ESLSCA)">جامعة اسلسكا (ESLSCA)</option>
-    <option value="الجامعة العربية المفتوحة بالقاهرة">الجامعة العربية المفتوحة بالقاهرة</option>
-  </optgroup>
+        .tabs{display:flex;justify-content:center;gap:8px;margin:15px 0 5px;flex-wrap:wrap}
+        .tabBtn{padding:8px 16px;border-radius:99px;border:1px solid var(--line);background:#fff;font-family:inherit;font-weight:700;font-size:12px;cursor:pointer;color:var(--navy)}
+        .tabBtn.active{background:var(--blue);color:#fff;border-color:var(--blue)}
 
-  <!-- 4. الجامعات التكنولوجية -->
-  <optgroup label="الجامعات التكنولوجية">
-    <option value="جامعة القاهرة الجديدة التكنولوجية">جامعة القاهرة الجديدة التكنولوجية</option>
-    <option value="جامعة الدلتا التكنولوجية">جامعة الدلتا التكنولوجية</option>
-    <option value="جامعة بني سويف التكنولوجية">جامعة بني سويف التكنولوجية</option>
-    <option value="جامعة أسيوط الجديدة التكنولوجية">جامعة أسيوط الجديدة التكنولوجية</option>
-    <option value="جامعة برج العرب التكنولوجية">جامعة برج العرب التكنولوجية</option>
-    <option value="جامعة طيبة التكنولوجية">جامعة طيبة التكنولوجية</option>
-    <option value="جامعة 6 أكتوبر التكنولوجية">جامعة 6 أكتوبر التكنولوجية</option>
-    <option value="جامعة سمنود التكنولوجية">جامعة سمنود التكنولوجية</option>
-    <option value="جامعة شرق بورسعيد التكنولوجية">جامعة شرق بورسعيد التكنولوجية</option>
-    <option value="جامعة مصر التكنولوجية الدولية">جامعة مصر التكنولوجية الدولية</option>
-  </optgroup>
-</select>
+        .container{padding:20px 6% 60px;max-width:1250px;margin:0 auto}
+        .breadcrumb{display:flex;gap:8px;font-size:12px;color:var(--muted);margin-bottom:20px;align-items:center;flex-wrap:wrap}
+        .breadcrumb span{cursor:pointer;color:var(--blue);font-weight:700}
+
+        .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px}
+        .card{border:1px solid var(--line);border-radius:16px;padding:22px;background:#fff;box-shadow:0 4px 15px #00000003;cursor:pointer;transition:0.2s;display:flex;flex-direction:column;justify-content:space-between}
+        .card:hover{transform:translateY(-3px);border-color:var(--blue);box-shadow:0 8px 25px #00000008}
+        .cardTag{font-size:11px;font-weight:700;color:var(--blue);background:#eef6ff;padding:3px 10px;border-radius:6px;display:inline-block;margin-bottom:10px;align-self:flex-start}
+        .card h3{margin:0 0 8px 0;font-size:15px;line-height:1.4}
+        .card p{font-size:12px;color:var(--muted);line-height:1.6;margin:0}
+
+        .adminBox{background:#fff;border:1px solid var(--line);border-radius:16px;padding:25px;margin-bottom:30px}
+        .formGrid{display:grid;grid-template-columns:1fr 1fr;gap:15px}
+        @media(max-width:768px){.formGrid{grid-template-columns:1fr}}
+        .formGrid label{display:grid;gap:5px;font-size:12px;font-weight:700}
+        .formGrid input, .formGrid select, .formGrid textarea{width:100%;font:inherit;padding:9px;border:1px solid var(--line);border-radius:8px;font-size:12px}
+        .full{grid-column:1/-1}
+        .submitBtn{background:var(--blue);color:#fff;border:none;padding:10px;border-radius:8px;font-weight:700;cursor:pointer;font-family:inherit}
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo" onclick="goHome()"><span>✦</span> MedAtlas <small style="font-size:11px;color:var(--muted);margin-right:8px;" id="countryBadge">🇪🇬 مصر</small></div>
+        <div class="navActions">
+            <button class="navBtn sec" id="langBtn" onclick="toggleLanguage()">EN</button>
+            <button class="navBtn sec" id="adminToggle" onclick="toggleAdmin()">🔒</button>
+        </div>
+    </nav>
+
+    <!-- USER VIEW -->
+    <div id="userView">
+        <section class="hero">
+            <h1 id="heroTitle">دليل كافة جامعات جمهورية مصر العربية</h1>
+            <p id="heroSub">تصفح كافة الجامعات الحكومية (28)، الأهلية (32)، الخاصة والدولية (44)، والتكنولوجية (10) مع المناهج والمصادر.</p>
+            
+            <div class="searchBox">
+                <input type="text" id="searchInput" oninput="searchUni()" placeholder="ابحث عن اسم أي جامعة في مصر...">
+            </div>
+
+            <div class="tabs">
+                <button class="tabBtn active" id="tabAll" onclick="filterSector('الكل')">الكل</button>
+                <button class="tabBtn" id="tabGov" onclick="filterSector('حكومية')">حكومية (28)</button>
+                <button class="tabBtn" id="tabNat" onclick="filterSector('أهلية')">أهلية (32)</button>
+                <button class="tabBtn" id="tabPvt" onclick="filterSector('خاصة')">خاصة ودولية (44)</button>
+                <button class="tabBtn" id="tabTech" onclick="filterSector('تكنولوجية')">تكنولوجية (10)</button>
+            </div>
+        </section>
+
+        <div class="container">
+            <div class="breadcrumb" id="bc"></div>
+            <div id="contentArea"></div>
+        </div>
+    </div>
+
+    <!-- ADMIN VIEW -->
+    <div id="adminView" style="display:none;" class="container">
+        <h2 style="margin-top:20px;">لوحة التحكم الأدمن</h2>
+        <div class="adminBox">
+            <h3>إضافة جامعة جديدة</h3>
+            <form id="fUni" class="formGrid">
+                <label>اسم الجامعة بالعربي<input id="uNameAr" required placeholder="اسم الجامعة"></label>
+                <label>University Name (EN)<input id="uNameEn" required placeholder="University Name"></label>
+                <label>نوع الجامعة
+                    <select id="uType">
+                        <option value="حكومية">حكومية</option>
+                        <option value="أهلية">أهلية</option>
+                        <option value="خاصة">خاصة ودولية</option>
+                        <option value="تكنولوجية">تكنولوجية</option>
+                    </select>
+                </label>
+                <label>وصف بالعربي<textarea id="uDescAr" placeholder="وصف الجامعة..."></textarea></label>
+                <label class="full">Description (EN)<textarea id="uDescEn" placeholder="Description..."></textarea></label>
+                <button class="submitBtn full">+ إضافة الجامعة</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const ADMIN_PASS = "1234";
+        let lang = 'ar';
+        let currentSector = 'الكل';
+
+        // 100% COMPLETE EGYPTIAN UNIVERSITIES LIST
+        const rawUniversities = [
+            // ==================== 28 حكومية ====================
+            { t: "حكومية", ar: "جامعة القاهرة", en: "Cairo University" },
+            { t: "حكومية", ar: "جامعة عين شمس", en: "Ain Shams University" },
+            { t: "حكومية", ar: "جامعة الإسكندرية", en: "Alexandria University" },
+            { t: "حكومية", ar: "جامعة المنصورة", en: "Mansoura University" },
+            { t: "حكومية", ar: "جامعة أسيوط", en: "Assiut University" },
+            { t: "حكومية", ar: "جامعة طنطا", en: "Tanta University" },
+            { t: "حكومية", ar: "جامعة الزقازيق", en: "Zagazig University" },
+            { t: "حكومية", ar: "جامعة حلوان", en: "Helwan University" },
+            { t: "حكومية", ar: "جامعة المنوفية", en: "Menoufia University" },
+            { t: "حكومية", ar: "جامعة قناة السويس", en: "Suez Canal University" },
+            { t: "حكومية", ar: "جامعة المنيا", en: "Minia University" },
+            { t: "حكومية", ar: "جامعة جنوب الوادي", en: "South Valley University" },
+            { t: "حكومية", ar: "جامعة بني سويف", en: "Beni Suef University" },
+            { t: "حكومية", ar: "جامعة الفيوم", en: "Fayoum University" },
+            { t: "حكومية", ar: "جامعة بنها", en: "Benha University" },
+            { t: "حكومية", ar: "جامعة كفر الشيخ", en: "Kafr El-Sheikh University" },
+            { t: "حكومية", ar: "جامعة سوهاج", en: "Sohag University" },
+            { t: "حكومية", ar: "جامعة بورسعيد", en: "Port Said University" },
+            { t: "حكومية", ar: "جامعة دمنهور", en: "Damanhour University" },
+            { t: "حكومية", ar: "جامعة أسوان", en: "Aswan University" },
+            { t: "حكومية", ar: "جامعة دمياط", en: "Damietta University" },
+            { t: "حكومية", ar: "جامعة السويس", en: "Suez University" },
+            { t: "حكومية", ar: "جامعة العريش", en: "Arish University" },
+            { t: "حكومية", ar: "جامعة الأقصر", en: "Luxor University" },
+            { t: "حكومية", ar: "جامعة الوادي الجديد", en: "New Valley University" },
+            { t: "حكومية", ar: "جامعة مطروح", en: "Matrouh University" },
+            { t: "حكومية", ar: "جامعة مدينة السادات", en: "City of Sadat University" },
+            { t: "حكومية", ar: "جامعة الأزهر", en: "Al-Azhar University" },
+
+            // ==================== 32 أهلية ====================
+            { t: "أهلية", ar: "جامعة الملك سلمان الدولية", en: "King Salman International University" },
+            { t: "أهلية", ar: "جامعة العلمين الدولية", en: "Alamein International University" },
+            { t: "أهلية", ar: "جامعة الجلالة", en: "Galala University" },
+            { t: "أهلية", ar: "جامعة المنصورة الجديدة", en: "New Mansoura University" },
+            { t: "أهلية", ar: "جامعة النيل الأهلية", en: "Nile University" },
+            { t: "أهلية", ar: "جامعة مصر للمعلوماتية", en: "Egypt Informatics University" },
+            { t: "أهلية", ar: "الجامعة المصرية للتعلم الإلكتروني الأهلية", en: "Egyptian E-Learning University" },
+            { t: "أهلية", ar: "الجامعة الأهلية الفرنسية في مصر", en: "French University in Egypt" },
+            { t: "أهلية", ar: "جامعة القاهرة الأهلية", en: "Cairo National University" },
+            { t: "أهلية", ar: "جامعة عين شمس الأهلية", en: "Ain Shams National University" },
+            { t: "أهلية", ar: "جامعة حلوان الأهلية", en: "Helwan National University" },
+            { t: "أهلية", ar: "جامعة الإسكندرية الأهلية", en: "Alexandria National University" },
+            { t: "أهلية", ar: "جامعة المنصورة الأهلية", en: "Mansoura National University" },
+            { t: "أهلية", ar: "جامعة بنها الأهلية", en: "Benha National University" },
+            { t: "أهلية", ar: "جامعة المنوفية الأهلية", en: "Menofia National University" },
+            { t: "أهلية", ar: "جامعة الزقازيق الأهلية", en: "Zagazig National University" },
+            { t: "أهلية", ar: "جامعة بني سويف الأهلية", en: "Beni Suef National University" },
+            { t: "أهلية", ar: "جامعة أسيوط الأهلية", en: "Assiut National University" },
+            { t: "أهلية", ar: "جامعة جنوب الوادي الأهلية", en: "South Valley National University" },
+            { t: "أهلية", ar: "جامعة المنيا الأهلية", en: "Minia National University" },
+            { t: "أهلية", ar: "جامعة شرق بورسعيد الأهلية", en: "East Port Said National University" },
+            { t: "أهلية", ar: "جامعة الإسماعيلية الجديدة الأهلية", en: "New Ismailia National University" },
+            { t: "أهلية", ar: "جامعة السويس الأهلية", en: "Suez National University" },
+            { t: "أهلية", ar: "جامعة دمنهور الأهلية", en: "Damanhour National University" },
+            { t: "أهلية", ar: "جامعة سوهاج الأهلية", en: "Sohag National University" },
+            { t: "أهلية", ar: "جامعة كفر الشيخ الأهلية", en: "Kafr El-Sheikh National University" },
+            { t: "أهلية", ar: "جامعة الوادي الجديد الأهلية", en: "New Valley National University" },
+            { t: "أهلية", ar: "جامعة الفيوم الأهلية", en: "Fayoum National University" },
+            { t: "أهلية", ar: "جامعة طنطا الأهلية", en: "Tanta National University" },
+            { t: "أهلية", ar: "جامعة الأقصر الأهلية", en: "Luxor National University" },
+            { t: "أهلية", ar: "جامعة دمياط الأهلية", en: "Damietta National University" },
+            { t: "أهلية", ar: "جامعة مدينة السادات الأهلية", en: "City of Sadat National University" },
+
+            // ==================== 44 خاصة ودولية ====================
+            { t: "خاصة", ar: "جامعة 6 أكتوبر", en: "6th of October University" },
+            { t: "خاصة", ar: "جامعة مصر للعلوم والتكنولوجيا (MUST)", en: "Misr University for Science & Technology" },
+            { t: "خاصة", ar: "جامعة أكتوبر للعلوم الحديثة والآداب (MSA)", en: "MSA University" },
+            { t: "خاصة", ar: "جامعة مصر الدولية (MIU)", en: "Misr International University" },
+            { t: "خاصة", ar: "الجامعة الألمانية بالقاهرة (GUC)", en: "German University in Cairo" },
+            { t: "خاصة", ar: "جامعة الأهرام الكندية (ACU)", en: "Ahram Canadian University" },
+            { t: "خاصة", ar: "الجامعة البريطانية في مصر (BUE)", en: "The British University in Egypt" },
+            { t: "خاصة", ar: "الجامعة الحديثة للتكنولوجيا والمعلومات (MTI)", en: "Modern University for Technology & Information" },
+            { t: "خاصة", ar: "جامعة سيناء", en: "Sinai University" },
+            { t: "خاصة", ar: "جامعة فاروس بالإسكندرية", en: "Pharos University in Alexandria" },
+            { t: "خاصة", ar: "جامعة النهضة ببني سويف", en: "Nahda University in Beni Suef" },
+            { t: "خاصة", ar: "جامعة المستقبل (FUE)", en: "Future University in Egypt" },
+            { t: "خاصة", ar: "الجامعة المصرية الروسية (ERU)", en: "Egyptian Russian University" },
+            { t: "خاصة", ar: "جامعة الدلتا للعلوم والتكنولوجيا", en: "Delta University for Science and Technology" },
+            { t: "خاصة", ar: "جامعة هليوبوليس", en: "Heliopolis University" },
+            { t: "خاصة", ar: "جامعة الجيزة الجديدة (NGU)", en: "Newgiza University" },
+            { t: "خاصة", ar: "جامعة دراية بالمنيا", en: "Deraya University" },
+            { t: "خاصة", ar: "جامعة بدر بالقاهرة (BUC)", en: "Badr University in Cairo" },
+            { t: "خاصة", ar: "جامعة بدر بأسيوط", en: "Badr University in Assiut" },
+            { t: "خاصة", ar: "جامعة حورس", en: "Horus University" },
+            { t: "خاصة", ar: "الجامعة المصرية الصينية (ECU)", en: "Egyptian Chinese University" },
+            { t: "خاصة", ar: "جامعة ميريت", en: "Merit University" },
+            { t: "خاصة", ar: "جامعة سفنكس", en: "Sphinx University" },
+            { t: "خاصة", ar: "جامعة السلام", en: "Al-Salam University" },
+            { t: "خاصة", ar: "جامعة الصالحية الجديدة", en: "New Salhia University" },
+            { t: "خاصة", ar: "جامعة الحياة", en: "Al-Hayah University" },
+            { t: "خاصة", ar: "جامعة مايو", en: "Mayu University" },
+            { t: "خاصة", ar: "جامعة الريادة للعلوم والتكنولوجيا", en: "Ryada University for Science & Tech" },
+            { t: "خاصة", ar: "جامعة الابتكار", en: "Innovation University" },
+            { t: "خاصة", ar: "جامعة المدينة بالقاهرة", en: "Madina University" },
+            { t: "خاصة", ar: "جامعة السويدي للتكنولوجيا", en: "Elsewedy University of Technology" },
+            { t: "خاصة", ar: "جامعة رشيد", en: "Rashid University" },
+            { t: "خاصة", ar: "جامعة باديا", en: "Badya University" },
+            { t: "خاصة", ar: "جامعة وادي النيل بالفيوم", en: "Wadi El Nile University" },
+            { t: "خاصة", ar: "جامعة اللوتس بالمنيا", en: "Lotus University" },
+            { t: "خاصة", ar: "جامعة العبور للعلوم والتكنولوجيا", en: "Obour University" },
+            { t: "خاصة", ar: "جامعة ممفيس", en: "Memphis University" },
+            { t: "خاصة", ar: "جامعة شرق العاصمة", en: "East Capital University" },
+            { t: "خاصة", ar: "جامعة مصر الجديدة", en: "Heliopolis New University" },
+            { t: "خاصة", ar: "الجامعة الأمريكية بالقاهرة (AUC)", en: "The American University in Cairo" },
+            { t: "خاصة", ar: "الجامعة المصرية اليابانية (E-JUST)", en: "Egypt-Japan University" },
+            { t: "خاصة", ar: "الجامعة الألمانية الدولية بالعاصمة (GIU)", en: "German International University" },
+            { t: "خاصة", ar: "جامعة اسلسكا (ESLSCA)", en: "ESLSCA University" },
+            { t: "خاصة", ar: "الجامعة العربية المفتوحة", en: "Arab Open University" },
+
+            // ==================== 10 تكنولوجية ====================
+            { t: "تكنولوجية", ar: "جامعة القاهرة الجديدة التكنولوجية", en: "New Cairo Technological University" },
+            { t: "تكنولوجية", ar: "جامعة الدلتا التكنولوجية", en: "Delta Technological University" },
+            { t: "تكنولوجية", ar: "جامعة بني سويف التكنولوجية", en: "Beni Suef Technological University" },
+            { t: "تكنولوجية", ar: "جامعة أسيوط الجديدة التكنولوجية", en: "New Assiut Technological University" },
+            { t: "تكنولوجية", ar: "جامعة برج العرب التكنولوجية", en: "Borg El Arab Technological University" },
+            { t: "تكنولوجية", ar: "جامعة طيبة التكنولوجية", en: "Thebes Technological University" },
+            { t: "تكنولوجية", ar: "جامعة 6 أكتوبر التكنولوجية", en: "6th of October Technological University" },
+            { t: "تكنولوجية", ar: "جامعة سمنود التكنولوجية", en: "Samannoud Technological University" },
+            { t: "تكنولوجية", ar: "جامعة شرق بورسعيد التكنولوجية", en: "East Port Said Technological University" },
+            { t: "تكنولوجية", ar: "جامعة مصر التكنولوجية الدولية", en: "International Egypt Technological University" }
+        ];
+
+        // Format to full DB items
+        let initialDB = rawUniversities.map((u, index) => ({
+            id: index + 1,
+            type: u.t,
+            nameAr: u.ar,
+            nameEn: u.en,
+            descAr: `مؤسسة تعليمية معتمدة برئاسة المجلس الأعلى للجامعات ووزارة التعليم العالي.`,
+            descEn: `Accredited higher education institution in Egypt.`
+        }));
+
+        let db = JSON.parse(localStorage.getItem('med_db_v5')) || initialDB;
+
+        function saveDB() { localStorage.setItem('med_db_v5', JSON.stringify(db)); }
+
+        function toggleLanguage() {
+            lang = (lang === 'ar') ? 'en' : 'ar';
+            document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
+            document.documentElement.lang = lang;
+
+            document.getElementById('langBtn').textContent = (lang === 'ar') ? 'EN' : 'عربي';
+            document.getElementById('countryBadge').textContent = (lang === 'ar') ? '🇪🇬 مصر' : '🇪🇬 Egypt';
+            document.getElementById('heroTitle').textContent = (lang === 'ar') ? 'دليل كافة جامعات جمهورية مصر العربية' : 'Comprehensive Guide to All Egyptian Universities';
+            document.getElementById('heroSub').textContent = (lang === 'ar') ? 'تصفح كافة الجامعات الحكومية (28)، الأهلية (32)، الخاصة والدولية (44)، والتكنولوجية (10).' : 'Browse Public (28), National (32), Private & International (44), and Technological (10) Universities.';
+
+            document.getElementById('searchInput').placeholder = (lang === 'ar') ? 'ابحث عن اسم أي جامعة في مصر...' : 'Search any university name in Egypt...';
+
+            document.getElementById('tabAll').textContent = (lang === 'ar') ? 'الكل' : 'All';
+            document.getElementById('tabGov').textContent = (lang === 'ar') ? 'حكومية (28)' : 'Public (28)';
+            document.getElementById('tabNat').textContent = (lang === 'ar') ? 'أهلية (32)' : 'National (32)';
+            document.getElementById('tabPvt').textContent = (lang === 'ar') ? 'خاصة ودولية (44)' : 'Private (44)';
+            document.getElementById('tabTech').textContent = (lang === 'ar') ? 'تكنولوجية (10)' : 'Technological (10)';
+
+            renderUniversities();
+        }
+
+        function goHome() { 
+            document.getElementById('searchInput').value = '';
+            renderUniversities(); 
+        }
+
+        function filterSector(sec) {
+            currentSector = sec;
+            document.querySelectorAll('.tabBtn').forEach(b => b.classList.remove('active'));
+            if(sec === 'الكل') document.getElementById('tabAll').classList.add('active');
+            if(sec === 'حكومية') document.getElementById('tabGov').classList.add('active');
+            if(sec === 'أهلية') document.getElementById('tabNat').classList.add('active');
+            if(sec === 'خاصة') document.getElementById('tabPvt').classList.add('active');
+            if(sec === 'تكنولوجية') document.getElementById('tabTech').classList.add('active');
+            renderUniversities();
+        }
+
+        function searchUni() { renderUniversities(); }
+
+        function getSectorLabel(type) {
+            if (lang === 'en') {
+                if(type === 'حكومية') return 'Public';
+                if(type === 'أهلية') return 'National';
+                if(type === 'خاصة') return 'Private';
+                if(type === 'تكنولوجية') return 'Technological';
+            }
+            return type;
+        }
+
+        function renderUniversities() {
+            let query = document.getElementById('searchInput').value.toLowerCase().trim();
+            let list = (currentSector === 'الكل') ? db : db.filter(u => u.type === currentSector);
+
+            if(query) {
+                list = list.filter(u => 
+                    u.nameAr.toLowerCase().includes(query) || 
+                    u.nameEn.toLowerCase().includes(query)
+                );
+            }
+            
+            document.getElementById('bc').innerHTML = `<span onclick="goHome()">${lang === 'ar' ? 'الرئيسية (الجامعات)' : 'Home (Universities)'}</span>`;
+            
+            let html = list.map(u => `
+                <div class="card" onclick="openUni(${u.id})">
+                    <div>
+                        <span class="cardTag">${getSectorLabel(u.type)}</span>
+                        <h3>${lang === 'ar' ? u.nameAr : u.nameEn}</h3>
+                        <p>${lang === 'ar' ? u.descAr : u.descEn}</p>
+                    </div>
+                </div>
+            `).join('');
+
+            document.getElementById('contentArea').innerHTML = `<div class="grid">${html || '<p style="text-align:center;grid-column:1/-1;color:var(--muted);padding:40px;">لا توجد جامعة تطابق بحثك.</p>'}</div>`;
+        }
+
+        function openUni(uniId) {
+            let uni = db.find(u => u.id === uniId);
+            let name = lang === 'ar' ? uni.nameAr : uni.nameEn;
+            let desc = lang === 'ar' ? uni.descAr : uni.descEn;
+
+            document.getElementById('bc').innerHTML = `
+                <span onclick="goHome()">${lang === 'ar' ? 'الرئيسية' : 'Home'}</span> / 
+                <b>${name}</b>
+            `;
+
+            let facName = lang === 'ar' ? 'الكليات والبرامج المتاحة' : 'Faculties & Programs';
+            let facDesc = lang === 'ar' ? 'عرض الكليات، البرامج التعليمية، والمناهج' : 'Explore faculties and study curricula';
+
+            document.getElementById('contentArea').innerHTML = `
+                <div style="margin-bottom:20px; background:#eaf4ff; padding:20px; border-radius:12px;">
+                    <span class="cardTag" style="margin-bottom:8px;">${getSectorLabel(uni.type)}</span>
+                    <h2 style="margin:0 0 8px 0;">${name}</h2>
+                    <p style="margin:0; font-size:13px; color:var(--muted); line-height:1.6;">${desc}</p>
+                </div>
+                <h3>${lang === 'ar' ? 'القطاعات الكاديمية:' : 'Academic Sectors:'}</h3>
+                <div class="grid">
+                    <div class="card" onclick="openFaculty(${uni.id})">
+                        <div>
+                            <span class="cardTag">${lang === 'ar' ? 'كليات' : 'Faculties'}</span>
+                            <h3>${facName}</h3>
+                            <p>${facDesc}</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function openFaculty(uniId) {
+            let uni = db.find(u => u.id === uniId);
+            let name = lang === 'ar' ? uni.nameAr : uni.nameEn;
+            let years = lang === 'ar' 
+                ? ["السنة الأولى", "السنة الثانية", "السنة الثالثة", "السنة الرابعة", "السنة الخامسة"]
+                : ["First Year", "Second Year", "Third Year", "Fourth Year", "Fifth Year"];
+
+            document.getElementById('bc').innerHTML = `
+                <span onclick="goHome()">${lang === 'ar' ? 'الرئيسية' : 'Home'}</span> / 
+                <span onclick="openUni(${uni.id})">${name}</span> / 
+                <b>${lang === 'ar' ? 'المناهج الدراسية' : 'Study Years'}</b>
+            `;
+
+            let html = years.map(y => `
+                <div class="card">
+                    <div>
+                        <span class="cardTag">${lang === 'ar' ? 'سنة دراسية' : 'Academic Year'}</span>
+                        <h3>${y}</h3>
+                        <p>${lang === 'ar' ? 'المواد والمصادر المتاحة' : 'Available subjects & study materials'}</p>
+                    </div>
+                </div>
+            `).join('');
+
+            document.getElementById('contentArea').innerHTML = `
+                <h3>${lang === 'ar' ? 'اختر السنة الدراسية:' : 'Select Academic Year:'}</h3>
+                <div class="grid">${html}</div>
+            `;
+        }
+
+        // Admin Access
+        let isAdmin = false;
+        function toggleAdmin() {
+            if(!isAdmin) {
+                let p = prompt("أدخلي كلمة السر للوصول للوحة الإدارة:");
+                if(p === ADMIN_PASS) {
+                    isAdmin = true;
+                    document.getElementById('userView').style.display = 'none';
+                    document.getElementById('adminView').style.display = 'block';
+                    document.getElementById('adminToggle').textContent = '↗';
+                } else if(p) alert("كلمة السر خاطئة!");
+            } else {
+                isAdmin = false;
+                document.getElementById('userView').style.display = 'block';
+                document.getElementById('adminView').style.display = 'none';
+                document.getElementById('adminToggle').textContent = '🔒';
+                renderUniversities();
+            }
+        }
+
+        document.getElementById('fUni').onsubmit = e => {
+            e.preventDefault();
+            db.push({
+                id: Date.now(),
+                type: document.getElementById('uType').value,
+                nameAr: document.getElementById('uNameAr').value,
+                nameEn: document.getElementById('uNameEn').value,
+                descAr: document.getElementById('uDescAr').value,
+                descEn: document.getElementById('uDescEn').value
+            });
+            saveDB(); alert("تمت إضافة الجامعة بنجاح!"); e.target.reset();
+        };
+
+        // Render initial view
+        renderUniversities();
+    </script>
+</body>
+</html>
