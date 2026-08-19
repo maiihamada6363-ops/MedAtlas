@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>MedAtlas | المنصة الطبية والجامعية الشاملة</title>
+    <title>خريطة الطب | دليل الجامعات والتخصصات الطبية في مصر</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -65,9 +65,11 @@
         .search-input { width: 100%; padding: 1.1rem 1.5rem 1.1rem 3.5rem; border: 1px solid var(--border); border-radius: 99px; font-size: 0.98rem; background: #fff; box-shadow: var(--shadow-sm); outline: none; transition: 0.3s; }
         .search-input:focus { border-color: var(--primary); box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.15); }
 
-        .sector-tabs { display: flex; justify-content: center; gap: 0.6rem; flex-wrap: wrap; margin-bottom: 2.5rem; }
-        .sector-btn { padding: 0.55rem 1.3rem; border-radius: 99px; border: 1px solid var(--border); background: #fff; font-size: 0.88rem; font-weight: 700; color: var(--text-muted); cursor: pointer; transition: 0.2s; }
-        .sector-btn.active, .sector-btn:hover { background: var(--dark-bg); color: #fff; border-color: var(--dark-bg); }
+        .filter-section { max-width: 1200px; margin: 0 auto 2rem; padding: 0 1.5rem; display: flex; flex-direction: column; gap: 1rem; }
+        .filter-row { display: flex; gap: 0.6rem; flex-wrap: wrap; align-items: center; }
+        .filter-label { font-size: 0.9rem; font-weight: 800; color: var(--dark-bg); min-width: 100px; }
+        .sector-btn, .spec-btn { padding: 0.5rem 1.1rem; border-radius: 99px; border: 1px solid var(--border); background: #fff; font-size: 0.82rem; font-weight: 700; color: var(--text-muted); cursor: pointer; transition: 0.2s; }
+        .sector-btn.active, .sector-btn:hover, .spec-btn.active, .spec-btn:hover { background: var(--dark-bg); color: #fff; border-color: var(--dark-bg); }
 
         .container { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; }
         .section-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 1.5rem; }
@@ -86,54 +88,30 @@
         .tag-nat { background: #fef3c7; color: #92400e; }
         .tag-pvt { background: #e0e7ff; color: #3730a3; }
 
-        .uni-name { font-size: 1.25rem; font-weight: 800; color: var(--dark-bg); margin-bottom: 0.4rem; }
+        .uni-name { font-size: 1.25rem; font-weight: 800; color: var(--dark-bg); margin-bottom: 0.2rem; }
+        .uni-location { font-size: 0.82rem; color: var(--primary-dark); font-weight: 700; margin-bottom: 0.6rem; }
         .uni-desc { font-size: 0.88rem; color: var(--text-muted); margin-bottom: 1.2rem; }
         .faculties-pills { display: flex; flex-wrap: wrap; gap: 6px; margin-top: auto; }
         .fac-pill { font-size: 0.78rem; background: #f1f5f9; color: #334155; padding: 5px 11px; border-radius: 8px; font-weight: 700; display: flex; align-items: center; gap: 4px; }
 
         .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(15, 23, 42, 0.65); backdrop-filter: blur(8px); display: none; justify-content: center; align-items: center; z-index: 1000; padding: 1rem; }
-        .modal-content { background: #fff; width: 100%; max-width: 920px; max-height: 90vh; border-radius: 24px; overflow-y: auto; padding: 2rem; position: relative; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); }
+        .modal-content { background: #fff; width: 100%; max-width: 850px; max-height: 90vh; border-radius: 24px; overflow-y: auto; padding: 2rem; position: relative; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); }
         .close-btn { position: absolute; top: 1.5rem; left: 1.5rem; background: #f1f5f9; border: none; width: 38px; height: 38px; border-radius: 50%; font-size: 1.2rem; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.2s; }
         .close-btn:hover { background: #e2e8f0; }
 
-        .fac-tabs { display: flex; gap: 0.5rem; overflow-x: auto; padding-bottom: 0.5rem; margin: 1.5rem 0; border-bottom: 1px solid var(--border); }
-        .fac-tab-btn { padding: 0.65rem 1.3rem; border-radius: 12px; border: 1px solid var(--border); background: #f8fafc; font-size: 0.9rem; font-weight: 700; cursor: pointer; white-space: nowrap; transition: 0.2s; }
-        .fac-tab-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); }
-
-        .fac-info-card { background: #f0f9ff; border: 1px solid #bae6fd; border-radius: var(--radius-md); padding: 1.3rem; margin-bottom: 1.5rem; }
-        .fac-info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin-top: 1rem; }
-        .info-item { background: #fff; padding: 0.85rem 1.1rem; border-radius: 10px; border: 1px solid #e0f2fe; }
-        .info-item small { color: var(--text-muted); font-size: 0.78rem; display: block; font-weight: 700; }
-        .info-item strong { color: var(--dark-bg); font-size: 0.95rem; }
-
-        .year-card { border: 1px solid var(--border); border-radius: var(--radius-md); margin-bottom: 1rem; overflow: hidden; background: #fff; }
-        .year-header { padding: 1rem 1.25rem; background: #fafafa; font-weight: 800; font-size: 1rem; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
-        .year-body { padding: 1.25rem; border-top: 1px solid var(--border); display: none; }
-        .year-body.open { display: block; }
-
-        .module-box { background: #f8fafc; border-right: 4px solid var(--primary); border-radius: 8px; padding: 1.1rem; margin-bottom: 1rem; }
-        .module-title { font-weight: 800; font-size: 0.98rem; color: var(--dark-bg); margin-bottom: 0.3rem; }
-        .module-desc { font-size: 0.88rem; color: var(--text-muted); margin-bottom: 0.8rem; }
-        .subject-tags { display: flex; flex-wrap: wrap; gap: 6px; }
-        .sub-tag { background: #fff; border: 1px solid var(--border); padding: 4px 11px; border-radius: 6px; font-size: 0.8rem; font-weight: 700; color: var(--primary-dark); }
-
-        .auth-form { display: grid; gap: 1rem; }
-        .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
-        .form-group label { font-size: 0.85rem; font-weight: 700; color: var(--dark-bg); }
-        .form-group input, .form-group select { padding: 0.75rem 1rem; border: 1px solid var(--border); border-radius: 10px; font-size: 0.9rem; outline: none; }
-        .form-group input:focus, .form-group select:focus { border-color: var(--primary); }
-
-        .premium-card { background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%); color: #fff; border-radius: 24px; padding: 2.5rem 2rem; margin: 3rem 0; text-align: center; }
-        .premium-card h2 { font-size: 1.8rem; font-weight: 900; margin-bottom: 0.8rem; color: #38bdf8; }
-        .premium-card p { color: #94a3b8; max-width: 620px; margin: 0 auto 1.5rem; font-size: 0.95rem; }
-        .features-list { display: flex; justify-content: center; gap: 1.2rem; flex-wrap: wrap; margin-bottom: 2rem; }
-        .feat-item { display: flex; align-items: center; gap: 8px; font-size: 0.88rem; background: rgba(255,255,255,0.08); padding: 8px 16px; border-radius: 99px; }
+        .fac-list-modal { display: flex; flex-direction: column; gap: 1rem; margin-top: 1.5rem; }
+        .fac-detail-card { background: #f8fafc; border: 1px solid var(--border); border-radius: var(--radius-md); padding: 1.2rem; }
+        .fac-detail-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; }
+        .fac-detail-title { font-size: 1.05rem; font-weight: 800; color: var(--dark-bg); display: flex; align-items: center; gap: 6px; }
+        .fac-duration { background: #e0f2fe; color: var(--primary-dark); font-size: 0.78rem; font-weight: 800; padding: 4px 10px; border-radius: 6px; }
+        .fac-desc { font-size: 0.88rem; color: var(--text-muted); }
 
         @media (max-width: 768px) {
             header { padding: 1rem 4%; }
             .nav-links { display: none; }
             .hero { padding: 2rem 4% 1.5rem; }
             .grid { grid-template-columns: 1fr; }
+            .filter-row { flex-direction: column; align-items: flex-start; gap: 0.4rem; }
         }
     </style>
 </head>
@@ -141,276 +119,139 @@
 
     <header>
         <div class="logo" onclick="location.reload()">
-            <span>✦</span> MedAtlas
+            <span>🩺</span> خريطة الطب
         </div>
         <nav class="nav-links">
-            <a class="nav-link active" onclick="scrollToSection('unis')">الجامعات والكليات</a>
-            <a class="nav-link" onclick="scrollToSection('courses')">الكورسات والدورات</a>
-            <a class="nav-link" onclick="scrollToSection('premium')">الباقات المميزة Premium</a>
+            <a class="nav-link active" onclick="scrollToSection('unis')">دليل الجامعات</a>
+            <a class="nav-link" onclick="scrollToSection('specs')">التخصصات الطبية</a>
         </nav>
-        <div class="nav-btns" id="navAuthBtns">
-            <button class="btn btn-outline" onclick="openAuthModal('login')">تسجيل الدخول</button>
-            <button class="btn btn-primary" onclick="openAuthModal('signup')">إنشاء حساب جديد</button>
+        <div class="nav-btns">
+            <button class="btn btn-primary" onclick="scrollToSection('unis')">استكشف الجامعات</button>
         </div>
     </header>
 
     <section class="hero">
-        <div class="hero-badge">🩺 الدليل الأكاديمي الطبي الشامل في مصر</div>
-        <h1>كل الجامعات والكليات الطبية في مكان واحد</h1>
-        <p>استكشف الجامعات الحكومية، الأهلية، والخاصة، وتعرّف على سنوات الدراسة، المديولات، المواد، والداتا الخاصة بكل تخصص.</p>
+        <div class="hero-badge">🩺 الدليل الأكاديمي الطبي الشامل في مصر 2026/2027</div>
+        <h1>خريطة الطب — دليل الجامعات والتخصصات الطبية</h1>
+        <p>استكشف الجامعات الحكومية، الأهلية، والخاصة في مصر، وتعرّف على التخصصات الطبية، مدة الدراسة، والتفاصيل الكاملة لكل جامعة.</p>
         
         <div class="search-container">
-            <input type="text" class="search-input" id="searchInput" oninput="renderUniversities()" placeholder="🔍 ابحث عن اسم الجامعة أو التخصص (مثال: جامعة الفيوم، طب بشري، أسنان)...">
-        </div>
-
-        <div class="sector-tabs">
-            <button class="sector-btn active" onclick="filterSector('الكل', this)">جميع القطاعات</button>
-            <button class="sector-btn" onclick="filterSector('حكومية', this)">جامعات حكومية</button>
-            <button class="sector-btn" onclick="filterSector('أهلية', this)">جامعات أهلية</button>
-            <button class="sector-btn" onclick="filterSector('خاصة', this)">جامعات خاصة</button>
+            <input type="text" class="search-input" id="searchInput" oninput="renderUniversities()" placeholder="🔍 ابحث باسم الجامعة، المحافظة، أو التخصص (مثال: القاهرة، طب بشري، أسنان)...">
         </div>
     </section>
+
+    <!-- الفلاتر -->
+    <div class="filter-section">
+        <div class="filter-row">
+            <span class="filter-label">نوع الجامعة:</span>
+            <div id="sectorFilters" style="display:flex; gap:0.5rem; flex-wrap:wrap;">
+                <button class="sector-btn active" onclick="filterSector('الكل', this)">جميع الجامعات</button>
+                <button class="sector-btn" onclick="filterSector('حكومية', this)">جامعات حكومية</button>
+                <button class="sector-btn" onclick="filterSector('أهلية', this)">جامعات أهلية</button>
+                <button class="sector-btn" onclick="filterSector('خاصة', this)">جامعات خاصة</button>
+            </div>
+        </div>
+        <div class="filter-row" id="specs">
+            <span class="filter-label">التخصص الطبي:</span>
+            <div id="specFilters" style="display:flex; gap:0.5rem; flex-wrap:wrap;">
+                <button class="spec-btn active" onclick="filterSpec('الكل', this)">كل التخصصات</button>
+                <button class="spec-btn" onclick="filterSpec('طب بشري', this)">طب بشري</button>
+                <button class="spec-btn" onclick="filterSpec('طب أسنان', this)">طب أسنان</button>
+                <button class="spec-btn" onclick="filterSpec('صيدلة', this)">صيدلة</button>
+                <button class="spec-btn" onclick="filterSpec('علاج طبيعي', this)">علاج طبيعي</button>
+                <button class="spec-btn" onclick="filterSpec('تمريض', this)">تمريض</button>
+                <button class="spec-btn" onclick="filterSpec('طب بيطري', this)">طب بيطري</button>
+                <button class="spec-btn" onclick="filterSpec('علوم صحية', this)">علوم صحية</button>
+            </div>
+        </div>
+    </div>
 
     <main class="container" id="unis">
         <div class="section-header">
             <div>
-                <h2 class="section-title">دليل الجامعات والكليات الطبية</h2>
-                <p class="section-sub">اختر الجامعة لمشاهدة كافة التخصصات الطبية، سنوات الدراسة، والمديولات</p>
+                <h2 class="section-title">قائمة الجامعات المصرية المتاحة</h2>
+                <p class="section-sub">اضغط على أي جامعة لعرض تفاصيل الكليات الطبية ومدد الدراسة فيها</p>
             </div>
             <span id="uniCountBadge" style="font-weight:800; color:var(--primary-dark); font-size:0.9rem;"></span>
         </div>
 
         <div class="grid" id="universityGrid"></div>
-
-        <section class="premium-card" id="premium">
-            <h2>💎 عضوية MedAtlas Premium المميزة</h2>
-            <p>احصل على وصول كامل وحصري لجميع الداتا الطبية، الملخصات المنسقة، بنوك الأسئلة، وجروبات التيليجرام المغلقة.</p>
-            <div class="features-list">
-                <div class="feat-item">✓ ملخصات مديولات منسقة</div>
-                <div class="feat-item">✓ بنوك أسئلة ومراجعات</div>
-                <div class="feat-item">✓ مجتمع تيليجرام تفاعلي</div>
-            </div>
-            <button class="btn btn-primary" style="padding:0.85rem 2.5rem; font-size:1rem;" onclick="openAuthModal('signup')">اشترك الآن</button>
-        </section>
-
-        <section id="courses" style="margin-top:3rem;">
-            <div class="section-header">
-                <div>
-                    <h2 class="section-title">🎓 الكورسات والدورات الأكاديمية</h2>
-                    <p class="section-sub">دورات مبسطة لأهم المواد والمديولات الطبية</p>
-                </div>
-            </div>
-            <div class="grid">
-                <div class="uni-card" style="cursor:default;">
-                    <div>
-                        <span class="uni-tag tag-gov" style="margin-bottom:10px; display:inline-block;">تشريح - Anatomy</span>
-                        <h3 class="uni-name">كورس التشريح الطبي المصور</h3>
-                        <p class="uni-desc">شرح عملي ونظري ميسر لجميع أجهزة الجسم والمديولات.</p>
-                    </div>
-                    <div style="display:flex; justify-content:space-between; align-items:center; margin-top:12px;">
-                        <span style="font-weight:800; color:var(--primary-dark);">قريباً 🚀</span>
-                        <button class="btn btn-outline" style="font-size:0.8rem;">التفاصيل</button>
-                    </div>
-                </div>
-                <div class="uni-card" style="cursor:default;">
-                    <div>
-                        <span class="uni-tag tag-pvt" style="margin-bottom:10px; display:inline-block;">كيمياء حيوية - Biochemistry</span>
-                        <h3 class="uni-name">أساسيات الكيمياء الحيوية والأيض الخلوي</h3>
-                        <p class="uni-desc">شرح مبسط لدورات الأيض والإنزيمات والتطبيقات الكلينيكية.</p>
-                    </div>
-                    <div style="display:flex; justify-content:space-between; align-items:center; margin-top:12px;">
-                        <span style="font-weight:800; color:var(--primary-dark);">قريباً 🚀</span>
-                        <button class="btn btn-outline" style="font-size:0.8rem;">التفاصيل</button>
-                    </div>
-                </div>
-            </div>
-        </section>
     </main>
 
+    <!-- Modal التفاصيل -->
     <div class="modal-overlay" id="uniModal">
         <div class="modal-content">
-            <button class="close-btn" onclick="closeModal('uniModal')">✕</button>
+            <button class="close-btn" onclick="closeModal()">✕</button>
             <div id="modalUniHeader"></div>
-            <h4 style="margin-top:1.2rem; color:var(--dark-bg); font-weight:800;">اختر الكلية لمشاهدة التفاصيل والمديولات:</h4>
-            <div class="fac-tabs" id="modalFacTabs"></div>
-            <div id="modalFacContent"></div>
-        </div>
-    </div>
-
-    <div class="modal-overlay" id="authModal">
-        <div class="modal-content" style="max-width:480px;">
-            <button class="close-btn" onclick="closeModal('authModal')">✕</button>
-            <h2 id="authTitle" style="font-weight:900; color:var(--dark-bg); margin-bottom:0.4rem; text-align:center;">إنشاء حساب جديد</h2>
-            <p id="authSub" style="color:var(--text-muted); font-size:0.88rem; text-align:center; margin-bottom:1.5rem;">سجل بياناتك للوصول الكامل للداتا والمميزات الطبية</p>
-
-            <form class="auth-form" onsubmit="handleAuth(event)">
-                <div class="form-group" id="fullNameGroup">
-                    <label>الاسم بالكامل</label>
-                    <input type="text" id="regName" placeholder="د. أحمد محمد" required>
-                </div>
-                <div class="form-group">
-                    <label>البريد الإلكتروني (Email)</label>
-                    <input type="email" id="regEmail" placeholder="example@mail.com" required>
-                </div>
-                <div class="form-group">
-                    <label>رقم الهاتف</label>
-                    <input type="tel" id="regPhone" placeholder="01012345678" required>
-                </div>
-                <div class="form-group" id="telegramGroup">
-                    <label>حساب التيليجرام (Telegram Username)</label>
-                    <input type="text" id="regTelegram" placeholder="@username" required>
-                </div>
-                <div class="form-group" id="uniGroup">
-                    <label>الجامعة والكلية</label>
-                    <select id="regUni">
-                        <option value="جامعة الفيوم - طب بشري">جامعة الفيوم - كلية الطب البشري</option>
-                        <option value="جامعة القاهرة - طب بشري">جامعة القاهرة - كلية الطب البشري</option>
-                        <option value="جامعة عين شمس - طب بشري">جامعة عين شمس - كلية الطب البشري</option>
-                        <option value="جامعة أخرى">جامعة أخرى / كلية أخرى</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>كلمة السر</label>
-                    <input type="password" id="regPass" placeholder="••••••••" required>
-                </div>
-                <button type="submit" class="btn btn-primary" style="width:100%; padding:0.8rem; margin-top:0.5rem;">تأكيد وحفظ الحساب</button>
-            </form>
+            <div class="fac-list-modal" id="modalFacList"></div>
         </div>
     </div>
 
     <script>
+        // تعريف تفاصيل التخصصات لربطها بالجامعات
+        const facDetails = {
+            "طب بشري": { icon: "🩺", duration: "5 سنوات + 2 امتياز", desc: "دراسة علوم جسم الإنسان والأمراض وطرق التشخيص والعلاج مع تدريب إكلينيكي." },
+            "طب أسنان": { icon: "🦷", duration: "5 سنوات + 1 امتياز", desc: "دراسة صحة الفم والأسنان واللثة والفكين وإجراء العمليات العلاجية والجراحية." },
+            "صيدلة": { icon: "💊", duration: "5 سنوات (PharmD)", desc: "دراسة الأدوية وتركيبها وتأثيراتها، وتشمل الصيدلة الكلينيكية والتصنيع الدوائي." },
+            "علاج طبيعي": { icon: "🧠", duration: "5 سنوات + 1 امتياز", desc: "تأهيل المرضى الذين يعانون من مشاكل الحركة أو الإصابات أو الحالات العصبية والعضلية." },
+            "تمريض": { icon: "👩‍⚕️", duration: "4 سنوات + 1 امتياز", desc: "إعداد كوادر متخصصة في رعاية المرضى ومتابعة حالتهم وتنفيذ خطط الرعاية الصحية." },
+            "طب بيطري": { icon: "🐾", duration: "5 سنوات دراسية", desc: "دراسة أمراض الحيوانات وتشخيصها وعلاجها، ومجالات الصحة العامة وسلامة الغذاء." },
+            "علوم صحية": { icon: "🧪", duration: "تختلف حسب البرنامج", desc: "تخصصات صحية تطبيقية مثل المختبرات الطبية، الأشعة، والأجهزة الطبية." }
+        };
+
+        // قاعدة البيانات الكاملة للجامعات بناءً على الدليل المعتمد
         const database = [
-            // --- الجامعات الحكومية ---
-            {
-                id: "cairo", name: "جامعة القاهرة", type: "حكومية",
-                desc: "أعرق الجامعات المصرية وتضم صرح قصر العيني الطبي المتكامل.",
-                faculties: [
-                    { id: "med", name: "طب بشري", icon: "🩺", duration: "5 سنوات + 2 امتياز", system: "نظام المديولات والجدارات", overview: "أكبر مستشفى جامعي تعليمي في الشرق الأوسط.", years: [{ name: "السنة الأولى", desc: "علوم أساسية وإكلينيكية أولية", modules: [{ title: "Foundation & Musculoskeletal", desc: "مدخل العلوم الطبية والجهاز الهيكلي", subjects: ["Anatomy", "Physiology", "Histology", "Biochemistry"] }] }] },
-                    { id: "dent", name: "طب أسنان", icon: "🦷", duration: "5 سنوات + 1 امتياز", system: "الساعات المعتمدة", overview: "جراحة الفم والأسنان الاستعاضية.", years: [{ name: "السنة الأولى", desc: "تشريح الأسنان الأساسي", modules: [{ title: "Oral Anatomy", desc: "تشريح وعلوم أسنان", subjects: ["Oral Anatomy", "Dental Materials"] }] }] },
-                    { id: "pharm", name: "صيدلة", icon: "💊", duration: "5 سنوات", system: "فارم دي (PharmD)", overview: "الصيدلة الكلينيكية والتصنيع الدوائي.", years: [{ name: "السنة الأولى", desc: "الكيمياء الصيدلية الأساسية", modules: [{ title: "Basic Pharmacy", desc: "كيمياء وعقاقير", subjects: ["Organic Chemistry", "Pharmaceutics"] }] }] },
-                    { id: "nurs", name: "تمريض", icon: "🩺", duration: "4 سنوات + 1 امتياز", system: "عملي ونظري", overview: "الرعاية التمريضية المتقدمة والطوارئ.", years: [{ name: "السنة الأولى", desc: "أساسيات التمريض", modules: [{ title: "Fundamentals", desc: "أساسيات التمريض", subjects: ["Nursing Foundations", "Anatomy"] }] }] },
-                    { id: "pt", name: "علاج طبيعي", icon: "🦴", duration: "5 سنوات + 1 امتياز", system: "ساعات معتمدة", overview: "التأهيل الحركي والعلاج الفيزيائي.", years: [{ name: "السنة الأولى", desc: "علوم الحركة والتشريح", modules: [{ title: "Biomechanics", desc: "ميكانيكا حيوية", subjects: ["Anatomy", "Physics"] }] }] }
-                ]
-            },
-            {
-                id: "ainshams", name: "جامعة عين شمس", type: "حكومية",
-                desc: "مستشفيات جامعية متطورة وبرامج طبية حديثة ومعتمدة.",
-                faculties: [
-                    { id: "med", name: "طب بشري", icon: "🩺", duration: "5 سنوات + 2 امتياز", system: "نظام المديولات", overview: "تعليم طبي متطور ومحاكاة ذكية.", years: [{ name: "السنة الأولى", desc: "تأسيس العلوم الطبية", modules: [{ title: "Foundation", desc: "أساسيات", subjects: ["Anatomy", "Physiology", "Biochemistry"] }] }] },
-                    { id: "dent", name: "طب أسنان", icon: "🦷", duration: "5 سنوات + 1 امتياز", system: "ساعات معتمدة", overview: "تخصصات دقيقة في جراحة الفم.", years: [{ name: "السنة الأولى", desc: "أسنان", modules: [{ title: "Dental Basics", desc: "مقررات الأسنان", subjects: ["Anatomy", "Histology"] }] }] },
-                    { id: "pharm", name: "صيدلة", icon: "💊", duration: "5 سنوات", system: "PharmD", overview: "صيدلة كلينيكية.", years: [{ name: "السنة الأولى", desc: "كيمياء صيدلية", modules: [{ title: "Chemistry", desc: "كيمياء", subjects: ["Organic Chemistry"] }] }] },
-                    { id: "nurs", name: "تمريض", icon: "🩺", duration: "4 سنوات + 1 امتياز", system: "عملي", overview: "رعاية صحية متكاملة.", years: [{ name: "السنة الأولى", desc: "تمريض أساسي", modules: [{ title: "Nursing Care", desc: "رعاية", subjects: ["Nursing"] }] }] }
-                ]
-            },
-            {
-                id: "fayoum", name: "جامعة الفيوم", type: "حكومية",
-                desc: "كلية الطب البشري والكليات الطبية المتميزة بجامعة الفيوم.",
-                faculties: [
-                    { id: "med", name: "طب بشري", icon: "🩺", duration: "5 سنوات + 2 امتياز", system: "نظام المديولات المدمجة", overview: "دراسة تكاملية تجمع بين العلوم الأساسية والإكلينيكية.", years: [{ name: "السنة الأولى", desc: "تأسيس العلوم الطبية والمديولات الأولى.", modules: [{ title: "Foundation Module", desc: "مدخل العلوم الطبية", subjects: ["Anatomy", "Histology", "Biochemistry", "Physiology"] }] }] },
-                    { id: "dent", name: "طب أسنان", icon: "🦷", duration: "5 سنوات + 1 امتياز", system: "الساعات المعتمدة", overview: "جراحة الفم والأسنان.", years: [{ name: "السنة الأولى", desc: "تشريح الأسنان الأساسي", modules: [{ title: "Dental Anatomy", desc: "تشريح", subjects: ["Anatomy", "Histology"] }] }] },
-                    { id: "pharm", name: "صيدلة", icon: "💊", duration: "5 سنوات", system: "فارم دي", overview: "علوم الدواء والصيدلة الكلينيكية.", years: [{ name: "السنة الأولى", desc: "كيمياء عضوية وصيدلانيات", modules: [{ title: "Basic Pharma", desc: "مقررات أساسية", subjects: ["Chemistry", "Pharmaceutics"] }] }] },
-                    { id: "nurs", name: "تمريض", icon: "🩺", duration: "4 سنوات + 1 امتياز", system: "عملي ونظري", overview: "رعاية تمريضية متطورة.", years: [{ name: "السنة الأولى", desc: "أساسيات التمريض", modules: [{ title: "Nursing Basics", desc: "أساسيات", subjects: ["Nursing", "Anatomy"] }] }] }
-                ]
-            },
-            {
-                id: "alex", name: "جامعة الإسكندرية", type: "حكومية",
-                desc: "تاريخ عريق في الطب والبحث العلمي ومستشفيات جامعية كبرى.",
-                faculties: [
-                    { id: "med", name: "طب بشري", icon: "🩺", duration: "5 سنوات + 2 امتياز", system: "نظام المديولات", overview: "صرح طبي رائد.", years: [{ name: "السنة الأولى", desc: "علوم أساسية", modules: [{ title: "Foundation", desc: "أساسيات", subjects: ["Anatomy", "Physiology"] }] }] },
-                    { id: "dent", name: "طب أسنان", icon: "🦷", duration: "5 سنوات + 1 امتياز", system: "ساعات معتمدة", overview: "جراحة الفم.", years: [{ name: "السنة الأولى", desc: "تشريح الأسنان", modules: [{ title: "Oral", desc: "أسنان", subjects: ["Anatomy"] }] }] },
-                    { id: "pharm", name: "صيدلة", icon: "💊", duration: "5 سنوات", system: "PharmD", overview: "الصيدلة الكلينيكية.", years: [{ name: "السنة الأولى", desc: "كيمياء", modules: [{ title: "Chemistry", desc: "كيمياء", subjects: ["Chemistry"] }] }] },
-                    { id: "nurs", name: "تمريض", icon: "🩺", duration: "4 سنوات + 1 امتياز", system: "عملي", overview: "خدمات التمريض.", years: [{ name: "السنة الأولى", desc: "تمريض", modules: [{ title: "Nursing", desc: "تمريض", subjects: ["Nursing"] }] }] }
-                ]
-            },
-            {
-                id: "mansoura", name: "جامعة المنصورة", type: "حكومية",
-                desc: "رائدة في الجراحات الدقيقة ومراكز الكلى والمسالك البولية.",
-                faculties: [
-                    { id: "med", name: "طب بشري", icon: "🩺", duration: "5 سنوات + 2 امتياز", system: "نظام المدمج", overview: "مركز طبى عالمي متميز.", years: [{ name: "السنة الأولى", desc: "تأسيسي", modules: [{ title: "Foundation", desc: "أساسيات", subjects: ["Anatomy", "Histology"] }] }] },
-                    { id: "dent", name: "طب أسنان", icon: "🦷", duration: "5 سنوات + 1 امتياز", system: "ساعات", overview: "طب الأسنان الحديث.", years: [{ name: "السنة الأولى", desc: "أسنان", modules: [{ title: "Dental", desc: "أسنان", subjects: ["Anatomy"] }] }] },
-                    { id: "pharm", name: "صيدلة", icon: "💊", duration: "5 سنوات", system: "PharmD", overview: "صيدلة.", years: [{ name: "السنة الأولى", desc: "كيمياء", modules: [{ title: "Chemistry", desc: "كيمياء", subjects: ["Chemistry"] }] }] },
-                    { id: "nurs", name: "تمريض", icon: "🩺", duration: "4 سنوات + 1 امتياز", system: "عملي", overview: "تمريض.", years: [{ name: "السنة الأولى", desc: "تمريض", modules: [{ title: "Nursing", desc: "تمريض", subjects: ["Nursing"] }] }] }
-                ]
-            },
-            {
-                id: "assiut", name: "جامعة أسيوط", type: "حكومية",
-                desc: "القلب النابض للخدمات الطبية في صعيد مصر.",
-                faculties: [
-                    { id: "med", name: "طب بشري", icon: "🩺", duration: "5 سنوات + 2 امتياز", system: "نظام المديولات", overview: "مستشفيات جامعة أسيوط الكبرى.", years: [{ name: "السنة الأولى", desc: "تأسيس", modules: [{ title: "Foundation", desc: "أساسيات", subjects: ["Anatomy", "Physiology"] }] }] },
-                    { id: "dent", name: "طب أسنان", icon: "🦷", duration: "5 سنوات + 1 امتياز", system: "ساعات", overview: "أسنان.", years: [{ name: "السنة الأولى", desc: "أسنان", modules: [{ title: "Dental", desc: "أسنان", subjects: ["Anatomy"] }] }] },
-                    { id: "pharm", name: "صيدلة", icon: "💊", duration: "5 سنوات", system: "PharmD", overview: "صيدلة.", years: [{ name: "السنة الأولى", desc: "كيمياء", modules: [{ title: "Chemistry", desc: "كيمياء", subjects: ["Chemistry"] }] }] }
-                ]
-            },
-            {
-                id: "zagazig", name: "جامعة الزقازيق", type: "حكومية",
-                desc: "واحدة من أكبر الجامعات المصرية في قطاع العلوم الطبية.",
-                faculties: [
-                    { id: "med", name: "طب بشري", icon: "🩺", duration: "5 سنوات + 2 امتياز", system: "نظام مدمج", overview: "طب بشري.", years: [{ name: "السنة الأولى", desc: "تأسيسي", modules: [{ title: "Foundation", desc: "أساسيات", subjects: ["Anatomy", "Biochemistry"] }] }] },
-                    { id: "dent", name: "طب أسنان", icon: "🦷", duration: "5 سنوات + 1 امتياز", system: "ساعات", overview: "أسنان.", years: [{ name: "السنة الأولى", desc: "أسنان", modules: [{ title: "Dental", desc: "أسنان", subjects: ["Anatomy"] }] }] },
-                    { id: "pharm", name: "صيدلة", icon: "💊", duration: "5 سنوات", system: "PharmD", overview: "صيدلة.", years: [{ name: "السنة الأولى", desc: "كيمياء", modules: [{ title: "Chemistry", desc: "كيمياء", subjects: ["Chemistry"] }] }] }
-                ]
-            },
+            // الجامعات الحكومية
+            { id: "cairo", name: "جامعة القاهرة", type: "حكومية", loc: "الجيزة", desc: "من أقدم وأكبر الجامعات المصرية، وتضم مجموعة واسعة من الكليات الطبية والمستشفيات.", specs: ["طب بشري", "طب أسنان", "صيدلة", "علاج طبيعي", "تمريض", "طب بيطري"] },
+            { id: "ainshams", name: "جامعة عين شمس", type: "حكومية", loc: "القاهرة", desc: "جامعة حكومية كبيرة تضم منظومة طبية واسعة ومستشفيات جامعية متطورة.", specs: ["طب بشري", "طب أسنان", "صيدلة", "علاج طبيعي", "تمريض", "طب بيطري"] },
+            { id: "alex", name: "جامعة الإسكندرية", type: "حكومية", loc: "الإسكندرية", desc: "من الجامعات الحكومية الرئيسية، وتوفر برامج طبية متنوعة وتدريبًا إكلينيكيًا.", specs: ["طب بشري", "طب أسنان", "صيدلة", "علاج طبيعي", "تمريض", "طب بيطري"] },
+            { id: "mansoura", name: "جامعة المنصورة", type: "حكومية", loc: "الدقهلية", desc: "تتميز بقوة قطاعها الطبي والمستشفيات ومراكز الكلى والمسالك البولية.", specs: ["طب بشري", "طب أسنان", "صيدلة", "علاج طبيعي", "تمريض", "طب بيطري"] },
+            { id: "assiut", name: "جامعة أسيوط", type: "حكومية", loc: "أسيوط", desc: "من الجامعات الرئيسية في صعيد مصر، ولديها منظومة طبية تخدم محافظات الصعيد.", specs: ["طب بشري", "طب أسنان", "صيدلة", "علاج طبيعي", "تمريض", "طب بيطري"] },
+            { id: "zagazig", name: "جامعة الزقازيق", type: "حكومية", loc: "الشرقية", desc: "جامعة حكومية كبيرة تضم قطاعًا طبيًا متنوعًا، والطب البيطري من مجالاتها البارزة.", specs: ["طب بشري", "طب أسنان", "صيدلة", "علاج طبيعي", "تمريض", "طب بيطري"] },
+            { id: "tanta", name: "جامعة طنطا", type: "حكومية", loc: "الغربية", desc: "تقدم تعليمًا طبيًا وإكلينيكيًا من خلال كلياتها الطبية ومستشفياتها الجامعية.", specs: ["طب بشري", "طب أسنان", "صيدلة", "علاج طبيعي", "تمريض", "طب بيطري"] },
+            { id: "suez_canal", name: "جامعة قناة السويس", type: "حكومية", loc: "الإسماعيلية", desc: "جامعة رئيسية في منطقة القناة وسيناء وتقدم مجموعة من البرامج الطبية.", specs: ["طب بشري", "طب أسنان", "صيدلة", "علاج طبيعي", "تمريض", "طب بيطري"] },
+            { id: "beni_suef", name: "جامعة بني سويف", type: "حكومية", loc: "بني سويف", desc: "توفر مجموعة من التخصصات الطبية والصحية وتخدم محافظة بني سويف والمحيط.", specs: ["طب بشري", "طب أسنان", "صيدلة", "علاج طبيعي", "تمريض", "طب بيطري"] },
+            { id: "fayoum", name: "جامعة الفيوم", type: "حكومية", loc: "الفيوم", desc: "جامعة حكومية في صعيد مصر الأوسط وتضم عددًا من الكليات الطبية والصحية.", specs: ["طب بشري", "طب أسنان", "صيدلة", "علاج طبيعي", "تمريض", "طب بيطري"] },
+            { id: "minia", name: "جامعة المنيا", type: "حكومية", loc: "المنيا", desc: "من الجامعات الرئيسية في صعيد مصر، وتضم مجموعة من الكليات الطبية والصحية.", specs: ["طب بشري", "طب أسنان", "صيدلة", "علاج طبيعي", "تمريض", "طب بيطري"] },
+            { id: "sohag", name: "جامعة سوهاج", type: "حكومية", loc: "سوهاج", desc: "جامعة حكومية رئيسية في جنوب الصعيد، وتضم كليات وبرامج طبية وصحية.", specs: ["طب بشري", "طب أسنان", "صيدلة", "علاج طبيعي", "تمريض", "طب بيطري"] },
+            { id: "south_valley", name: "جامعة جنوب الوادي", type: "حكومية", loc: "قنا", desc: "تخدم منطقة جنوب الصعيد وتوفر تخصصات طبية وصحية متنوعة.", specs: ["طب بشري", "طب أسنان", "صيدلة", "علاج طبيعي", "تمريض", "طب بيطري"] },
+            { id: "aswan", name: "جامعة أسوان", type: "حكومية", loc: "أسوان", desc: "جامعة حكومية في أقصى جنوب مصر وتخدم احتياجات المنطقة التعليمية والطبية.", specs: ["طب بشري", "تمريض", "طب بيطري"] },
+            { id: "kfr_elshikh", name: "جامعة كفر الشيخ", type: "حكومية", loc: "كفر الشيخ", desc: "جامعة حكومية تضم مجموعة متنوعة من الكليات الطبية والصحية.", specs: ["طب بشري", "طب أسنان", "صيدلة", "علاج طبيعي", "تمريض", "طب بيطري"] },
+            { id: "benha", name: "جامعة بنها", type: "حكومية", loc: "القليوبية", desc: "جامعة حكومية كبيرة تخدم القليوبية والمناطق المحيطة، وتضم قطاعًا طبيًا متنوعًا.", specs: ["طب بشري", "طب أسنان", "صيدلة", "علاج طبيعي", "تمريض", "طب بيطري"] },
+            { id: "damanhour", name: "جامعة دمنهور", type: "حكومية", loc: "البحيرة", desc: "توجد برامج في القطاع الصحي ومن بينها الصيدلة حسب العام الجامعي.", specs: ["صيدلة"] },
+            { id: "suez", name: "جامعة السويس", type: "حكومية", loc: "السويس", desc: "تضم تخصصات طبية وبرامج صحية وفق الكليات المتاحة.", specs: ["طب بشري", "تمريض"] },
+            { id: "port_said", name: "جامعة بورسعيد", type: "حكومية", loc: "بورسعيد", desc: "تضم تخصصات طبية وصحية مرتبطة بالجامعة حسب البرامج المتاحة.", specs: ["طب بشري", "تمريض"] },
+            { id: "arish", name: "جامعة العريش", type: "حكومية", loc: "شمال سيناء", desc: "تضم تخصصات صحية وطبية مرتبطة باحتياجات منطقة شمال سيناء.", specs: ["تمريض"] },
 
-            // --- الجامعات الأهلية ---
-            {
-                id: "galala", name: "جامعة الجلالة", type: "أهلية",
-                desc: "جامعة أهلية دولية بمعامل محاكاة ذكية وبنية تحتية متطورة.",
-                faculties: [
-                    { id: "med", name: "طب بشري", icon: "🩺", duration: "5 سنوات + 2 امتياز", system: "ساعات معتمدة", overview: "طب بشري ذكي ونظم تعليم دولية.", years: [{ name: "السنة الأولى", desc: "تأسيسي ذكي", modules: [{ title: "Digital Med", desc: "علوم أساسية", subjects: ["Anatomy", "Biology"] }] }] },
-                    { id: "dent", name: "طب أسنان", icon: "🦷", duration: "5 سنوات + 1 امتياز", system: "ساعات معتمدة", overview: "أسنان رقمي.", years: [{ name: "السنة الأولى", desc: "أسنان", modules: [{ title: "Digital Dental", desc: "أسنان", subjects: ["Anatomy"] }] }] },
-                    { id: "pharm", name: "صيدلة", icon: "💊", duration: "5 سنوات", system: "PharmD", overview: "صيدلة حديثة.", years: [{ name: "السنة الأولى", desc: "صيدلة", modules: [{ title: "Pharm", desc: "صيدلة", subjects: ["Chemistry"] }] }] }
-                ]
-            },
-            {
-                id: "king_salman", name: "جامعة الملك سلمان الدولية", type: "أهلية",
-                desc: "تتميز ببرامج أكاديمية حديثة في سيناء عبر فروعها الثلاثة.",
-                faculties: [
-                    { id: "med", name: "طب بشري", icon: "🩺", duration: "5 سنوات + 2 امتياز", system: "ساعات معتمدة", overview: "برامج طبية متطورة.", years: [{ name: "السنة الأولى", desc: "تأسيس", modules: [{ title: "Foundation", desc: "أساس", subjects: ["Anatomy"] }] }] },
-                    { id: "dent", name: "طب أسنان", icon: "🦷", duration: "5 سنوات + 1 امتياز", system: "ساعات معتمدة", overview: "جراحة الفم.", years: [{ name: "السنة الأولى", desc: "أسنان", modules: [{ title: "Dental", desc: "أسنان", subjects: ["Anatomy"] }] }] }
-                ]
-            },
-            {
-                id: "Alamein", name: "جامعة العلمين الدولية", type: "أهلية",
-                desc: "صرح تعليمي ذكي بمعايير عالمية في مدينة العلمين الجديدة.",
-                faculties: [
-                    { id: "med", name: "طب بشري", icon: "🩺", duration: "5 سنوات + 2 امتياز", system: "ساعات معتمدة", overview: "طب بشري دولي.", years: [{ name: "السنة الأولى", desc: "تأسيسي", modules: [{ title: "Foundation", desc: "أساس", subjects: ["Anatomy"] }] }] },
-                    { id: "pharm", name: "صيدلة", icon: "💊", duration: "5 سنوات", system: "PharmD", overview: "صيدلة كلينيكية.", years: [{ name: "السنة الأولى", desc: "كيمياء", modules: [{ title: "Chemistry", desc: "كيمياء", subjects: ["Chemistry"] }] }] }
-                ]
-            },
+            // الجامعات الأهلية
+            { id: "king_salman", name: "جامعة الملك سلمان الدولية", type: "أهلية", loc: "شرم الشيخ - رأس سدر - الطور", desc: "جامعة أهلية دولية متعددة الفروع، تقدم برامج حديثة في المجالات الطبية.", specs: ["طب بشري", "طب أسنان", "صيدلة", "علاج طبيعي", "تمريض", "طب بيطري"] },
+            { id: "galala", name: "جامعة الجلالة", type: "أهلية", loc: "السويس / هضبة الجلالة", desc: "جامعة أهلية حديثة تضم مدينة جامعية ومستشفى جامعي وبرامج طبية وعلمية.", specs: ["طب بشري", "طب أسنان", "صيدلة", "علاج طبيعي", "تمريض", "علوم صحية"] },
+            { id: "alamein", name: "جامعة العلمين الدولية", type: "أهلية", loc: "العلمين الجديدة", desc: "جامعة أهلية دولية في مدينة العلمين الجديدة تركز على البرامج الحديثة.", specs: ["طب بشري", "طب أسنان", "صيدلة", "علاج طبيعي", "تمريض"] },
+            { id: "mansoura_new", name: "جامعة المنصورة الجديدة", type: "أهلية", loc: "المنصورة الجديدة", desc: "جامعة أهلية حديثة تضم مجموعة من البرامج الطبية والهندسية والتكنولوجية.", specs: ["طب بشري", "طب أسنان", "صيدلة", "علاج طبيعي", "تمريض"] },
+            { id: "menofia_nat", name: "جامعة المنوفية الأهلية", type: "أهلية", loc: "المنوفية", desc: "جامعة أهلية جديدة تقدم عدداً من البرامج الطبية والصحية.", specs: ["طب بشري", "طب أسنان", "صيدلة", "علاج طبيعي", "تمريض", "طب بيطري", "علوم صحية"] },
+            { id: "benha_nat", name: "جامعة بنها الأهلية", type: "أهلية", loc: "القليوبية", desc: "جامعة أهلية حديثة مرتبطة بمنظومة التعليم الجامعي في القليوبية.", specs: ["طب بشري", "طب أسنان", "صيدلة", "علاج طبيعي", "تمريض"] },
+            { id: "fayoum_nat", name: "جامعة الفيوم الأهلية", type: "أهلية", loc: "الفيوم الجديدة", desc: "جامعة أهلية جديدة في الفيوم الجديدة تشمل كلياتها الطب والأسنان والتمريض.", specs: ["طب بشري", "طب أسنان", "تمريض"] },
 
-            // --- الجامعات الخاصة ---
-            {
-                id: "MUST", name: "جامعة مصر للعلوم والتكنولوجيا (MUST)", type: "خاصة",
-                desc: "من أوائل الجامعات الخاصة في مصر وتضم مستشفى جامعي متكامل.",
-                faculties: [
-                    { id: "med", name: "طب بشري", icon: "🩺", duration: "5 سنوات + 2 امتياز", system: "ساعات معتمدة", overview: "طب بشري.", years: [{ name: "السنة الأولى", desc: "أساسيات", modules: [{ title: "Foundation", desc: "أساس", subjects: ["Anatomy"] }] }] },
-                    { id: "dent", name: "طب أسنان", icon: "🦷", duration: "5 سنوات + 1 امتياز", system: "معتمد", overview: "أسنان.", years: [{ name: "السنة الأولى", desc: "أسنان", modules: [{ title: "Dental", desc: "أسنان", subjects: ["Anatomy"] }] }] },
-                    { id: "pharm", name: "صيدلة", icon: "💊", duration: "5 سنوات", system: "PharmD", overview: "صيدلة.", years: [{ name: "السنة الأولى", desc: "كيمياء", modules: [{ title: "Chemistry", desc: "كيمياء", subjects: ["Chemistry"] }] }] },
-                    { id: "nurs", name: "تمريض", icon: "🩺", duration: "4 سنوات + 1 امتياز", system: "عملي", overview: "تمريض.", years: [{ name: "السنة الأولى", desc: "تمريض", modules: [{ title: "Nursing", desc: "تمريض", subjects: ["Nursing"] }] }] }
-                ]
-            },
-            {
-                id: "october6", name: "جامعة 6 أكتوبر", type: "خاصة",
-                desc: "أحد أكبر صروح التعليم الخاص وتضم مستشفى جامعي ضخم.",
-                faculties: [
-                    { id: "med", name: "طب بشري", icon: "🩺", duration: "5 سنوات + 2 امتياز", system: "ساعات معتمدة", overview: "طب بشري متطور.", years: [{ name: "السنة الأولى", desc: "تأسيس", modules: [{ title: "Foundation", desc: "أساس", subjects: ["Anatomy"] }] }] },
-                    { id: "dent", name: "طب أسنان", icon: "🦷", duration: "5 سنوات + 1 امتياز", system: "ساعات", overview: "أسنان.", years: [{ name: "السنة الأولى", desc: "أسنان", modules: [{ title: "Dental", desc: "أسنان", subjects: ["Anatomy"] }] }] },
-                    { id: "pharm", name: "صيدلة", icon: "💊", duration: "5 سنوات", system: "PharmD", overview: "صيدلة.", years: [{ name: "السنة الأولى", desc: "كيمياء", modules: [{ title: "Chemistry", desc: "كيمياء", subjects: ["Chemistry"] }] }] }
-                ]
-            },
-            {
-                id: "BUE", name: "الجامعة البريطانية في مصر (BUE)", type: "خاصة",
-                desc: "تعاون أكاديمي بريطاني وبرامج طبية وصيدلية معتمدة دولياً.",
-                faculties: [
-                    { id: "dent", name: "طب أسنان", icon: "🦷", duration: "5 سنوات + 1 امتياز", system: "بريطاني معتمد", overview: "أسنان بمعايير بريطانية.", years: [{ name: "السنة الأولى", desc: "تأسيس", modules: [{ title: "Dental Foundation", desc: "أسنان", subjects: ["Anatomy"] }] }] },
-                    { id: "pharm", name: "صيدلة", icon: "💊", duration: "5 سنوات", system: "PharmD", overview: "صيدلة.", years: [{ name: "السنة الأولى", desc: "كيمياء", modules: [{ title: "Chemistry", desc: "كيمياء", subjects: ["Chemistry"] }] }] }
-                ]
-            }
+            // الجامعات الخاصة
+            { id: "october6", name: "جامعة 6 أكتوبر", type: "خاصة", loc: "الجيزة - 6 أكتوبر", desc: "من أقدم الجامعات الخاصة في مصر وتضم قطاعًا طبيًا متكاملًا نسبيًا.", specs: ["طب بشري", "طب أسنان", "صيدلة", "علاج طبيعي", "تمريض"] },
+            { id: "must", name: "جامعة مصر للعلوم والتكنولوجيا (MUST)", type: "خاصة", loc: "الجيزة - 6 أكتوبر", desc: "جامعة خاصة كبيرة في مدينة 6 أكتوبر وتضم مستشفى جامعيًا وكليات طبية متعددة.", specs: ["طب بشري", "طب أسنان", "صيدلة", "علاج طبيعي", "تمريض"] },
+            { id: "msa", name: "جامعة أكتوبر للعلوم الحديثة والآداب (MSA)", type: "خاصة", loc: "الجيزة - 6 أكتوبر", desc: "جامعة خاصة تقدم برامج طبية وعلمية وفق المعايير الدولية.", specs: ["طب أسنان", "صيدلة", "علاج طبيعي"] },
+            { id: "miu", name: "جامعة مصر الدولية (MIU)", type: "خاصة", loc: "القاهرة", desc: "جامعة خاصة تقدم برامج طبية مميزة إلى جانب الهندسة وإدارة الأعمال.", specs: ["طب أسنان", "صيدلة"] },
+            { id: "mti", name: "الجامعة الحديثة للتكنولوجيا والمعلومات (MTI)", type: "خاصة", loc: "القاهرة", desc: "جامعة خاصة بالقاهرة تضم مجموعة من البرامج الطبية والصحية المعتمدة.", specs: ["طب أسنان", "صيدلة", "علاج طبيعي", "تمريض"] },
+            { id: "fue", name: "جامعة المستقبل في مصر (FUE)", type: "خاصة", loc: "القاهرة الجديدة", desc: "جامعة خاصة بالقاهرة الجديدة تضم مجموعة من الكليات الصحية والطبية المتقدمة.", specs: ["طب أسنان", "صيدلة", "تمريض"] },
+            { id: "sinai", name: "جامعة سيناء", type: "خاصة", loc: "شمال سيناء / القنطرة", desc: "جامعة خاصة لها فروع في شمال سيناء والقنطرة، وتقدم مجموعة من البرامج الطبية.", specs: ["طب بشري", "طب أسنان", "صيدلة", "علاج طبيعي"] },
+            { id: "pharos", name: "جامعة فاروس بالإسكندرية", type: "خاصة", loc: "الإسكندرية", desc: "جامعة خاصة في الإسكندرية وتضم عدداً من الكليات الطبية والصحية المتميزة.", specs: ["طب أسنان", "صيدلة", "علاج طبيعي", "تمريض"] },
+            { id: "nahda", name: "جامعة النهضة ببني سويف", type: "خاصة", loc: "بني سويف", desc: "جامعة خاصة في بني سويف وتضم قطاعًا طبيًا متنوعًا يخدم الصعيد.", specs: ["طب بشري", "طب أسنان", "صيدلة", "علاج طبيعي"] },
+            { id: "badr", name: "جامعة بدر بالقاهرة (BUC)", type: "خاصة", loc: "مدينة بدر", desc: "جامعة خاصة في مدينة بدر وتضم عددًا كبيرًا من الكليات الطبية والصحية.", specs: ["طب بشري", "طب أسنان", "صيدلة", "علاج طبيعي", "تمريض"] },
+            { id: "badr_assiut", name: "جامعة بدر بأسيوط", type: "خاصة", loc: "أسيوط", desc: "جامعة خاصة في أسيوط تستهدف توفير برامج جامعية حديثة لخدمة صعيد مصر.", specs: ["طب بشري", "طب أسنان", "صيدلة", "علاج طبيعي"] },
+            { id: "delta", name: "جامعة الدلتا للعلوم والتكنولوجيا", type: "خاصة", loc: "الدقهلية", desc: "جامعة خاصة في الدقهلية تضم مجموعة كبيرة من البرامج الطبية والصحية.", specs: ["طب بشري", "طب أسنان", "صيدلة", "علاج طبيعي"] },
+            { id: "horus", name: "جامعة حورس", type: "خاصة", loc: "دمياط الجديدة", desc: "جامعة خاصة في دمياط الجديدة وتضم قطاعًا طبيًا متنوعًا ومتطورًا.", specs: ["طب بشري", "طب أسنان", "صيدلة", "علاج طبيعي"] },
+            { id: "ngu", name: "جامعة الجيزة الجديدة (NGU)", type: "خاصة", loc: "الجيزة", desc: "جامعة خاصة في الجيزة وتضم مجموعة من البرامج الطبية المتميزة والشراكات الدولية.", specs: ["طب بشري", "طب أسنان", "صيدلة"] },
+            { id: "deraya", name: "جامعة دراية", type: "خاصة", loc: "المنيا", desc: "جامعة خاصة في المنيا تضم كليات وبرامج في القطاع الطبي والصحي.", specs: ["صيدلة", "علاج طبيعي", "تمريض"] }
         ];
 
         let currentSectorFilter = 'الكل';
-        let currentUni = null;
-        let currentFacIndex = 0;
+        let currentSpecFilter = 'الكل';
 
         function renderUniversities() {
             const query = document.getElementById('searchInput').value.trim().toLowerCase();
@@ -418,181 +259,102 @@
 
             const filtered = database.filter(u => {
                 const matchSector = (currentSectorFilter === 'الكل') || (u.type === currentSectorFilter);
+                const matchSpec = (currentSpecFilter === 'الكل') || u.specs.includes(currentSpecFilter);
                 const matchQuery = u.name.toLowerCase().includes(query) || 
+                                   u.loc.toLowerCase().includes(query) ||
                                    u.desc.toLowerCase().includes(query) ||
-                                   u.faculties.some(f => f.name.toLowerCase().includes(query));
-                return matchSector && matchQuery;
+                                   u.specs.some(s => s.toLowerCase().includes(query));
+                return matchSector && matchSpec && matchQuery;
             });
 
-            document.getElementById('uniCountBadge').innerText = `عدد الجامعات المعروضة: (${filtered.length})`;
+            document.getElementById('uniCountBadge').innerText = `عدد الجامعات: (${filtered.length})`;
 
             grid.innerHTML = filtered.map(u => {
                 let tagClass = 'tag-gov';
                 if(u.type === 'أهلية') tagClass = 'tag-nat';
                 if(u.type === 'خاصة') tagClass = 'tag-pvt';
 
-                const facultiesPills = u.faculties.map(f => `<span class="fac-pill">${f.icon} ${f.name}</span>`).join('');
+                const facultiesPills = u.specs.map(s => {
+                    const info = facDetails[s] || { icon: "🩺" };
+                    return `<span class="fac-pill">${info.icon} ${s}</span>`;
+                }).join('');
 
                 return `
                     <div class="uni-card" onclick="openUniModal('${u.id}')">
                         <div>
                             <div class="uni-header">
                                 <span class="uni-tag ${tagClass}">${u.type}</span>
-                                <span style="font-size:0.8rem; color:var(--text-muted); font-weight:700;">${u.faculties.length} كليات طبية</span>
+                                <span style="font-size:0.8rem; color:var(--text-muted); font-weight:700;">${u.specs.length} تخصصات</span>
                             </div>
                             <h3 class="uni-name">${u.name}</h3>
+                            <div class="uni-location">📍 المحافظة/الموقع: ${u.loc}</div>
                             <p class="uni-desc">${u.desc}</p>
                         </div>
                         <div>
-                            <div style="font-size:0.78rem; font-weight:800; color:var(--primary-dark); margin-bottom:6px;">الكليات المتاحة:</div>
+                            <div style="font-size:0.78rem; font-weight:800; color:var(--primary-dark); margin-bottom:6px;">التخصصات المتاحة:</div>
                             <div class="faculties-pills">${facultiesPills}</div>
                         </div>
                     </div>
                 `;
-            }).join('') || `<p style="grid-column:1/-1; text-align:center; padding:3rem; color:var(--text-muted);">لا توجد جامعة تطابق بحثك حالياً.</p>`;
+            }).join('') || `<p style="grid-column:1/-1; text-align:center; padding:3rem; color:var(--text-muted);">لا توجد جامعة تطابق بحثك أو الفلاتر المحددة.</p>`;
         }
 
         function filterSector(sector, btnElement) {
             currentSectorFilter = sector;
-            document.querySelectorAll('.sector-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('#sectorFilters .sector-btn').forEach(b => b.classList.remove('active'));
+            btnElement.classList.add('active');
+            renderUniversities();
+        }
+
+        function filterSpec(spec, btnElement) {
+            currentSpecFilter = spec;
+            document.querySelectorAll('#specFilters .spec-btn').forEach(b => b.classList.remove('active'));
             btnElement.classList.add('active');
             renderUniversities();
         }
 
         function openUniModal(uniId) {
-            currentUni = database.find(u => u.id === uniId);
-            if(!currentUni) return;
-
-            currentFacIndex = 0;
+            const u = database.find(item => item.id === uniId);
+            if(!u) return;
 
             document.getElementById('modalUniHeader').innerHTML = `
-                <span class="uni-tag tag-gov" style="margin-bottom:8px; display:inline-block;">${currentUni.type}</span>
-                <h2 style="font-size:1.6rem; font-weight:900; color:var(--dark-bg);">${currentUni.name}</h2>
-                <p style="color:var(--text-muted); font-size:0.9rem; margin-top:4px;">${currentUni.desc}</p>
+                <span class="uni-tag tag-gov" style="margin-bottom:8px; display:inline-block;">${u.type}</span>
+                <h2 style="font-size:1.5rem; font-weight:900; color:var(--dark-bg);">${u.name}</h2>
+                <p style="color:var(--primary-dark); font-weight:700; font-size:0.9rem; margin-top:2px;">📍 الموقع: ${u.loc}</p>
+                <p style="color:var(--text-muted); font-size:0.9rem; margin-top:6px;">${u.desc}</p>
             `;
 
-            renderFacultyTabs();
-            renderFacultyContent();
+            const facListHtml = u.specs.map(s => {
+                const details = facDetails[s] || { icon: "🩺", duration: "حسب نظام الجامعة", desc: "تخصص أكاديمي طبي." };
+                return `
+                    <div class="fac-detail-card">
+                        <div class="fac-detail-header">
+                            <span class="fac-detail-title">${details.icon} ${s}</span>
+                            <span class="fac-duration">⏱️ ${details.duration}</span>
+                        </div>
+                        <p class="fac-desc">${details.desc}</p>
+                    </div>
+                `;
+            }).join('');
+
+            document.getElementById('modalFacList').innerHTML = `
+                <h4 style="font-weight:800; color:var(--dark-bg); margin-top:0.5rem;">التخصصات الطبية المتاحة في هذه الجامعة ومدد دراستها:</h4>
+                ${facListHtml}
+            `;
 
             document.getElementById('uniModal').style.display = 'flex';
         }
 
-        function renderFacultyTabs() {
-            const tabsContainer = document.getElementById('modalFacTabs');
-            tabsContainer.innerHTML = currentUni.faculties.map((f, index) => `
-                <button class="fac-tab-btn ${index === currentFacIndex ? 'active' : ''}" onclick="switchFaculty(${index})">
-                    ${f.icon} ${f.name}
-                </button>
-            `).join('');
-        }
-
-        function switchFaculty(index) {
-            currentFacIndex = index;
-            renderFacultyTabs();
-            renderFacultyContent();
-        }
-
-        function renderFacultyContent() {
-            const fac = currentUni.faculties[currentFacIndex];
-            const contentArea = document.getElementById('modalFacContent');
-
-            if(!fac) return;
-
-            const yearsHtml = fac.years ? fac.years.map((y, yIdx) => `
-                <div class="year-card">
-                    <div class="year-header" onclick="toggleAccordion('yearBody_${yIdx}')">
-                        <span>📚 ${y.name}</span>
-                        <span style="font-size:0.8rem; color:var(--primary-dark);">اظهار المديولات والداتا ▾</span>
-                    </div>
-                    <div class="year-body ${yIdx === 0 ? 'open' : ''}" id="yearBody_${yIdx}">
-                        <p style="font-size:0.88rem; color:var(--text-muted); margin-bottom:1rem;">${y.desc}</p>
-                        ${y.modules.map(m => `
-                            <div class="module-box">
-                                <div class="module-title">📌 ${m.title}</div>
-                                <div class="module-desc">${m.desc}</div>
-                                <div style="font-size:0.78rem; font-weight:800; color:var(--dark-bg); margin-bottom:4px;">المواد المقررة:</div>
-                                <div class="subject-tags">
-                                    ${m.subjects.map(s => `<span class="sub-tag">${s}</span>`).join('')}
-                                </div>
-                            </div>
-                        `).join('')}
-                        <button class="btn btn-primary" style="font-size:0.8rem; width:100%; margin-top:0.5rem;" onclick="openAuthModal('signup')">🔒 فتح وتحميل الداتا والملخصات لـ ${y.name}</button>
-                    </div>
-                </div>
-            `).join('') : '';
-
-            contentArea.innerHTML = `
-                <div class="fac-info-card">
-                    <h3 style="color:var(--dark-bg); font-weight:800;">${fac.icon} ${fac.name}</h3>
-                    <p style="font-size:0.88rem; color:var(--text-muted); margin-top:4px;">${fac.overview}</p>
-                    <div class="fac-info-grid">
-                        <div class="info-item">
-                            <small>⏱️ سنوات الدراسة</small>
-                            <strong>${fac.duration}</strong>
-                        </div>
-                        <div class="info-item">
-                            <small>📑 نظام التعليم</small>
-                            <strong>${fac.system}</strong>
-                        </div>
-                    </div>
-                </div>
-                <h4 style="font-weight:800; color:var(--dark-bg); margin-bottom:0.8rem;">السنوات الدراسية والمديولات:</h4>
-                ${yearsHtml}
-            `;
-        }
-
-        function toggleAccordion(id) {
-            const body = document.getElementById(id);
-            if(body) body.classList.toggle('open');
-        }
-
-        function openAuthModal(type) {
-            document.getElementById('authModal').style.display = 'flex';
-            if(type === 'login') {
-                document.getElementById('authTitle').innerText = "تسجيل الدخول";
-                document.getElementById('authSub').innerText = "أهلاً بك مجدداً";
-                document.getElementById('fullNameGroup').style.display = 'none';
-                document.getElementById('telegramGroup').style.display = 'none';
-                document.getElementById('uniGroup').style.display = 'none';
-            } else {
-                document.getElementById('authTitle').innerText = "إنشاء حساب جديد";
-                document.getElementById('authSub').innerText = "سجل بياناتك للوصول الكامل للداتا";
-                document.getElementById('fullNameGroup').style.display = 'flex';
-                document.getElementById('telegramGroup').style.display = 'flex';
-                document.getElementById('uniGroup').style.display = 'flex';
-            }
-        }
-
-        function closeModal(id) {
-            document.getElementById(id).style.display = 'none';
-        }
-
-        function handleAuth(e) {
-            e.preventDefault();
-            const name = document.getElementById('regName').value || "دكتور";
-            localStorage.setItem('med_user', JSON.stringify({ name }));
-            alert(`تم حفظ الحساب بنجاح! أهلاً بك يا ${name} 🩺`);
-            closeModal('authModal');
-            checkUserLoggedIn();
-        }
-
-        function checkUserLoggedIn() {
-            const user = JSON.parse(localStorage.getItem('med_user'));
-            if(user) {
-                document.getElementById('navAuthBtns').innerHTML = `
-                    <div style="font-weight:800; font-size:0.9rem; color:var(--primary-dark); background:#e0f2fe; padding:6px 16px; border-radius:99px;">
-                        👨‍⚕️ أهلاً ${user.name}
-                    </div>
-                `;
-            }
+        function closeModal() {
+            document.getElementById('uniModal').style.display = 'none';
         }
 
         function scrollToSection(id) {
             document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
         }
 
+        // التهيئة الأولية للموقع
         renderUniversities();
-        checkUserLoggedIn();
     </script>
 </body>
 </html>
